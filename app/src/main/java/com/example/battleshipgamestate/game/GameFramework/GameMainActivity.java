@@ -31,7 +31,7 @@ import com.example.battleshipgamestate.game.GameFramework.gameConfiguration.Game
 import com.example.battleshipgamestate.game.GameFramework.utilities.IPCoder;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 import com.example.battleshipgamestate.game.GameFramework.utilities.MessageBox;
-import com.example.battleshipgamestate.game.R;
+import com.example.battleshipgamestate.R;
 
 /**
  * class GameMainActivity

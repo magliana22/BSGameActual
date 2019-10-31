@@ -1,20 +1,20 @@
 package com.example.battleshipgamestate.game.GameFramework;
 
-import edu.up.cs301.game.GameFramework.actionMessage.EndTurnAction;
-import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
-import edu.up.cs301.game.GameFramework.actionMessage.GameOverAckAction;
-import edu.up.cs301.game.GameFramework.actionMessage.MyNameIsAction;
-import edu.up.cs301.game.GameFramework.actionMessage.ReadyAction;
-import edu.up.cs301.game.GameFramework.actionMessage.TimerAction;
-import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
-import edu.up.cs301.game.GameFramework.infoMessage.BindGameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.GameOverInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.NotYourTurnInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.StartGameInfo;
-import edu.up.cs301.game.GameFramework.utilities.GameTimer;
-import edu.up.cs301.game.GameFramework.utilities.Tickable;
-import edu.up.cs301.game.GameFramework.utilities.Logger;
+import com.example.battleshipgamestate.game.GameFramework.actionMessage.EndTurnAction;
+import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameAction;
+import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameOverAckAction;
+import com.example.battleshipgamestate.game.GameFramework.actionMessage.MyNameIsAction;
+import com.example.battleshipgamestate.game.GameFramework.actionMessage.ReadyAction;
+import com.example.battleshipgamestate.game.GameFramework.actionMessage.TimerAction;
+import com.example.battleshipgamestate.game.GameFramework.gameConfiguration.GameConfig;
+import com.example.battleshipgamestate.game.GameFramework.infoMessage.BindGameInfo;
+import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameOverInfo;
+import com.example.battleshipgamestate.game.GameFramework.infoMessage.IllegalMoveInfo;
+import com.example.battleshipgamestate.game.GameFramework.infoMessage.NotYourTurnInfo;
+import com.example.battleshipgamestate.game.GameFramework.infoMessage.StartGameInfo;
+import com.example.battleshipgamestate.game.GameFramework.utilities.GameTimer;
+import com.example.battleshipgamestate.game.GameFramework.utilities.Tickable;
+import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 import android.os.Handler;
 import android.os.Looper;

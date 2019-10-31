@@ -1,34 +1,54 @@
 package com.example.battleshipgamestate.battleship;
 
 public class Location {
+    public boolean isWater;
+    public boolean isShip;
+    public boolean isHit;
+    public boolean isMiss;
 
-    private boolean isWater;
-    private boolean isShip;
-    private boolean isHit;
-    private boolean isMiss;
+    public BSState myGameState;
 
-    public Location(){
-        this.isWater=true;
-        this.isShip=false;
-        this.isHit=false;
-        this.isMiss=false;
+    public Location() {
+        this.isWater = true;
+        this.isShip = false;
+        this.isHit = false;
+        this.isMiss = false;
     }
 
-    public int checkSpot(Location location){
-        if(location.isWater){
-            return 1;
+    public Location(Location original) {
+        this.isWater = original.isWater;
+        this.isShip = original.isShip;
+        this.isHit = original.isHit;
+        this.isMiss = original.isMiss;
+    }
+
+    /**
+     * to be called on a location object residing in gameState location array.
+     * Example: gameState.p1Board[][].setSpot(2) will set isShip boolean true and set isMiss, isHit, and isWater false
+     * When the input is set true, the rest will be false so checkspot can later determine what to tell GUI to do
+     * isWater is by default true and will never need to be set again
+     */
+    public void setSpot(int spotType) {
+        if (spotType == 2) {
+            this.isShip = true;
+
+            this.isHit = false;
+            this.isMiss = false;
+            this.isWater = false;
         }
-        else if(location.isShip){
-            return 2;
+        if (spotType == 3) {
+            this.isHit = true;
+
+            this.isShip = false;
+            this.isWater = false;
+            this.isMiss = false;
         }
-        else if(location.isHit){
-            return 3;
-        }
-        else if(location.isMiss){
-            return 4;
-        }
-        else{
-            return 0;
+        if (spotType == 4) {
+            this.isMiss = true;
+
+            this.isShip = false;
+            this.isHit = false;
+            this.isWater = false;
         }
     }
 

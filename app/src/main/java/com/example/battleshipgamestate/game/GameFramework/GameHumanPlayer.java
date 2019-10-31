@@ -12,7 +12,7 @@ import com.example.battleshipgamestate.game.GameFramework.utilities.GameTimer;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 import com.example.battleshipgamestate.game.GameFramework.utilities.MessageBox;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Tickable;
-import com.example.battleshipgamestate.game.R;
+import com.example.battleshipgamestate.R;
 
 import android.content.DialogInterface;
 import android.graphics.Color;

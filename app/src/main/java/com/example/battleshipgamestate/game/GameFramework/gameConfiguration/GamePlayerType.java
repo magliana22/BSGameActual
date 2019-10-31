@@ -1,6 +1,6 @@
 package com.example.battleshipgamestate.game.GameFramework.gameConfiguration;
 
-import edu.up.cs301.game.GameFramework.GamePlayer;
+import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 
 /**
  * class GamePlayerType

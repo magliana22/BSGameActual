@@ -2,7 +2,7 @@ package com.example.battleshipgamestate.game.GameFramework.actionMessage;
 
 
 import java.io.Serializable;
-import edu.up.cs301.game.GameFramework.GamePlayer;
+import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 
 /**
  * An action for a generic game.  A game action is something that a player

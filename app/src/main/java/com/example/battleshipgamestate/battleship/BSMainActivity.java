@@ -1,4 +1,7 @@
 package com.example.battleshipgamestate.battleship;
 
-public class BSMainActivity {
+import com.example.battleshipgamestate.game.GameFramework.GameMainActivity;
+
+public class BSMainActivity extends GameMainActivity {
+
 }
