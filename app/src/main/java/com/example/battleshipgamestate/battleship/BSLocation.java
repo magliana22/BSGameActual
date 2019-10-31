@@ -1,6 +1,6 @@
 package com.example.battleshipgamestate.battleship;
 
-public class Location {
+public class BSLocation {
     public boolean isWater;
     public boolean isShip;
     public boolean isHit;
@@ -8,14 +8,14 @@ public class Location {
 
     public BSState myGameState;
 
-    public Location() {
+    public BSLocation() {
         this.isWater = true;
         this.isShip = false;
         this.isHit = false;
         this.isMiss = false;
     }
 
-    public Location(Location original) {
+    public BSLocation(BSLocation original) {
         this.isWater = original.isWater;
         this.isShip = original.isShip;
         this.isHit = original.isHit;

@@ -18,8 +18,8 @@ public class BSState {
 
 
 
-    public Location[][] p1Board;
-    public Location[][] p2Board;
+    public BSLocation[][] p1Board;
+    public BSLocation[][] p2Board;
 
     //default constructor
     public BSState() {
@@ -31,13 +31,13 @@ public class BSState {
         this.p2ShipsAlive = 10;
         this.p2ShipsSunk = 0;
         this.phaseOfGame = "SetUp";
-        this.p1Board = new Location[10][10];
-        this.p2Board = new Location[10][10];
+        this.p1Board = new BSLocation[10][10];
+        this.p2Board = new BSLocation[10][10];
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
-                this.p1Board[row][col] = new Location();
-                this.p2Board[row][col] = new Location();
+                this.p1Board[row][col] = new BSLocation();
+                this.p2Board[row][col] = new BSLocation();
             }
         }
 
@@ -54,8 +54,8 @@ public class BSState {
         this.p2ShipsAlive = original.p2ShipsAlive;
         this.p2ShipsSunk = original.p2ShipsSunk;
         this.phaseOfGame = original.phaseOfGame;
-        this.p1Board = new Location[10][10];
-        this.p2Board = new Location[10][10];
+        this.p1Board = new BSLocation[10][10];
+        this.p2Board = new BSLocation[10][10];
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
@@ -79,7 +79,7 @@ public class BSState {
     }
 
     //changes coordinates of a player's board to store ship values of a given ship
-    public boolean addShip(int playerNum, Ship ship) {
+    public boolean addShip(int playerNum, BSShip ship) {
         //if (playerNum == this.getPlayerID()) {
         for (int row = ship.gety1(); row < ship.gety2(); row++) {
             for (int col = ship.getx1(); row < ship.getx2(); col++) {
@@ -132,10 +132,10 @@ public class BSState {
     //method that adds all the ships to a player, to make the main look a tad bit cleaner
     public boolean addAllShips(int playerNum) {
         //if (this.playerID == playerNum) {
-        Ship carrier = new Ship(1, 5, 1, 1, playerNum, 5);
-        Ship destroyer = new Ship(1, 4, 2, 2, playerNum, 4);
-        Ship cruiser = new Ship(1, 3, 3, 3, playerNum, 3);
-        Ship submarine = new Ship(1, 2, 4, 4, playerNum, 2);
+        BSShip carrier = new BSShip(1, 5, 1, 1, playerNum, 5);
+        BSShip destroyer = new BSShip(1, 4, 2, 2, playerNum, 4);
+        BSShip cruiser = new BSShip(1, 3, 3, 3, playerNum, 3);
+        BSShip submarine = new BSShip(1, 2, 4, 4, playerNum, 2);
 
         this.addShip(playerNum, carrier);
         this.addShip(playerNum, destroyer);
@@ -162,7 +162,7 @@ public class BSState {
     public boolean fire(int y, int x) {
 
         if (this.getPlayerID() == 0) {
-            Location temp = new Location(this.p1Board[y][x]);
+            BSLocation temp = new BSLocation(this.p1Board[y][x]);
 
             if (checkSpot(x, y, 0) == 3 || checkSpot(x, y, 0) == 4) {
                 this.p1Board[y][x] = temp;
@@ -178,7 +178,7 @@ public class BSState {
                 return false;
             }
         } else if (this.getPlayerID() == 1) {
-            Location temp = this.p2Board[y][x];
+            BSLocation temp = this.p2Board[y][x];
             if (checkSpot(x, y, 1) == 3 || checkSpot(x, y, 1) == 4) {
                 this.p2Board[y][x] = temp;
                 return false;
