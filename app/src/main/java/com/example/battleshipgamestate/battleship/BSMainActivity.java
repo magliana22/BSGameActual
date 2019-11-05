@@ -9,6 +9,7 @@ import com.example.battleshipgamestate.game.GameFramework.gameConfiguration.Game
 
 import java.util.ArrayList;
 
+
 public class BSMainActivity extends GameMainActivity {
 
     public static final int PORT_NUMBER = 5213;
