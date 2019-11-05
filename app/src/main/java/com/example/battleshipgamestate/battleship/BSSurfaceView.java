@@ -33,6 +33,8 @@ public class BSSurfaceView extends SurfaceView {
     public float bottom_margin; //space between bottom edge and bottom of boards
     public float cell_width; //width of 1 cell
     public float cell_height; //height of 1 cell
+    public RectF[][] board1 = new RectF[10][10]; //get canvas locations for p1's board, 0-9
+    public RectF[][] board2 = new RectF[10][10]; //get canvas locations for p2's board, 0-9
 
     //background image variables
     private SurfaceHolder holder;
@@ -100,9 +102,9 @@ public class BSSurfaceView extends SurfaceView {
         cell_width = width/35; //width of 1 cell
         cell_height = height/17; //height of 1 cell
 
-        RectF newRect = new RectF(0,0,width,height);
+        RectF newRect = new RectF(0,0,width,height); //rectangle for background
 
-        canvas.drawBitmap(this.bmp, null, newRect, null);
+        canvas.drawBitmap(this.bmp, null, newRect, null); //draw background
 
         //draw grid boards
         drawBoard(canvas);
@@ -110,25 +112,25 @@ public class BSSurfaceView extends SurfaceView {
         //draw ships
         //drawShips(canvas, width, height, gridHeight, gridWidth);
 
-        //draw hits and misses
-        //drawHits(canvas, width, height, gridHeight, gridWidth);
-        //drawMisses(canvas, width, height, gridHeight, gridWidth);
-
     }
 
+    /** drawBoard method: draws the playing boards on the specified canvas
+     *  Parameters: canvas to draw on **/
     public void drawBoard(Canvas canvas){
         // draw board
         for (int i = 0; i < num_row; i++) {
             for (int j = 0; j < num_col; j++){
-                drawCell(canvas, i, j); //draw left board
-                drawCell(canvas, (num_row + 1) + i, j); //draw right board
+                drawCell(canvas, i, j, 1); //draw left board (player 1)
+                drawCell(canvas, (num_row + 1) + i, j, 2); //draw right board (player 2)
+
             }
         }
 
     }
 
-    /** drawCell method: draws a single cell of the playing board **/
-    public void drawCell(Canvas canvas, float row, float col){
+    /** drawCell method: draws a single cell of the playing board
+     *  Parameters: canvas to draw on, current row of board, current column of board, current player **/
+    public void drawCell(Canvas canvas, float row, float col, int player) {
 
         float cell_left = left_margin + (row * cell_width); //left of cell
         float cell_right = cell_left + cell_width; //right of cell is 1 cell_width away from left of cell
@@ -136,75 +138,20 @@ public class BSSurfaceView extends SurfaceView {
         float cell_bottom = cell_top + cell_height; //bottom of cell is 1 cell_height away from top of cell
         RectF myCell = new RectF(cell_left, cell_top, cell_right, cell_bottom); //cell to be drawn
         canvas.drawRect(myCell, boardPaint); //draw the cell
+
+        //set locations of each cell to the correct board for use in gameState
+        if (player == 1) {
+            board1[(int) row][(int) col] = myCell; //assign area of the cell to 2d board array
+        } else if (player == 2) {
+            board2[(int) row][(int) col] = myCell; //assign area of the cell to p2's 2d board array
+        }
     }
 
-    public void drawShips(Canvas canvas, float w, float h, float grid_height, float grid_width){
-
-        //for drawing horizontal ships
-        float carrier_width = (float) (w * (5 * 0.025));
-        float battleship_width = (float) (w * (4 * 0.025));
-        float submarine_width = (float) (w * (3 * 0.025));
-        float patrolboat_width = (float) (w * (2 * 0.025));
-
-        //canvas.drawRect(left,top,right,bottom,paint);
-
-        //for drawing vertical ships
-        float carrier_height = (float) (h * (5 * 0.06));
-        float battleship_height = (float) (h * (4 * 0.06));
-        float submarine_height = (float) (h * (3 * 0.06));
-        float patrolboat_height = (float) (h * (2 * 0.06));
-
-        //draw ships
-        canvas.drawRect(w/4, h/5, w/4 + (carrier_width), h/5 + (grid_height), shipPaint); //player1 carrier (horizontal)
-
-        canvas.drawRect(w/4 + (2 *grid_width), h/5 + (2 * grid_height), w/4 + (3*grid_width), h/5 + (2 * grid_height) + (battleship_height), shipPaint); //player1 battleship (vertical)
-
-        canvas.drawRect(w/2 + (grid_width), h/5 + (grid_height), w/2 + (grid_width) + grid_width, h/5 + (grid_height) + submarine_height, shipPaint); //player2 sub (vertical)
-
-        canvas.drawRect(w/2 + (7 * grid_width), h/5 + (8 *  grid_height), w/2 + (7 * grid_width) + patrolboat_width, h/5 + (9 * grid_height), shipPaint); //player2 patrol boat (horizontal)
-
-        canvas.drawRect(w/2 + (5 * grid_width), h/5 + (2 * grid_height), w/2 + (6 * grid_width), h/5 + (2 * grid_height) + carrier_height, shipPaint); //player2 carrier (vertical)
-    }
-
-    public void drawHits(Canvas canvas, float w, float h, float grid_height, float grid_width){
-
-        //player1's hit ships
-
-        canvas.drawRect(w/4, h/5 + (4 * grid_height), w/4 + (1 * grid_width), h/5 + (7 * grid_height), hitPaint);
-
-        canvas.drawRect(w/4 + (2 * grid_width), h/5 + (8 * grid_height), w/4 + (5 * grid_width), h/5 + (9 * grid_height), hitPaint);
-
-        canvas.drawRect(w/4 + (6 * grid_width), h/5 + (3 * grid_height), w/4 + ( 8 * grid_width), h/5 + (4 * grid_height), hitPaint);
-
-        canvas.drawRect(w/4 + (1 * grid_width), h/5, w/4 + (2 * grid_width), h/5 + (1 * grid_height), hitPaint);
-
-        //player2's hit ships
-
-        canvas.drawRect(w/2 + (2 * grid_width), h/5 + (6 * grid_height), w/2 + (5 * grid_width), h/5 + (7 * grid_height), hitPaint);
-
-        canvas.drawRect(w/2 + (8 * grid_width), h/5 + (3 * grid_height), w/2 + (9 * grid_width), h/5 + (7 * grid_height), hitPaint);
-    }
-
-    public void drawMisses(Canvas canvas, float w, float h, float grid_height, float grid_width){
-        //misses on player1's board
-
-        canvas.drawRect(w/4 + (9 * grid_width), h/5, w/4 + (10 * grid_width), h/5 + (1 * grid_height), missPaint);
-
-        canvas.drawRect(w/4 + (8 * grid_width), h/5 + (7 * grid_height), w/4 + (9 * grid_width), h/5 + (8 * grid_height), missPaint);
-
-        canvas.drawRect(w/4 + (4 * grid_width), h/5 + (5 * grid_height), w/4 + (5 * grid_width), h/5 + (6 * grid_height), missPaint);
-
-        //misses on player2's board
-
-        canvas.drawRect(w/2 + (7 * grid_width), h/5, w/2 + (8 * grid_width), h/5 + (1 * grid_height), missPaint);
-
-        canvas.drawRect(w/2 + (1 * grid_width), h/5 + (8 * grid_height), w/2 + (2 * grid_width), h/5 + (9 * grid_height), missPaint);
-
-        canvas.drawRect(w/2 + (8 * grid_width), h/5, w/2 + (9 * grid_width), h/5 + (1 * grid_height), missPaint);
-
-        canvas.drawRect(w/2 + (3 * grid_width), h/5 + (9 * grid_height), w/2 + (4 * grid_width), h/5 + (10 * grid_height), missPaint);
-
-        canvas.drawRect(w/2 + (9 * grid_width), h/5 + (9 * grid_height), w/2 + (10 * grid_width), h/5 + (10 * grid_height), missPaint);
+    /** drawShips method: draws ships on the surfaceView
+     * Parameters: canvas to draw on **/
+    public void drawShips(Canvas canvas){
+        //draw ships here
 
     }
+
 }
