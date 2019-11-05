@@ -39,6 +39,7 @@ public class BSSurfaceView extends SurfaceView {
     //background image variables
     private SurfaceHolder holder;
     private Bitmap bmp;
+    private Bitmap ship1;
 
     public BSSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -110,7 +111,8 @@ public class BSSurfaceView extends SurfaceView {
         drawBoard(canvas);
 
         //draw ships
-        //drawShips(canvas, width, height, gridHeight, gridWidth);
+        RectF shipRect1 = new RectF(board1[0][0].left, board1[0][0].top, board1[1][1].right, board1[1][1].bottom);
+        canvas.drawBitmap(this.ship1, null, shipRect1, null); //draw ship
 
     }
 
