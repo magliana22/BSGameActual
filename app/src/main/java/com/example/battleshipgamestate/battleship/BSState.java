@@ -1,6 +1,8 @@
 package com.example.battleshipgamestate.battleship;
 
-public class BSState {
+import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameState;
+
+public class BSState extends GameState {
 
 
 

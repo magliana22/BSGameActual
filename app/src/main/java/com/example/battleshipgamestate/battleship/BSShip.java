@@ -3,9 +3,9 @@ package com.example.battleshipgamestate.battleship;
 public class BSShip {
     private int xCoord1; //starting x coordinate for ship
     private int yCoord1; //starting y coordinate for ship
-    private int xCoord2; //ending  coordinate for ship
+    private int xCoord2; //ending x coordinate for ship
     private int yCoord2; //ending y coordinate for ship
-    private int Owner;
+    private int Owner; //playerId of owner
 
     public BSShip(int xLocationStart, int xLocationEnd, int yLocationStart, int yLocationEnd, int idOfOwner, int shipSize) {
         this.xCoord1 = xLocationStart;
