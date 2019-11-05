@@ -20,7 +20,7 @@ import com.example.battleshipgamestate.game.GameFramework.infoMessage.StartGameI
 import com.example.battleshipgamestate.game.GameFramework.utilities.GameTimer;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
-public abstract class BSLocalGame extends LocalGame {
+public class BSLocalGame extends LocalGame {
     //Tag for logging
     private static final String TAG = "BSLocalGame";
 
@@ -58,14 +58,7 @@ public abstract class BSLocalGame extends LocalGame {
     private int currentSetupTurn = 0;
 
 
-    /**
-     * Returns the game's timer
-     *
-     * @return the game's timer
-     */
-    protected final GameTimer getTimer() {
-        return myTimer;
-    }
+
 
     /**
      * starts the game
@@ -96,7 +89,7 @@ public abstract class BSLocalGame extends LocalGame {
             Runnable runnable = new Runnable() {
                 public void run() {
                     Looper.prepare();
-                    myHandler = new LocalGame.MyHandler(LocalGame.this);
+                    myHandler = new BSLocalGame.MyHandler(BSLocalGame.this);
                     Looper.loop();
                 }
             };
@@ -107,7 +100,7 @@ public abstract class BSLocalGame extends LocalGame {
 
         // at this point the game is running, so set our game stage to be that of
         // waiting for the players to tell us their names
-        gameStage = LocalGame.GameStage.WAITING_FOR_NAMES;
+        gameStage = BSLocalGame.GameStage.WAITING_FOR_NAMES;
 
         // start each player, telling them each who their game and playerID are
         for (int i = 0; i < players.length; i++) {
@@ -125,34 +118,13 @@ public abstract class BSLocalGame extends LocalGame {
      * @param p
      * 			the player to notify
      */
-    protected abstract void sendUpdatedStateTo(GamePlayer p);
+    protected void sendUpdatedStateTo(GamePlayer p){
 
-
-    /**
-     * Notify all players that the game's state has changed. Typically this simply
-     * calls the 'notifyStateChanged' method for each player.
-     */
-    protected final void sendAllUpdatedState() {
-        for (GamePlayer p : players) {
-            sendUpdatedStateTo(p);
-        }
     }
 
-    /**
-     * Determines the numeric player ID (0 through whatever) for the given player.
-     * @param p
-     * 			the player whose player ID we want
-     * @return
-     * 			the player's ID, or -1 if the player is not a player in this game
-     */
-    protected final int getPlayerIdx(GamePlayer p) {
-        for (int i = 0; i < players.length; i++) {
-            if (p == players[i]) {
-                return i;
-            }
-        }
-        return -1;
-    }
+
+
+
 
     /**
      * Invoked whenever the game's thread receives a message (e.g., from a player
@@ -171,7 +143,7 @@ public abstract class BSLocalGame extends LocalGame {
             // name, we move on to the next stage.
 
             if (action instanceof MyNameIsAction &&
-                    gameStage == LocalGame.GameStage.WAITING_FOR_NAMES) {
+                    gameStage == BSLocalGame.GameStage.WAITING_FOR_NAMES) {
                 MyNameIsAction mnis = (MyNameIsAction) action;
                 Logger.debugLog(TAG, "received 'myNameIs' ("+mnis.getName()+")");
 
@@ -189,7 +161,7 @@ public abstract class BSLocalGame extends LocalGame {
                 // about to start
                 if (playerNameCount >= playerNames.length) {
                     Logger.debugLog(TAG, "broadcasting player names");
-                    gameStage = LocalGame.GameStage.WAITING_FOR_READY;
+                    gameStage = BSLocalGame.GameStage.WAITING_FOR_READY;
                     playersReady = new boolean[players.length]; // array to keep track of players responding
                     for (GamePlayer p : players) {
                         p.sendInfo(
@@ -198,7 +170,7 @@ public abstract class BSLocalGame extends LocalGame {
                 }
             }
             else if (action instanceof ReadyAction &&
-                    gameStage == LocalGame.GameStage.WAITING_FOR_READY) {
+                    gameStage == BSLocalGame.GameStage.WAITING_FOR_READY) {
 
                 // CASE 2: we have told all players that the game is about to start;
                 // we are now processing ReadyAction messages from each player to
@@ -221,15 +193,15 @@ public abstract class BSLocalGame extends LocalGame {
                     //We initially set the stage to setup, however we are smart enough to know
                     //If we have to actually perform a setup phase, so check for that and send out
                     //info accordingly.
-                    gameStage = LocalGame.GameStage.SETUP_PHASE;
-                    if(this.numSetupTurns == 0){ gameStage = LocalGame.GameStage.DURING_GAME;}
+                    gameStage = BSLocalGame.GameStage.SETUP_PHASE;
+                    if(this.numSetupTurns == 0){ gameStage = BSLocalGame.GameStage.DURING_GAME;}
                     Logger.log(TAG, "Numof setup turns is "+ this.numSetupTurns);
                     Logger.debugLog(TAG, "broadcasting initial state - setup phase");
                     // send each player the initial state of the game
                     sendAllUpdatedState();
                 }
             }
-            else if (action instanceof TimerAction && gameStage == LocalGame.GameStage.DURING_GAME) {
+            else if (action instanceof TimerAction && gameStage == BSLocalGame.GameStage.DURING_GAME) {
 
                 // CASE 3: it's during the game, and we get a timer action
 
@@ -241,16 +213,16 @@ public abstract class BSLocalGame extends LocalGame {
                     this.checkAndHandleAction(action);
                 }
             }
-            else if (action instanceof GameAction && gameStage == LocalGame.GameStage.DURING_GAME) {
+            else if (action instanceof GameAction && gameStage == BSLocalGame.GameStage.DURING_GAME) {
 
                 // CASE 4: it's during the game, and we get an action from a player
                 this.checkAndHandleAction(action);
             }
             //CASE 5: We are setup phase and we get an action from a player
-            else if (action instanceof GameAction && gameStage == LocalGame.GameStage.SETUP_PHASE) {
+            else if (action instanceof GameAction && gameStage == BSLocalGame.GameStage.SETUP_PHASE) {
                 this.checkAndHandleAction(action);
             }
-            else if (action instanceof GameOverAckAction && gameStage == LocalGame.GameStage.GAME_OVER) {
+            else if (action instanceof GameOverAckAction && gameStage == BSLocalGame.GameStage.GAME_OVER) {
 
                 // CASE 6: the game is over, and we are waiting for each player to
                 // acknowledge this
@@ -298,12 +270,12 @@ public abstract class BSLocalGame extends LocalGame {
 
         //The move was legal, and if we are in setup phase, and this is the last player in the list's
         //turn then we need to increment the setup phase counter and update our phase accordingly.
-        if(this.gameStage == LocalGame.GameStage.SETUP_PHASE){
+        if(this.gameStage == BSLocalGame.GameStage.SETUP_PHASE){
             if((this.players.length-1 == playerId) && action instanceof EndTurnAction){
                 this.currentSetupTurn++;
             }
             if(this.currentSetupTurn >= this.numSetupTurns){
-                this.gameStage = LocalGame.GameStage.DURING_GAME;
+                this.gameStage = BSLocalGame.GameStage.DURING_GAME;
             }
         }
 
@@ -327,7 +299,9 @@ public abstract class BSLocalGame extends LocalGame {
      * @return
      * 		true iff the player is allowed to move
      */
-    protected abstract boolean canMove(int playerIdx);
+    protected boolean canMove(int playerIdx){
+
+    }
 
     /**
      * Check if the game is over. It is over, return a string that tells
@@ -337,7 +311,9 @@ public abstract class BSLocalGame extends LocalGame {
      * 			a message that tells who has won the game, or null if the
      * 			game is not over
      */
-    protected abstract String checkIfGameOver();
+    protected String checkIfGameOver(){
+
+    }
 
     /**
      * Finishes up the game
@@ -348,7 +324,7 @@ public abstract class BSLocalGame extends LocalGame {
     private final void finishUpGame(String msg) {
 
         // set the game-stage to "over"
-        gameStage = LocalGame.GameStage.GAME_OVER;
+        gameStage = BSLocalGame.GameStage.GAME_OVER;
 
         // set up the array and count so that we can keep track of
         // whether everyone has replied
@@ -369,30 +345,12 @@ public abstract class BSLocalGame extends LocalGame {
      * @return
      * 			Tells whether the move was a legal one.
      */
-    protected abstract boolean makeMove(GameAction action);
+    protected boolean makeMove(GameAction action){
 
-    /**
-     * sends a given action to the Game object
-     *
-     * @param action
-     *            the action to send
-     */
-    public final void sendAction(GameAction action) {
-        // wait until handler is set
-        while (myHandler == null) Thread.yield();
-
-        // package the action into a message and send it to the handler
-        Message msg = new Message();
-        msg.obj = action;
-        myHandler.dispatchMessage(msg);
     }
 
-    /**
-     * sends a timer action to the game
-     */
-    public final void tick(GameTimer timer) {
-        sendAction(new TimerAction(timer));
-    }
+
+
 
     /**
      * Invoked whenever the game's timer has ticked. It is expected
@@ -437,7 +395,7 @@ public abstract class BSLocalGame extends LocalGame {
      * @return
      */
     public boolean inSetupPhase(){
-        if(this.gameStage == LocalGame.GameStage.SETUP_PHASE){
+        if(this.gameStage == BSLocalGame.GameStage.SETUP_PHASE){
             return true;
         }
         return false;
