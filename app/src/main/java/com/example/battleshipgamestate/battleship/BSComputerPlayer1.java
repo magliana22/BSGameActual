@@ -38,7 +38,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
 
 
         // Commented out b/c LocalGame incomplete
-        //game.sendAction(new BSMoveAction(this, xVal,yVal));
+        game.sendAction(new BSMoveAction(this, xVal,yVal));
     }
 
 
