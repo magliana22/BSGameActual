@@ -39,7 +39,11 @@ public class BSSurfaceView extends SurfaceView {
     //background image variables
     private SurfaceHolder holder;
     private Bitmap bmp;
-    private Bitmap ship1;
+    private Bitmap ship1; //2cell ship
+    private Bitmap ship2; //2cell ship
+    private Bitmap ship3; //3cell ship
+    private Bitmap ship4; //4cell ship
+    private Bitmap ship5; //55cell ship
 
     public BSSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -88,6 +92,11 @@ public class BSSurfaceView extends SurfaceView {
 
         });
 
+        this.ship1 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship1);
+        this.ship2 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship2);
+        this.ship3 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship5);
+        this.ship4 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship4);
+        this.ship5 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship3);
 
     }
 
@@ -111,8 +120,18 @@ public class BSSurfaceView extends SurfaceView {
         drawBoard(canvas);
 
         //draw ships
-        RectF shipRect1 = new RectF(board1[0][0].left, board1[0][0].top, board1[1][1].right, board1[1][1].bottom);
+
+        RectF shipRect1 = new RectF(left_margin, top_margin, left_margin+(2*cell_width), top_margin+ cell_height);
+        RectF shipRect2 = new RectF(left_margin+cell_width, top_margin+(5*cell_height), left_margin+cell_width+(2*cell_width), top_margin+(5*cell_height)+cell_height);
+        RectF shipRect3 = new RectF(left_margin, top_margin+(8*cell_height), left_margin+(3*cell_width), top_margin+(8*cell_height)+(cell_height));
+        RectF shipRect4 = new RectF(left_margin+(6*cell_width), top_margin+(7*cell_height), left_margin+(6*cell_width)+(4*cell_width), top_margin+(7*cell_height)+cell_height);
+        RectF shipRect5 = new RectF(left_margin+(2*cell_width), top_margin+(2*cell_width), (left_margin+(2*cell_width))+(5*cell_width), top_margin+(2*cell_width)+ cell_height);
+
         canvas.drawBitmap(this.ship1, null, shipRect1, null); //draw ship
+        canvas.drawBitmap(this.ship2, null, shipRect2, null); //draw ship
+        canvas.drawBitmap(this.ship3, null, shipRect3, null); //draw ship
+        canvas.drawBitmap(this.ship4, null, shipRect4, null); //draw ship
+        canvas.drawBitmap(this.ship5, null, shipRect5, null); //draw ship
 
     }
 
@@ -142,11 +161,11 @@ public class BSSurfaceView extends SurfaceView {
         canvas.drawRect(myCell, boardPaint); //draw the cell
 
         //set locations of each cell to the correct board for use in gameState
-        if (player == 1) {
-            board1[(int) row][(int) col] = myCell; //assign area of the cell to 2d board array
-        } else if (player == 2) {
-            board2[(int) row][(int) col] = myCell; //assign area of the cell to p2's 2d board array
-        }
+        //if (player == 1) {
+            //board1[(int) row][(int) col] = myCell; //assign area of the cell to 2d board array
+        //} else if (player == 2) {
+            //board2[(int) row][(int) col] = myCell; //assign area of the cell to p2's 2d board array
+        //}
     }
 
     /** drawShips method: draws ships on the surfaceView
