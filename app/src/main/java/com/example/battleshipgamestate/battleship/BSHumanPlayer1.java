@@ -7,12 +7,13 @@ import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameInfo;
 
 public class BSHumanPlayer1 {
 
-}
 
-public void receiveInfo(GameInfo info){
 
-}
-public boolean onTouch(View v, MotionEvent event){
-    return false;
-}
+    public void receiveInfo(GameInfo info){
+
+    }
+    public boolean onTouch(View v, MotionEvent event){
+        return false;
+    }
+
 }

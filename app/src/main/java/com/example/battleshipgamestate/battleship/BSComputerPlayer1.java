@@ -41,10 +41,4 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         game.sendAction(new BSMoveAction(this, xVal,yVal));
     }
 
-
-
-
-
-
-
 }
