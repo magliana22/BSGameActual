@@ -8,8 +8,7 @@ public class BSMoveAction extends GameAction {
 
     //Tag for logging
     // Not sure if needed
-    private static final String TAG = "TTTMoveAction";
-    private static final long serialVersionUID = -2242980258970485343L;
+    private static final String TAG = "BSMoveAction";
 
     // instance variables: the selected row and column
     private int row;

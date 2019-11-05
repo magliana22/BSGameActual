@@ -116,7 +116,6 @@ public class BSState {
                 return 4;
             }
         }
-
         return 0;
 
     }
