@@ -105,7 +105,7 @@ public class BSSurfaceView extends SurfaceView {
         this.ship3 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship5);
         this.ship4 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship4);
         this.ship5 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship3);
-        
+
     }
 
     /** public method onDraw will draw the GUI **/
@@ -182,6 +182,7 @@ public class BSSurfaceView extends SurfaceView {
         //set locations of each cell to the correct board for use with touch
         int x = (int)row;
         int y = (int)col;
+        int y2 = (int)col - (num_col + 1); //y for player 2's board
         if (player == 1) {
             xBoard1start[x] = cell_left;
             xBoard1end[x] = cell_right;
@@ -190,8 +191,8 @@ public class BSSurfaceView extends SurfaceView {
         } else if (player == 2) {
             xBoard2start[x] = cell_left;
             xBoard2end[x] = cell_right;
-            yBoard2start[y] = cell_top;
-            yBoard2end[y] = cell_bottom;
+            yBoard2start[y2] = cell_top;
+            yBoard2end[y2] = cell_bottom;
         }
     }
 
