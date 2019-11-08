@@ -21,4 +21,18 @@ public class BSUnitTest {
         int spotVal=testState.checkSpot(1,1,testState.playerID);
         assertTrue(spotVal==1);
     }
+
+    public void changeTurn() throws Exception{
+        BSState testState = new BSState();
+        testState.changeTurn();
+        assertEquals(0,1);
+        assertEquals(1,0);
+    }
+
+    public void spotString () throws Exception {
+        BSState testState = new BSState();
+        testState.spotString(1,1,testState.playerID);
+        assertEquals("Location " + 1 + "," + 1 + " is Water",
+                testState.spotString(1,1,testState.playerID));
+    }
 }
