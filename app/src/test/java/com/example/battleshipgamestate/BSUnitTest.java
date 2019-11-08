@@ -23,5 +23,19 @@ public class BSUnitTest {
         BSState testState=new BSState();
         testState.p1Board[1][1].setSpot(2);
         assertTrue(testState.p1Board[1][1].isShip);
-}
+    }
+
+    public void changeTurn() throws Exception{
+        BSState testState = new BSState();
+        testState.changeTurn();
+        assertEquals(0,0);
+        assertEquals(1,1);
+    }
+
+    public void spotString () throws Exception{
+        BSState testState = new BSState();
+        testState.spotString(1,1,testState.playerID);
+        assertEquals("Location " + 1 + "," + 1 + " is Water",
+                testState.spotString(1,1,testState.playerID));
+    }
 }
