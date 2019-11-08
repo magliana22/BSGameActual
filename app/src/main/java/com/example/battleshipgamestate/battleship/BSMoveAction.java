@@ -26,13 +26,15 @@ public class BSMoveAction extends GameAction {
         this.row = Math.max(0, Math.min(9,row));
         this.col = Math.max(0, Math.min(9,col));
 
+
+
     }
 
     public int getRow(){
-        return row;
+        return this.row;
     }
 
     public int getCol(){
-        return col;
+        return this.col;
     }
 }
