@@ -75,6 +75,18 @@ public class BSState extends GameState {
         return this.playerID;
     }
 
+    //gets the player whose turn it is NOT
+    public int getPlayerTarget(){
+        int passivePlayer=3;
+        if(this.playerID==0){
+            passivePlayer= 1;
+        }
+        else if(this.playerID==1){
+            passivePlayer=0;
+        }
+        return passivePlayer;
+    }
+
     // sets current players turn
     public void setPlayerID(int playerID) {
         this.playerID = playerID;
@@ -118,7 +130,6 @@ public class BSState extends GameState {
                 return 4;
             }
         }
-
         return 0;
 
     }
@@ -163,39 +174,41 @@ public class BSState extends GameState {
     //fire method checks value of a location object at a coordinate in an opponent's board, changes water to miss and ship to hit
     public boolean fire(int y, int x) {
 
-        if (this.getPlayerID() == 0) {
+        boolean valid=false;
+
+        if (this.getPlayerID() == 1) {
             BSLocation temp = new BSLocation(this.p1Board[y][x]);
 
             if (checkSpot(x, y, 0) == 3 || checkSpot(x, y, 0) == 4) {
                 this.p1Board[y][x] = temp;
-                return false;
+                valid=false;
             } else if (checkSpot(x, y, 0) == 2) {
-                this.p1TotalHits += 1;
+                this.p2TotalHits += 1;
                 temp.setSpot(3);
                 this.p1Board[y][x] = temp;
-                return true;
+                valid=true;
             } else if (checkSpot(x, y, 0) == 1) {
                 temp.setSpot(4);
                 this.p1Board[y][x] = temp;
-                return false;
+                valid=true;
             }
-        } else if (this.getPlayerID() == 1) {
+        } else if (this.getPlayerID() == 0) {
             BSLocation temp = this.p2Board[y][x];
             if (checkSpot(x, y, 1) == 3 || checkSpot(x, y, 1) == 4) {
                 this.p2Board[y][x] = temp;
-                return false;
+                valid=false;
             } else if (checkSpot(x, y, 1) == 2) {
-                this.p2TotalHits += 1;
+                this.p1TotalHits += 1;
                 temp.setSpot(3);
                 this.p2Board[y][x] = temp;
-                return true;
+                valid=true;
             } else if (checkSpot(x, y, 1) == 1) {
                 temp.setSpot(4);
                 this.p2Board[y][x] = temp;
-                return false;
+                valid=true;
             }
         }
-        return false;
+        return valid;
     }
 
     //creates a String describing the value of a location object

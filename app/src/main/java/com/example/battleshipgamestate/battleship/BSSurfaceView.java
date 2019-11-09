@@ -33,10 +33,23 @@ public class BSSurfaceView extends SurfaceView {
     public float bottom_margin; //space between bottom edge and bottom of boards
     public float cell_width; //width of 1 cell
     public float cell_height; //height of 1 cell
+    public float[] xBoard1start = new float[10]; //x value for start of p1's cells
+    public float[] xBoard1end = new float[10];
+    public float[] yBoard1start = new float[10];
+    public float[] yBoard1end = new float[10];
+    public float[] xBoard2start = new float[10];
+    public float[] xBoard2end = new float[10];
+    public float[] yBoard2start = new float[10];
+    public float[] yBoard2end = new float[10];
 
     //background image variables
     private SurfaceHolder holder;
     private Bitmap bmp;
+    private Bitmap ship1; //2cell ship
+    private Bitmap ship2; //2cell ship
+    private Bitmap ship3; //3cell ship
+    private Bitmap ship4; //4cell ship
+    private Bitmap ship5; //55cell ship
 
     public BSSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -58,6 +71,8 @@ public class BSSurfaceView extends SurfaceView {
         shipPaint.setColor(Color.GRAY); //set ship color to gray
 
         hitPaint.setColor(Color.RED); //set hit color to red
+
+        hitPaint.setStrokeWidth(7); //set hit X thickness
 
         missPaint.setColor(Color.rgb(224, 224, 224)); //set miss color to shade of white
 
@@ -85,6 +100,11 @@ public class BSSurfaceView extends SurfaceView {
 
         });
 
+        this.ship1 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship1);
+        this.ship2 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship2);
+        this.ship3 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship5);
+        this.ship4 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship4);
+        this.ship5 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship3);
 
     }
 
@@ -100,111 +120,102 @@ public class BSSurfaceView extends SurfaceView {
         cell_width = width/35; //width of 1 cell
         cell_height = height/17; //height of 1 cell
 
-        RectF newRect = new RectF(0,0,width,height);
+        RectF newRect = new RectF(0,0,width,height); //rectangle for background
 
-        canvas.drawBitmap(this.bmp, null, newRect, null);
+        canvas.drawBitmap(this.bmp, null, newRect, null); //draw background
 
         //draw grid boards
         drawBoard(canvas);
 
         //draw ships
-        //drawShips(canvas, width, height, gridHeight, gridWidth);
 
-        //draw hits and misses
-        //drawHits(canvas, width, height, gridHeight, gridWidth);
-        //drawMisses(canvas, width, height, gridHeight, gridWidth);
+        RectF shipRect1 = new RectF(left_margin, top_margin, left_margin+(2*cell_width), top_margin+ cell_height);
+        RectF shipRect2 = new RectF(left_margin+cell_width, top_margin+(5*cell_height), left_margin+cell_width+(2*cell_width), top_margin+(5*cell_height)+cell_height);
+        RectF shipRect3 = new RectF(left_margin, top_margin+(8*cell_height), left_margin+(3*cell_width), top_margin+(8*cell_height)+(cell_height));
+        RectF shipRect4 = new RectF(left_margin+(6*cell_width), top_margin+(7*cell_height), left_margin+(6*cell_width)+(4*cell_width), top_margin+(7*cell_height)+cell_height);
+        RectF shipRect5 = new RectF(left_margin+(2*cell_width), top_margin+(2*cell_width), (left_margin+(2*cell_width))+(5*cell_width), top_margin+(2*cell_width)+ cell_height);
+
+        canvas.drawBitmap(this.ship1, null, shipRect1, null); //draw ship
+        canvas.drawBitmap(this.ship2, null, shipRect2, null); //draw ship
+        canvas.drawBitmap(this.ship3, null, shipRect3, null); //draw ship
+        canvas.drawBitmap(this.ship4, null, shipRect4, null); //draw ship
+        canvas.drawBitmap(this.ship5, null, shipRect5, null); //draw ship
+
+        //draw hits
+        drawHit(canvas, 0, 1);
+        drawHit(canvas, 7, 7);
+
+        drawHit(canvas, 1, 14);
+        //draw misses
+        drawMiss(canvas, 1, 4);
+
+        drawMiss(canvas, 5, 15);
+        drawMiss(canvas, 8, 18);
 
     }
 
+    /** drawBoard method: draws the playing boards on the specified canvas
+     *  Parameters: canvas to draw on **/
     public void drawBoard(Canvas canvas){
         // draw board
         for (int i = 0; i < num_row; i++) {
             for (int j = 0; j < num_col; j++){
-                drawCell(canvas, i, j); //draw left board
-                drawCell(canvas, (num_row + 1) + i, j); //draw right board
+                drawCell(canvas, i, j, 1); //draw left board (player 1)
+                drawCell(canvas, i, (num_col + 1) + j, 2); //draw right board (player 2)
+
             }
         }
 
     }
 
-    /** drawCell method: draws a single cell of the playing board **/
-    public void drawCell(Canvas canvas, float row, float col){
+    /** drawCell method: draws a single cell of the playing board
+     *  Parameters: canvas to draw on, current row of board, current column of board, current player **/
+    public void drawCell(Canvas canvas, float row, float col, int player) {
 
-        float cell_left = left_margin + (row * cell_width); //left of cell
+        float cell_left = left_margin + (col * cell_width); //left of cell
         float cell_right = cell_left + cell_width; //right of cell is 1 cell_width away from left of cell
-        float cell_top = top_margin + (col * cell_height); //top of cell
+        float cell_top = top_margin + (row * cell_height); //top of cell
         float cell_bottom = cell_top + cell_height; //bottom of cell is 1 cell_height away from top of cell
         RectF myCell = new RectF(cell_left, cell_top, cell_right, cell_bottom); //cell to be drawn
         canvas.drawRect(myCell, boardPaint); //draw the cell
+
+        //set locations of each cell to the correct board for use with touch
+        int x = (int)row;
+        int y = (int)col;
+        int y2 = (int)col - (num_col + 1); //y for player 2's board
+        if (player == 1) {
+            xBoard1start[x] = cell_left;
+            xBoard1end[x] = cell_right;
+            yBoard1start[y] = cell_top;
+            yBoard1end[y] = cell_bottom;
+        } else if (player == 2) {
+            xBoard2start[x] = cell_left;
+            xBoard2end[x] = cell_right;
+            yBoard2start[y2] = cell_top;
+            yBoard2end[y2] = cell_bottom;
+        }
     }
 
-    public void drawShips(Canvas canvas, float w, float h, float grid_height, float grid_width){
+    /** drawHit method: draws an x where a player hits a ship **/
+    public void drawHit(Canvas canvas, float row, float col) {
+        float cell_left = left_margin + (col * cell_width); //left of cell
+        float cell_right = cell_left + cell_width; //right of cell is 1 cell_width away from left of cell
+        float cell_top = top_margin + (row * cell_height); //top of cell
+        float cell_bottom = cell_top + cell_height; //bottom of cell is 1 cell_height away from top of cell
 
-        //for drawing horizontal ships
-        float carrier_width = (float) (w * (5 * 0.025));
-        float battleship_width = (float) (w * (4 * 0.025));
-        float submarine_width = (float) (w * (3 * 0.025));
-        float patrolboat_width = (float) (w * (2 * 0.025));
-
-        //canvas.drawRect(left,top,right,bottom,paint);
-
-        //for drawing vertical ships
-        float carrier_height = (float) (h * (5 * 0.06));
-        float battleship_height = (float) (h * (4 * 0.06));
-        float submarine_height = (float) (h * (3 * 0.06));
-        float patrolboat_height = (float) (h * (2 * 0.06));
-
-        //draw ships
-        canvas.drawRect(w/4, h/5, w/4 + (carrier_width), h/5 + (grid_height), shipPaint); //player1 carrier (horizontal)
-
-        canvas.drawRect(w/4 + (2 *grid_width), h/5 + (2 * grid_height), w/4 + (3*grid_width), h/5 + (2 * grid_height) + (battleship_height), shipPaint); //player1 battleship (vertical)
-
-        canvas.drawRect(w/2 + (grid_width), h/5 + (grid_height), w/2 + (grid_width) + grid_width, h/5 + (grid_height) + submarine_height, shipPaint); //player2 sub (vertical)
-
-        canvas.drawRect(w/2 + (7 * grid_width), h/5 + (8 *  grid_height), w/2 + (7 * grid_width) + patrolboat_width, h/5 + (9 * grid_height), shipPaint); //player2 patrol boat (horizontal)
-
-        canvas.drawRect(w/2 + (5 * grid_width), h/5 + (2 * grid_height), w/2 + (6 * grid_width), h/5 + (2 * grid_height) + carrier_height, shipPaint); //player2 carrier (vertical)
+        //draw the X
+        canvas.drawLine(cell_left,cell_top,cell_right,cell_bottom, hitPaint);
+        canvas.drawLine(cell_left,cell_bottom,cell_right,cell_top, hitPaint);
     }
 
-    public void drawHits(Canvas canvas, float w, float h, float grid_height, float grid_width){
-
-        //player1's hit ships
-
-        canvas.drawRect(w/4, h/5 + (4 * grid_height), w/4 + (1 * grid_width), h/5 + (7 * grid_height), hitPaint);
-
-        canvas.drawRect(w/4 + (2 * grid_width), h/5 + (8 * grid_height), w/4 + (5 * grid_width), h/5 + (9 * grid_height), hitPaint);
-
-        canvas.drawRect(w/4 + (6 * grid_width), h/5 + (3 * grid_height), w/4 + ( 8 * grid_width), h/5 + (4 * grid_height), hitPaint);
-
-        canvas.drawRect(w/4 + (1 * grid_width), h/5, w/4 + (2 * grid_width), h/5 + (1 * grid_height), hitPaint);
-
-        //player2's hit ships
-
-        canvas.drawRect(w/2 + (2 * grid_width), h/5 + (6 * grid_height), w/2 + (5 * grid_width), h/5 + (7 * grid_height), hitPaint);
-
-        canvas.drawRect(w/2 + (8 * grid_width), h/5 + (3 * grid_height), w/2 + (9 * grid_width), h/5 + (7 * grid_height), hitPaint);
+    /** drawMiss method: draws an o where a player misses **/
+    public void drawMiss(Canvas canvas, float row, float col) {
+        float cell_left = left_margin + (col * cell_width); //left of cell
+        float cell_right = cell_left + cell_width; //right of cell is 1 cell_width away from left of cell
+        float cell_top = top_margin + (row * cell_height); //top of cell
+        float cell_bottom = cell_top + cell_height; //bottom of cell is 1 cell_height away from top of cell
+        RectF myOval = new RectF(cell_left, cell_top, cell_right, cell_bottom); //circle to be drawn
+        canvas.drawOval(myOval, missPaint);
     }
 
-    public void drawMisses(Canvas canvas, float w, float h, float grid_height, float grid_width){
-        //misses on player1's board
-
-        canvas.drawRect(w/4 + (9 * grid_width), h/5, w/4 + (10 * grid_width), h/5 + (1 * grid_height), missPaint);
-
-        canvas.drawRect(w/4 + (8 * grid_width), h/5 + (7 * grid_height), w/4 + (9 * grid_width), h/5 + (8 * grid_height), missPaint);
-
-        canvas.drawRect(w/4 + (4 * grid_width), h/5 + (5 * grid_height), w/4 + (5 * grid_width), h/5 + (6 * grid_height), missPaint);
-
-        //misses on player2's board
-
-        canvas.drawRect(w/2 + (7 * grid_width), h/5, w/2 + (8 * grid_width), h/5 + (1 * grid_height), missPaint);
-
-        canvas.drawRect(w/2 + (1 * grid_width), h/5 + (8 * grid_height), w/2 + (2 * grid_width), h/5 + (9 * grid_height), missPaint);
-
-        canvas.drawRect(w/2 + (8 * grid_width), h/5, w/2 + (9 * grid_width), h/5 + (1 * grid_height), missPaint);
-
-        canvas.drawRect(w/2 + (3 * grid_width), h/5 + (9 * grid_height), w/2 + (4 * grid_width), h/5 + (10 * grid_height), missPaint);
-
-        canvas.drawRect(w/2 + (9 * grid_width), h/5 + (9 * grid_height), w/2 + (10 * grid_width), h/5 + (10 * grid_height), missPaint);
-
-    }
 }
