@@ -13,8 +13,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.battleshipgamestate.R;
+import com.example.battleshipgamestate.game.GameFramework.utilities.FlashSurfaceView;
 
-public class BSSurfaceView extends SurfaceView {
+public class BSSurfaceView extends FlashSurfaceView {
 
     Paint boardPaint = new Paint();
     Paint dividerPaint = new Paint();
@@ -230,11 +231,19 @@ public class BSSurfaceView extends SurfaceView {
     private int topLeftX;
     private int topLeftY;
 
-    /** public Point mapPixelToSquare(int x, int y) {
-        for (int i = 0; i < 10; i++){
-            for (int j = 0; j < 10; j++){
-                float left =
+    public Point mapPixelToSquare(int x, int y) {
+        for (int i = 0; i < num_row; i++){
+            for (int j = 0; j < num_col; j++){
+                float left = left_margin + (j * cell_width); //left of cell
+                float right = left + cell_width; //right of cell is 1 cell_width away from left of cell
+                float top = top_margin + (i * cell_height); //top of cell
+                float bottom = top + cell_height; //bottom of cell is 1 cell_height away from top of cell
+
+                if ((x > left) != (x > right) && (y > top) != (y > bottom)) {
+                    return new Point(i, j); //if point is in square, return point
+                }
             }
         }
-    } **/
+        return null; //if not on board, return null
+    }
 }
