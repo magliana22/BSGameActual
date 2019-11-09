@@ -231,10 +231,13 @@ public class BSSurfaceView extends FlashSurfaceView {
     private int topLeftX;
     private int topLeftY;
 
-    public Point mapPixelToSquare(int x, int y) {
+    public Point mapPixelToSquare(int x, int y, int playerID) {
         for (int i = 0; i < num_row; i++){
             for (int j = 0; j < num_col; j++){
                 float left = left_margin + (j * cell_width); //left of cell
+                if (playerID == 1){ //if player2's turn
+                    left = left_margin + ((num_col + 1) + j) * cell_width;
+                }
                 float right = left + cell_width; //right of cell is 1 cell_width away from left of cell
                 float top = top_margin + (i * cell_height); //top of cell
                 float bottom = top + cell_height; //bottom of cell is 1 cell_height away from top of cell
