@@ -167,4 +167,3 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
 
 }
-© 2019 GitHub, Inc.

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
@@ -106,6 +107,12 @@ public class BSSurfaceView extends SurfaceView {
         this.ship4 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship4);
         this.ship5 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship3);
 
+    }
+
+    protected BSState state;
+
+    public void setState(BSState state) {
+        this.state = state;
     }
 
     /** public method onDraw will draw the GUI **/
@@ -218,4 +225,16 @@ public class BSSurfaceView extends SurfaceView {
         canvas.drawOval(myOval, missPaint);
     }
 
+    private int pX;
+    private int pY;
+    private int topLeftX;
+    private int topLeftY;
+
+    /** public Point mapPixelToSquare(int x, int y) {
+        for (int i = 0; i < 10; i++){
+            for (int j = 0; j < 10; j++){
+                float left =
+            }
+        }
+    } **/
 }
