@@ -4,7 +4,7 @@ import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameAction;
 
 public class BSMoveAction extends GameAction {
-    
+
     //Tag for logging
     // Not sure if needed
     private static final String TAG = "BSMoveAction";

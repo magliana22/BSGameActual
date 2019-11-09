@@ -145,6 +145,6 @@ public class BSLocalGame extends LocalGame {
         // return true, indicating the it was a legal move
         return true;*/
 
-       
+
     }
 }
