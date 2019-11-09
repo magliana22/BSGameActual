@@ -6,14 +6,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.battleshipgamestate.R;
+import com.example.battleshipgamestate.game.GameFramework.utilities.FlashSurfaceView;
 
-public class BSSurfaceView extends SurfaceView {
+public class BSSurfaceView extends FlashSurfaceView {
 
     Paint boardPaint = new Paint();
     Paint dividerPaint = new Paint();
@@ -33,8 +35,14 @@ public class BSSurfaceView extends SurfaceView {
     public float bottom_margin; //space between bottom edge and bottom of boards
     public float cell_width; //width of 1 cell
     public float cell_height; //height of 1 cell
-    public RectF[][] board1 = new RectF[10][10]; //get canvas locations for p1's board, 0-9
-    public RectF[][] board2 = new RectF[10][10]; //get canvas locations for p2's board, 0-9
+    public float[] xBoard1start = new float[10]; //x value for start of p1's cells
+    public float[] xBoard1end = new float[10];
+    public float[] yBoard1start = new float[10];
+    public float[] yBoard1end = new float[10];
+    public float[] xBoard2start = new float[10];
+    public float[] xBoard2end = new float[10];
+    public float[] yBoard2start = new float[10];
+    public float[] yBoard2end = new float[10];
 
     //background image variables
     private SurfaceHolder holder;
@@ -65,6 +73,8 @@ public class BSSurfaceView extends SurfaceView {
         shipPaint.setColor(Color.GRAY); //set ship color to gray
 
         hitPaint.setColor(Color.RED); //set hit color to red
+
+        hitPaint.setStrokeWidth(7); //set hit X thickness
 
         missPaint.setColor(Color.rgb(224, 224, 224)); //set miss color to shade of white
 
@@ -100,6 +110,12 @@ public class BSSurfaceView extends SurfaceView {
 
     }
 
+    protected BSState state;
+
+    public void setState(BSState state) {
+        this.state = state;
+    }
+
     /** public method onDraw will draw the GUI **/
     public void onDraw(Canvas canvas){
 
@@ -133,6 +149,17 @@ public class BSSurfaceView extends SurfaceView {
         canvas.drawBitmap(this.ship4, null, shipRect4, null); //draw ship
         canvas.drawBitmap(this.ship5, null, shipRect5, null); //draw ship
 
+        //draw hits
+        drawHit(canvas, 0, 1);
+        drawHit(canvas, 7, 7);
+
+        drawHit(canvas, 1, 14);
+        //draw misses
+        drawMiss(canvas, 1, 4);
+
+        drawMiss(canvas, 5, 15);
+        drawMiss(canvas, 8, 18);
+
     }
 
     /** drawBoard method: draws the playing boards on the specified canvas
@@ -142,7 +169,7 @@ public class BSSurfaceView extends SurfaceView {
         for (int i = 0; i < num_row; i++) {
             for (int j = 0; j < num_col; j++){
                 drawCell(canvas, i, j, 1); //draw left board (player 1)
-                drawCell(canvas, (num_row + 1) + i, j, 2); //draw right board (player 2)
+                drawCell(canvas, i, (num_col + 1) + j, 2); //draw right board (player 2)
 
             }
         }
@@ -153,26 +180,70 @@ public class BSSurfaceView extends SurfaceView {
      *  Parameters: canvas to draw on, current row of board, current column of board, current player **/
     public void drawCell(Canvas canvas, float row, float col, int player) {
 
-        float cell_left = left_margin + (row * cell_width); //left of cell
+        float cell_left = left_margin + (col * cell_width); //left of cell
         float cell_right = cell_left + cell_width; //right of cell is 1 cell_width away from left of cell
-        float cell_top = top_margin + (col * cell_height); //top of cell
+        float cell_top = top_margin + (row * cell_height); //top of cell
         float cell_bottom = cell_top + cell_height; //bottom of cell is 1 cell_height away from top of cell
         RectF myCell = new RectF(cell_left, cell_top, cell_right, cell_bottom); //cell to be drawn
         canvas.drawRect(myCell, boardPaint); //draw the cell
 
-        //set locations of each cell to the correct board for use in gameState
-        //if (player == 1) {
-            //board1[(int) row][(int) col] = myCell; //assign area of the cell to 2d board array
-        //} else if (player == 2) {
-            //board2[(int) row][(int) col] = myCell; //assign area of the cell to p2's 2d board array
-        //}
+        //set locations of each cell to the correct board for use with touch
+        int x = (int)row;
+        int y = (int)col;
+        int y2 = (int)col - (num_col + 1); //y for player 2's board
+        if (player == 1) {
+            xBoard1start[x] = cell_left;
+            xBoard1end[x] = cell_right;
+            yBoard1start[y] = cell_top;
+            yBoard1end[y] = cell_bottom;
+        } else if (player == 2) {
+            xBoard2start[x] = cell_left;
+            xBoard2end[x] = cell_right;
+            yBoard2start[y2] = cell_top;
+            yBoard2end[y2] = cell_bottom;
+        }
     }
 
-    /** drawShips method: draws ships on the surfaceView
-     * Parameters: canvas to draw on **/
-    public void drawShips(Canvas canvas){
-        //draw ships here
+    /** drawHit method: draws an x where a player hits a ship **/
+    public void drawHit(Canvas canvas, float row, float col) {
+        float cell_left = left_margin + (col * cell_width); //left of cell
+        float cell_right = cell_left + cell_width; //right of cell is 1 cell_width away from left of cell
+        float cell_top = top_margin + (row * cell_height); //top of cell
+        float cell_bottom = cell_top + cell_height; //bottom of cell is 1 cell_height away from top of cell
 
+        //draw the X
+        canvas.drawLine(cell_left,cell_top,cell_right,cell_bottom, hitPaint);
+        canvas.drawLine(cell_left,cell_bottom,cell_right,cell_top, hitPaint);
     }
 
+    /** drawMiss method: draws an o where a player misses **/
+    public void drawMiss(Canvas canvas, float row, float col) {
+        float cell_left = left_margin + (col * cell_width); //left of cell
+        float cell_right = cell_left + cell_width; //right of cell is 1 cell_width away from left of cell
+        float cell_top = top_margin + (row * cell_height); //top of cell
+        float cell_bottom = cell_top + cell_height; //bottom of cell is 1 cell_height away from top of cell
+        RectF myOval = new RectF(cell_left, cell_top, cell_right, cell_bottom); //circle to be drawn
+        canvas.drawOval(myOval, missPaint);
+    }
+
+    private int pX;
+    private int pY;
+    private int topLeftX;
+    private int topLeftY;
+
+    public Point mapPixelToSquare(int x, int y) {
+        for (int i = 0; i < num_row; i++){
+            for (int j = 0; j < num_col; j++){
+                float left = left_margin + (j * cell_width); //left of cell
+                float right = left + cell_width; //right of cell is 1 cell_width away from left of cell
+                float top = top_margin + (i * cell_height); //top of cell
+                float bottom = top + cell_height; //bottom of cell is 1 cell_height away from top of cell
+
+                if ((x > left) != (x > right) && (y > top) != (y > bottom)) {
+                    return new Point(i, j); //if point is in square, return point
+                }
+            }
+        }
+        return null; //if not on board, return null
+    }
 }

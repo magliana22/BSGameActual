@@ -344,7 +344,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
      *
      * @return true, since this player needs to be running as a GUI
      */
-    public final boolean requiresGui() {
+    public boolean requiresGui() {
         return true;
     }
 
