@@ -21,7 +21,7 @@ public class BSMainActivity extends GameMainActivity {
         ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
 
         // yellow-on-blue GUI
-        playerTypes.add(new GamePlayerType("Local Human Player (blue-yellow)") {
+        playerTypes.add(new GamePlayerType("Local Human Player (human)") {
             public GamePlayer createPlayer(String name) {
                 return new BSHumanPlayer1(name, R.layout.BS_human_player1);
             }
