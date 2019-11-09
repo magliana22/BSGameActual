@@ -19,12 +19,14 @@ public class BSUnitTest {
         assertTrue(spotVal==1);
     }
 
+    @Test
     public void setSpot() throws Exception{
         BSState testState=new BSState();
         testState.p1Board[1][1].setSpot(2);
         assertTrue(testState.p1Board[1][1].isShip);
     }
 
+    @Test
     public void changeTurn() throws Exception{
         BSState testState = new BSState();
         testState.changeTurn();
@@ -32,10 +34,25 @@ public class BSUnitTest {
         assertEquals(1,1);
     }
 
+    @Test
     public void spotString () throws Exception{
         BSState testState = new BSState();
         testState.spotString(1,1,testState.playerID);
         assertEquals("Location " + 1 + "," + 1 + " is Water",
                 testState.spotString(1,1,testState.playerID));
+    }
+
+    @Test
+    public void fire() throws Exception{
+        BSState testState=new BSState();
+        boolean fireTest=testState.fire(1,1);
+        assertTrue(fireTest);
+    }
+
+    @Test
+    public void getPlayerID() throws Exception{
+        BSState testState=new BSState();
+        int idNum=testState.getPlayerID();
+        assertTrue(idNum==0);
     }
 }
