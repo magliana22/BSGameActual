@@ -23,7 +23,7 @@ public class BSMainActivity extends GameMainActivity {
         // yellow-on-blue GUI
         playerTypes.add(new GamePlayerType("Local Human Player (human)") {
             public GamePlayer createPlayer(String name) {
-                return new BSHumanPlayer1(name, R.layout.BS_human_player1);
+                return new BSHumanPlayer1(name, R.layout.activity_main);
             }
         });
 
