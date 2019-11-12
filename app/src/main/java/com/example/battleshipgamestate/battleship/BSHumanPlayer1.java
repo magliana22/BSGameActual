@@ -72,7 +72,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         else {
             surfaceView.setState((BSState)info);
             surfaceView.invalidate();
-            Logger.log(TAG, "receiving");
+            Logger.debugLog(TAG, "receiving");
         }
     }
 
