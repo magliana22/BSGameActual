@@ -25,6 +25,9 @@ public class BSState extends GameState {
     public BSLocation[][] p1Board;
     public BSLocation[][] p2Board;
 
+    public BSShip[] p1Ships;
+    public BSShip[] p2Ships;
+
     //default constructor
     public BSState() {
         this.playerID = 0;
@@ -37,6 +40,18 @@ public class BSState extends GameState {
         this.phaseOfGame = "SetUp";
         this.p1Board = new BSLocation[10][10];
         this.p2Board = new BSLocation[10][10];
+        this.p1Ships = new BSShip[5];
+        this.p2Ships = new BSShip[5];
+        this.p1Ships[0] = new BSShip(0,1,0,0,0);
+        this.p1Ships[1] = new BSShip(3,4,1,1,0);
+        this.p1Ships[2] = new BSShip(1,3,2,2,0);
+        this.p1Ships[3] = new BSShip(5,8,3,3,0);
+        this.p1Ships[4] = new BSShip(4,8,4,4,0);
+        this.p2Ships[0] = new BSShip(0,1,0,0,1);
+        this.p2Ships[1] = new BSShip(3,4,1,1,1);
+        this.p2Ships[2] = new BSShip(1,3,2,2,1);
+        this.p2Ships[3] = new BSShip(5,8,3,3,1);
+        this.p2Ships[4] = new BSShip(4,8,5,5,1);
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
@@ -60,12 +75,20 @@ public class BSState extends GameState {
         this.phaseOfGame = original.phaseOfGame;
         this.p1Board = new BSLocation[10][10];
         this.p2Board = new BSLocation[10][10];
+        this.p1Ships = new BSShip[5];
+        this.p2Ships = new BSShip[5];
+
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
-                this.p1Board[row][col] = original.p1Board[row][col];
-                this.p2Board[row][col] = original.p2Board[row][col];
+                this.p1Board[row][col] = new BSLocation(original.p1Board[row][col]);
+                this.p2Board[row][col] = new BSLocation(original.p2Board[row][col]);
             }
+        }
+
+        for (int i = 0; i < 5; i++){
+                this.p1Ships[i] = new BSShip(original.p1Ships[i]);
+                this.p2Ships[i] = new BSShip(original.p2Ships[i]);
         }
 
 
@@ -153,43 +176,7 @@ public class BSState extends GameState {
         int max5 = 6;
         Random rand = new Random(); //create new random object
 
-        // generate random values for starting x coords of ships
-        int patrolboatX = rand.nextInt(max - min + 1) + min;
-        int submarineX = rand.nextInt(max - min + 1) + min;
-        int cruiserX = rand.nextInt(max3 - min + 1) + min;
-        int destroyerX = rand.nextInt(max4 - min + 1) + min;
-        int carrierX = rand.nextInt(max5 - min + 1) + min;
 
-        int patrolboatXend = submarineX + 1;
-        int submarineXend = submarineX + 1;
-        int cruiserXend =  cruiserX + 2;
-        int destroyerXend = destroyerX + 3;
-        int carrierXend = carrierX + 4;
-
-        int patrolboatY = rand.nextInt(max - min + 1) + min;
-        int submarineY = rand.nextInt(max - min + 1) + min;
-        int cruiserY = rand.nextInt(max - min + 1) + min;
-        int destroyerY = rand.nextInt(max - min + 1) + min;
-        int carrierY =rand.nextInt(max - min + 1) + min;
-
-        int patrolboatYend = patrolboatY;
-        int submarineYend = submarineY;
-        int cruiserYend = cruiserY;
-        int destroyerYend = destroyerY;
-        int carrierYend = carrierY;
-
-                //if (this.playerID == playerNum) {
-        BSShip carrier = new BSShip(carrierX, carrierXend, carrierY, carrierYend, playerNum, 5);
-        BSShip destroyer = new BSShip(destroyerX, destroyerXend, destroyerY, destroyerYend, playerNum, 4);
-        BSShip cruiser = new BSShip(cruiserX, cruiserXend, cruiserY, cruiserYend, playerNum, 3);
-        BSShip submarine = new BSShip(submarineX, submarineXend, submarineY, submarineYend, playerNum, 2);
-        BSShip patrolboat = new BSShip(patrolboatX, patrolboatXend, patrolboatY, patrolboatYend, playerNum, 2);
-
-        this.addShip(playerNum, carrier);
-        this.addShip(playerNum, destroyer);
-        this.addShip(playerNum, cruiser);
-        this.addShip(playerNum, submarine);
-        this.addShip(playerNum, patrolboat);
 
 
         return true;

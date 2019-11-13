@@ -14,6 +14,7 @@ import android.view.SurfaceView;
 
 import com.example.battleshipgamestate.R;
 import com.example.battleshipgamestate.game.GameFramework.utilities.FlashSurfaceView;
+import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSSurfaceView extends FlashSurfaceView {
 
@@ -80,7 +81,6 @@ public class BSSurfaceView extends FlashSurfaceView {
 
         missPaint.setColor(Color.rgb(224, 224, 224)); //set miss color to shade of white
 
-        //test
         /**
          External Citation
          Date: 20 October 2019
@@ -112,17 +112,19 @@ public class BSSurfaceView extends FlashSurfaceView {
 
         });
 
-        this.ship1 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship1);
-        this.ship2 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship2);
-        this.ship3 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship5);
-        this.ship4 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship4);
-        this.ship5 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship3);
+        this.ship1 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship1); //2 tile sized ship
+        this.ship2 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship2); //2 tile sized ship
+        this.ship3 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship5); //cruiser (3 tiles)
+        this.ship4 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship4); //destroyer (4 tiles)
+        this.ship5 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship3); //carrier (5 tiles)
 
     }
 
-    protected BSState state;
+    protected BSState state; //local state variable
 
     /** setState method: sets the local state variable
+     * @param state
+     *              state to reference for setting local state
      */
     public void setState(BSState state) {
         this.state = state;
@@ -132,8 +134,11 @@ public class BSSurfaceView extends FlashSurfaceView {
      * @param canvas
      *              canvas to draw on
      */
-    public void onDraw(Canvas canvas){
+    public void onDraw(Canvas canvas) {
 
+        if(state == null)
+            return;
+        Logger.log("onDraw","about to draw");
         width = getWidth(); //get width of canvas
         height = getHeight(); //get height of canvas
         left_margin = width/5; //space between left edge and start of 1st board
@@ -150,55 +155,70 @@ public class BSSurfaceView extends FlashSurfaceView {
         //draw grid boards
         drawBoard(canvas);
 
-        //draw ships
-
         //state.addAllShips(0);
         //state.addAllShips(1);
 
-        RectF shipRect1 = new RectF(left_margin, top_margin, left_margin+(2*cell_width), top_margin+ cell_height);
-        RectF shipRect2 = new RectF(left_margin+cell_width, top_margin+(5*cell_height), left_margin+cell_width+(2*cell_width), top_margin+(5*cell_height)+cell_height);
-        RectF shipRect3 = new RectF(left_margin, top_margin+(8*cell_height), left_margin+(3*cell_width), top_margin+(8*cell_height)+(cell_height));
-        RectF shipRect4 = new RectF(left_margin+(6*cell_width), top_margin+(7*cell_height), left_margin+(6*cell_width)+(4*cell_width), top_margin+(7*cell_height)+cell_height);
-        RectF shipRect5 = new RectF(left_margin+(2*cell_width), top_margin+(2*cell_width), (left_margin+(2*cell_width))+(5*cell_width), top_margin+(2*cell_width)+ cell_height);
+        RectF shipRectP1[]=new RectF[5]; //create array of ships for p1
+        for (int i = 0; i < state.p1Ships.length; i++){ //create ships for the array
+            BSShip theShip = state.p1Ships[i];
+            shipRectP1[i] = new RectF(left_margin + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
+                                        left_margin+(cell_width * (theShip.getx2()+1)), top_margin + (cell_height * (1+theShip.gety2())));
 
-        canvas.drawBitmap(this.ship1, null, shipRect1, null); //draw ship
-        canvas.drawBitmap(this.ship2, null, shipRect2, null); //draw ship
-        canvas.drawBitmap(this.ship3, null, shipRect3, null); //draw ship
-        canvas.drawBitmap(this.ship4, null, shipRect4, null); //draw ship
-        canvas.drawBitmap(this.ship5, null, shipRect5, null); //draw ship
+        }
+
+        //RectF shipRectP2[]=new RectF[5];
+        //for (int j = 0; j < state.p2Ships.length; j++){
+            //BSShip theShip = state.p2Ships[j];
+            //shipRectP2[j] = new RectF(left_margin + (11*cell_width) + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
+                    //left_margin + (11 * cell_width) + (cell_width * (theShip.getx2()+1)), top_margin + (cell_height * (1+theShip.gety2())));
+        //}
+
+        // draw ships
+        canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
+        canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
+        canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
+        canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
+        canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
+
+        //canvas.drawBitmap(this.ship1, null, shipRectP2[0], null); //draw ship
+        //canvas.drawBitmap(this.ship2, null, shipRectP2[1], null); //draw ship
+        //canvas.drawBitmap(this.ship3, null, shipRectP2[2], null); //draw ship
+        //canvas.drawBitmap(this.ship4, null, shipRectP2[3], null); //draw ship
+        //canvas.drawBitmap(this.ship5, null, shipRectP2[4], null); //draw ship
 
         //draw hits
         //drawHit(canvas, 0, 1);
-        //drawHit(canvas, 7, 7);
 
-        //drawHit(canvas, 1, 14);
+        //for (int j = 0; j < 10; j++){
+          //  for (int k = 0; k < 10; k++){
+             //   if(state.p1Board[j][k].isHit)
+                    //draw hit here
+           // }
+        //}
         //draw misses
         //drawMiss(canvas, 1, 4);
-
-        //drawMiss(canvas, 5, 15);
-        //drawMiss(canvas, 8, 18);
 
         //if we don't have any state, there's nothing more to draw, so return
         if (state == null) {
             return;
         }
         // for each square that has a hit or miss, draw it on the appropriate place on the canvas
-        for (int row = 0; row < num_row; row++){
-            for (int col = 0; col < num_col; col++){
-                int result = state.checkSpot(row, col, 1);
-                int result2 = state.checkSpot(row, col, 2);
+        for (int row = 0; row < num_row; row++) {
+            for (int col = 0; col < num_col; col++) {
+                int result = state.checkSpot(row, col, 0);
+                int result2 = state.checkSpot(row, col, 1);
                 // player1's board
-                if (result == 3){
+                if (result == 3){ //if square is a hit
                     drawHit(canvas, row, col);
                 }
-                if (result == 4){
+                if (result == 4){ //if square is a miss
                     drawMiss(canvas, row, col);
                 }
                 // player2's board
-                if (result2 == 3){
+                if (result2 == 3){ //if square is a hit
                     drawHit(canvas, row, (num_col + 1) + col);
                 }
-                if (result == 4){
+                if (result == 4){ //if square is a miss
                     drawMiss(canvas, row, (num_col + 1) + col);
                 }
             }
@@ -208,10 +228,10 @@ public class BSSurfaceView extends FlashSurfaceView {
     /** drawBoard method: draws the playing boards on the specified canvas
      *  @param canvas
      *              referenced canvas to draw on **/
-    public void drawBoard(Canvas canvas){
-        // draw board
+    public void drawBoard(Canvas canvas) {
+
         for (int i = 0; i < num_row; i++) {
-            for (int j = 0; j < num_col; j++){
+            for (int j = 0; j < num_col; j++) {
                 drawCell(canvas, i, j); //draw left board (player 1)
                 drawCell(canvas, i, (num_col + 1) + j); //draw right board (player 2)
 
@@ -254,11 +274,18 @@ public class BSSurfaceView extends FlashSurfaceView {
         float cell_bottom = cell_top + cell_height; //bottom of cell is 1 cell_height away from top of cell
 
         //draw the X
-        canvas.drawLine(cell_left,cell_top,cell_right,cell_bottom, hitPaint);
-        canvas.drawLine(cell_left,cell_bottom,cell_right,cell_top, hitPaint);
+        canvas.drawLine(cell_left,cell_top,cell_right,cell_bottom, hitPaint); //line from top left to bottom right of cell
+        canvas.drawLine(cell_left,cell_bottom,cell_right,cell_top, hitPaint); //line from bottom left to top right of cell
     }
 
-    /** drawMiss method: draws an o where a player misses **/
+    /** drawMiss method: draws an o where a player misses
+     * @param canvas
+     *              canvas reference to draw on
+     * @param row
+     *              row to draw miss on
+     * @param col
+     *              col to draw miss on
+     */
     public void drawMiss(Canvas canvas, float row, float col) {
         float cell_left = left_margin + (col * cell_width); //left of cell
         float cell_right = cell_left + cell_width; //right of cell is 1 cell_width away from left of cell
@@ -276,8 +303,8 @@ public class BSSurfaceView extends FlashSurfaceView {
      */
     public Point mapPixelToSquare(int x, int y) {
 
-        for (int i = 0; i < num_row; i++){ //player taps on second board
-            for (int j = 0; j < num_col; j++){
+        for (int i = 0; i < num_row; i++) { //player taps on second board
+            for (int j = 0; j < num_col; j++) {
                 //float left = left_margin + (j * cell_width); // use this value of left for first board
                 float left = left_margin + (j * cell_width) + (11*cell_width); //left of cell (right board starts at col 11)
                 float right = left + cell_width; //right of cell is 1 cell_width away from left of cell
