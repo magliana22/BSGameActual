@@ -66,6 +66,8 @@ public class BSSurfaceView extends FlashSurfaceView {
 
         boardPaint.setStrokeWidth(5); //set board line thickness
 
+        boardPaint.setAlpha(150); //set board alpha value
+
         dividerPaint.setStrokeWidth(8); //set divider thickness
 
         waterPaint.setColor(Color.rgb(0, 255, 255)); //set water color to teal
@@ -137,6 +139,9 @@ public class BSSurfaceView extends FlashSurfaceView {
 
         //draw ships
 
+        //state.addAllShips(0);
+        //state.addAllShips(1);
+
         RectF shipRect1 = new RectF(left_margin, top_margin, left_margin+(2*cell_width), top_margin+ cell_height);
         RectF shipRect2 = new RectF(left_margin+cell_width, top_margin+(5*cell_height), left_margin+cell_width+(2*cell_width), top_margin+(5*cell_height)+cell_height);
         RectF shipRect3 = new RectF(left_margin, top_margin+(8*cell_height), left_margin+(3*cell_width), top_margin+(8*cell_height)+(cell_height));
@@ -150,16 +155,41 @@ public class BSSurfaceView extends FlashSurfaceView {
         canvas.drawBitmap(this.ship5, null, shipRect5, null); //draw ship
 
         //draw hits
-        drawHit(canvas, 0, 1);
-        drawHit(canvas, 7, 7);
+        //drawHit(canvas, 0, 1);
+        //drawHit(canvas, 7, 7);
 
-        drawHit(canvas, 1, 14);
+        //drawHit(canvas, 1, 14);
         //draw misses
-        drawMiss(canvas, 1, 4);
+        //drawMiss(canvas, 1, 4);
 
-        drawMiss(canvas, 5, 15);
-        drawMiss(canvas, 8, 18);
+        //drawMiss(canvas, 5, 15);
+        //drawMiss(canvas, 8, 18);
 
+        //if we don't have any state, there's nothing more to draw, so return
+        if (state == null) {
+            return;
+        }
+        // for each square that has a hit or miss, draw it on the appropriate place on the canvas
+        for (int row = 0; row < num_row; row++){
+            for (int col = 0; col < num_col; col++){
+                int result = state.checkSpot(row, col, 1);
+                int result2 = state.checkSpot(row, col, 2);
+                // player1's board
+                if (result == 3){
+                    drawHit(canvas, row, col);
+                }
+                if (result == 4){
+                    drawMiss(canvas, row, col);
+                }
+                // player2's board
+                if (result2 == 3){
+                    drawHit(canvas, row, (num_col + 1) + col);
+                }
+                if (result == 4){
+                    drawMiss(canvas, row, (num_col + 1) + col);
+                }
+            }
+        }
     }
 
     /** drawBoard method: draws the playing boards on the specified canvas
@@ -168,8 +198,8 @@ public class BSSurfaceView extends FlashSurfaceView {
         // draw board
         for (int i = 0; i < num_row; i++) {
             for (int j = 0; j < num_col; j++){
-                drawCell(canvas, i, j, 1); //draw left board (player 1)
-                drawCell(canvas, i, (num_col + 1) + j, 2); //draw right board (player 2)
+                drawCell(canvas, i, j); //draw left board (player 1)
+                drawCell(canvas, i, (num_col + 1) + j); //draw right board (player 2)
 
             }
         }
@@ -178,7 +208,7 @@ public class BSSurfaceView extends FlashSurfaceView {
 
     /** drawCell method: draws a single cell of the playing board
      *  Parameters: canvas to draw on, current row of board, current column of board, current player **/
-    public void drawCell(Canvas canvas, float row, float col, int player) {
+    public void drawCell(Canvas canvas, float row, float col) {
 
         float cell_left = left_margin + (col * cell_width); //left of cell
         float cell_right = cell_left + cell_width; //right of cell is 1 cell_width away from left of cell
@@ -187,21 +217,6 @@ public class BSSurfaceView extends FlashSurfaceView {
         RectF myCell = new RectF(cell_left, cell_top, cell_right, cell_bottom); //cell to be drawn
         canvas.drawRect(myCell, boardPaint); //draw the cell
 
-        //set locations of each cell to the correct board for use with touch
-        int x = (int)row;
-        int y = (int)col;
-        int y2 = (int)col - (num_col + 1); //y for player 2's board
-        if (player == 1) {
-            xBoard1start[x] = cell_left;
-            xBoard1end[x] = cell_right;
-            yBoard1start[y] = cell_top;
-            yBoard1end[y] = cell_bottom;
-        } else if (player == 2) {
-            xBoard2start[x] = cell_left;
-            xBoard2end[x] = cell_right;
-            yBoard2start[y2] = cell_top;
-            yBoard2end[y2] = cell_bottom;
-        }
     }
 
     /** drawHit method: draws an x where a player hits a ship **/
@@ -232,9 +247,11 @@ public class BSSurfaceView extends FlashSurfaceView {
     private int topLeftY;
 
     public Point mapPixelToSquare(int x, int y) {
-        for (int i = 0; i < num_row; i++){
+
+        for (int i = 0; i < num_row; i++){ //player taps on second board, starting at 11
             for (int j = 0; j < num_col; j++){
-                float left = left_margin + (j * cell_width); //left of cell
+                //float left = left_margin + (j * cell_width); //if you want to use first board
+                float left = left_margin + (j * cell_width) + (11*cell_width); //left of cell (right board starts at col 11)
                 float right = left + cell_width; //right of cell is 1 cell_width away from left of cell
                 float top = top_margin + (i * cell_height); //top of cell
                 float bottom = top + cell_height; //bottom of cell is 1 cell_height away from top of cell

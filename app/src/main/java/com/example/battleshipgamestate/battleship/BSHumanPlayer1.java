@@ -125,7 +125,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         if (event.getAction() != MotionEvent.ACTION_UP) return true;
         // get the x and y coordinates of the touch-location;
         // convert them to square coordinates (where both
-        // values are in the range 0..2)
+        // values are in the range 0..9)
         int x = (int) event.getX();
         int y = (int) event.getY();
         Point p = surfaceView.mapPixelToSquare(x, y);
@@ -137,7 +137,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             surfaceView.flash(Color.RED, 50);
         } else {
             BSMoveAction action = new BSMoveAction(this, p.y, p.x);
-            Logger.log("onTouch", "Human player sending TTTMA ...");
+            Logger.log("onTouch", "Human player sending BSMA ...");
             game.sendAction(action);
             surfaceView.invalidate();
         }

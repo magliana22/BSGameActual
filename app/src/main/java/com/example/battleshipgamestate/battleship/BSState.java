@@ -2,6 +2,8 @@ package com.example.battleshipgamestate.battleship;
 
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameState;
 
+import java.util.Random;
+
 public class BSState extends GameState {
 
 
@@ -144,16 +146,50 @@ public class BSState extends GameState {
 
     //method that adds all the ships to a player, to make the main look a tad bit cleaner
     public boolean addAllShips(int playerNum) {
-        //if (this.playerID == playerNum) {
-        BSShip carrier = new BSShip(1, 5, 1, 1, playerNum, 5);
-        BSShip destroyer = new BSShip(1, 4, 2, 2, playerNum, 4);
-        BSShip cruiser = new BSShip(1, 3, 3, 3, playerNum, 3);
-        BSShip submarine = new BSShip(1, 2, 4, 4, playerNum, 2);
+        int min = 0;
+        int max = 9;
+        int max3 = 8;
+        int max4 = 7;
+        int max5 = 6;
+        Random rand = new Random(); //create new random object
+
+        // generate random values for starting x coords of ships
+        int patrolboatX = rand.nextInt(max - min + 1) + min;
+        int submarineX = rand.nextInt(max - min + 1) + min;
+        int cruiserX = rand.nextInt(max3 - min + 1) + min;
+        int destroyerX = rand.nextInt(max4 - min + 1) + min;
+        int carrierX = rand.nextInt(max5 - min + 1) + min;
+
+        int patrolboatXend = submarineX + 1;
+        int submarineXend = submarineX + 1;
+        int cruiserXend =  cruiserX + 2;
+        int destroyerXend = destroyerX + 3;
+        int carrierXend = carrierX + 4;
+
+        int patrolboatY = rand.nextInt(max - min + 1) + min;
+        int submarineY = rand.nextInt(max - min + 1) + min;
+        int cruiserY = rand.nextInt(max - min + 1) + min;
+        int destroyerY = rand.nextInt(max - min + 1) + min;
+        int carrierY =rand.nextInt(max - min + 1) + min;
+
+        int patrolboatYend = patrolboatY;
+        int submarineYend = submarineY;
+        int cruiserYend = cruiserY;
+        int destroyerYend = destroyerY;
+        int carrierYend = carrierY;
+
+                //if (this.playerID == playerNum) {
+        BSShip carrier = new BSShip(carrierX, carrierXend, carrierY, carrierYend, playerNum, 5);
+        BSShip destroyer = new BSShip(destroyerX, destroyerXend, destroyerY, destroyerYend, playerNum, 4);
+        BSShip cruiser = new BSShip(cruiserX, cruiserXend, cruiserY, cruiserYend, playerNum, 3);
+        BSShip submarine = new BSShip(submarineX, submarineXend, submarineY, submarineYend, playerNum, 2);
+        BSShip patrolboat = new BSShip(patrolboatX, patrolboatXend, patrolboatY, patrolboatYend, playerNum, 2);
 
         this.addShip(playerNum, carrier);
         this.addShip(playerNum, destroyer);
         this.addShip(playerNum, cruiser);
         this.addShip(playerNum, submarine);
+        this.addShip(playerNum, patrolboat);
 
 
         return true;
