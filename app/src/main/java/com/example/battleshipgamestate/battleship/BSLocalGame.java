@@ -107,6 +107,7 @@ public class BSLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
+        Logger.log("makeMove", "about to fire");
        //get the row and column position of the player's move
         BSMoveAction bsm = (BSMoveAction) action;
         int row = bsm.getRow();
