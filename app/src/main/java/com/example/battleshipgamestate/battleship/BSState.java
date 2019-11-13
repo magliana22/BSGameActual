@@ -191,7 +191,6 @@ public class BSState extends GameState {
         this.addShip(playerNum, submarine);
         this.addShip(playerNum, patrolboat);
 
-
         return true;
     }
 

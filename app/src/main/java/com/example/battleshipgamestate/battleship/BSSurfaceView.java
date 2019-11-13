@@ -15,6 +15,8 @@ import android.view.SurfaceView;
 import com.example.battleshipgamestate.R;
 import com.example.battleshipgamestate.game.GameFramework.utilities.FlashSurfaceView;
 
+import java.util.Random;
+
 public class BSSurfaceView extends FlashSurfaceView {
 
     Paint boardPaint = new Paint();
@@ -138,9 +140,43 @@ public class BSSurfaceView extends FlashSurfaceView {
         drawBoard(canvas);
 
         //draw ships
+        int min = 0;
+        int max = 9;
+        int max3 = 8;
+        int max4 = 7;
+        int max5 = 6;
+        Random rand = new Random(); //create new random object
 
-        //state.addAllShips(0);
-        //state.addAllShips(1);
+        // generate random values for starting x coords of ships
+        int patrolboatX = rand.nextInt(max);
+        int submarineX = rand.nextInt(max);
+        int cruiserX = rand.nextInt(max3);
+        int destroyerX = rand.nextInt(max4);
+        int carrierX = rand.nextInt(max5);
+
+        int patrolboatXend = submarineX + 1;
+        int submarineXend = submarineX + 1;
+        int cruiserXend =  cruiserX + 2;
+        int destroyerXend = destroyerX + 3;
+        int carrierXend = carrierX + 4;
+
+        int patrolboatY = rand.nextInt(max);
+        int submarineY = rand.nextInt(max);
+        int cruiserY = rand.nextInt(max);
+        int destroyerY = rand.nextInt(max);
+        int carrierY =rand.nextInt(max);
+
+        int patrolboatYend = patrolboatY;
+        int submarineYend = submarineY;
+        int cruiserYend = cruiserY;
+        int destroyerYend = destroyerY;
+        int carrierYend = carrierY;
+
+        //BSShip carrier = new BSShip(carrierX, carrierXend, carrierY, carrierYend, 1, 5);
+        //BSShip destroyer = new BSShip(destroyerX, destroyerXend, destroyerY, destroyerYend, 1, 4);
+        //BSShip cruiser = new BSShip(cruiserX, cruiserXend, cruiserY, cruiserYend, 1, 3);
+        //BSShip submarine = new BSShip(submarineX, submarineXend, submarineY, submarineYend, 1, 2);
+        //BSShip patrolboat = new BSShip(patrolboatX, patrolboatXend, patrolboatY, patrolboatYend, 1, 2);
 
         RectF shipRect1 = new RectF(left_margin, top_margin, left_margin+(2*cell_width), top_margin+ cell_height);
         RectF shipRect2 = new RectF(left_margin+cell_width, top_margin+(5*cell_height), left_margin+cell_width+(2*cell_width), top_margin+(5*cell_height)+cell_height);
@@ -182,10 +218,10 @@ public class BSSurfaceView extends FlashSurfaceView {
                     drawMiss(canvas, row, col);
                 }
                 // player2's board
-                if (result2 == 3){
+                if (result2 == 1){
                     drawHit(canvas, row, (num_col + 1) + col);
                 }
-                if (result == 4){
+                if (result == 2){
                     drawMiss(canvas, row, (num_col + 1) + col);
                 }
             }
