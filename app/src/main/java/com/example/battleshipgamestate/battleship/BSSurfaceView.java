@@ -158,6 +158,15 @@ public class BSSurfaceView extends FlashSurfaceView {
         //state.addAllShips(0);
         //state.addAllShips(1);
 
+        for (int i = 0; i < 10; i++){ //set locations loop
+            for (int j = 0; j < 10; j++){
+                BSLocation initialLoc = new BSLocation();
+                initialLoc.setSpot(1);
+                state.p1Board[i][j] = initialLoc;
+                state.p2Board[i][j] = initialLoc;
+            }
+        }
+
         RectF shipRectP1[]=new RectF[5]; //create array of ships for p1
         for (int i = 0; i < state.p1Ships.length; i++){ //create ships for the array
             BSShip theShip = state.p1Ships[i];
@@ -212,9 +221,10 @@ public class BSSurfaceView extends FlashSurfaceView {
         //drawMiss(canvas, 1, 4);
 
         //if we don't have any state, there's nothing more to draw, so return
-        if (state == null) {
-            return;
-        }
+        //if (state == null) {
+           // return;
+        //}
+        state.p1Board[1][0].setSpot(4);
         // for each square that has a hit or miss, draw it on the appropriate place on the canvas
         for (int row = 0; row < num_row; row++) {
             for (int col = 0; col < num_col; col++) {
@@ -247,7 +257,6 @@ public class BSSurfaceView extends FlashSurfaceView {
             for (int j = 0; j < num_col; j++) {
                 drawCell(canvas, i, j); //draw left board (player 1)
                 drawCell(canvas, i, (num_col + 1) + j); //draw right board (player 2)
-
             }
         }
 

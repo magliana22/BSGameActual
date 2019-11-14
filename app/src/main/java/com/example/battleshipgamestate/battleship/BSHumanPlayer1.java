@@ -109,7 +109,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
      * knows what their game-position and opponents' names are.
      */
     protected void initAfterReady() {
-        myActivity.setTitle("Tic-Tac-Toe: "+allPlayerNames[0]+" vs. "+allPlayerNames[1]);
+        myActivity.setTitle("Battleship: "+allPlayerNames[0]+" vs. "+allPlayerNames[1]);
     }
 
     /**

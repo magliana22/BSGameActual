@@ -114,10 +114,13 @@ public class BSLocalGame extends LocalGame {
         int col = bsm.getCol();
         boolean okayMove=state.fire(row,col);
         if(okayMove){
+            Logger.log("changeTurn","moveisValid");
             state.changeTurn();
             return true;
         }
         else{
+            Logger.log("moveIsValid", "moveValid");
+            //return false;
             return false;
         }
 

@@ -1,6 +1,7 @@
 package com.example.battleshipgamestate.battleship;
 
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameState;
+import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 import java.util.Random;
 
@@ -190,10 +191,6 @@ public class BSState extends GameState {
         int max4 = 7;
         int max5 = 6;
         Random rand = new Random(); //create new random object
-
-
-
-
         return true;
     }
 
@@ -219,30 +216,36 @@ public class BSState extends GameState {
 
             if (checkSpot(x, y, 0) == 3 || checkSpot(x, y, 0) == 4) {
                 this.p1Board[y][x] = temp;
+                Logger.log("Coordinate","spot is hit/miss");
                 valid=false;
             } else if (checkSpot(x, y, 0) == 2) {
                 this.p2TotalHits += 1;
                 temp.setSpot(3);
                 this.p1Board[y][x] = temp;
+                Logger.log("spot","spot is ship");
                 valid=true;
             } else if (checkSpot(x, y, 0) == 1) {
                 temp.setSpot(4);
                 this.p1Board[y][x] = temp;
+                Logger.log("spot2","spot is water");
                 valid=true;
             }
         } else if (this.getPlayerID() == 0) {
             BSLocation temp = this.p2Board[y][x];
             if (checkSpot(x, y, 1) == 3 || checkSpot(x, y, 1) == 4) {
                 this.p2Board[y][x] = temp;
+                Logger.log("spot3","spot is hit/miss");
                 valid=false;
             } else if (checkSpot(x, y, 1) == 2) {
                 this.p1TotalHits += 1;
                 temp.setSpot(3);
                 this.p2Board[y][x] = temp;
+                Logger.log("spot4","spot is ship");
                 valid=true;
             } else if (checkSpot(x, y, 1) == 1) {
                 temp.setSpot(4);
                 this.p2Board[y][x] = temp;
+                Logger.log("spot5","spot is water");
                 valid=true;
             }
         }
