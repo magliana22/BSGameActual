@@ -24,14 +24,20 @@ public class BSUnitTest {
     @Test
     public void getPhaseOfGame() throws Exception{
         BSState testState=new BSState();
-
+        testState.setPhaseOfGame(1);
+        assertEquals("setUp",testState.getPhaseOfGame());
+        testState.setPhaseOfGame(2);
+        assertEquals("inPlay",testState.getPhaseOfGame());
     }
 
     // Kyle wrote this test
     @Test
     public void getPlayerTarget() throws Exception{
         BSState testState=new BSState();
-
+        testState.setPlayerID(0);
+        assertEquals(1,testState.getTargetPlayer());
+        testState.setPlayerID(1);
+        assertEquals(0,testState.getTargetPlayer());
     }
 
     @Test

@@ -117,7 +117,7 @@ public class BSState extends GameState {
     }
 
     //gets the player whose turn it is NOT
-    public int getPlayerTarget(){
+    public int getTargetPlayer(){
         int passivePlayer=3;
         if(this.playerID==0){
             passivePlayer= 1;
@@ -175,6 +175,7 @@ public class BSState extends GameState {
 
     }
 
+    // changes the current players turn after a valid move
     public void changeTurn() {
         if (this.playerID == 0) {
             this.setPlayerID(1);
@@ -194,7 +195,7 @@ public class BSState extends GameState {
         return true;
     }
 
-
+    // toString method leftover from GameState HW (for testing purposes)
     @Override
     public String toString() {
 
