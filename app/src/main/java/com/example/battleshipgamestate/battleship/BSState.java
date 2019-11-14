@@ -100,6 +100,21 @@ public class BSState extends GameState {
         return this.playerID;
     }
 
+    //changes phase of game to either setUp(1) or inPlay(2)
+    public void setPhaseOfGame(int phase){
+        if(phase==2){
+            this.phaseOfGame="inPlay";
+        }
+        else if(phase==1){
+            this.phaseOfGame="setUp";
+        }
+    }
+
+    //gets phase of game String from state
+    public String getPhaseOfGame(){
+        return this.phaseOfGame;
+    }
+
     //gets the player whose turn it is NOT
     public int getPlayerTarget(){
         int passivePlayer=3;
