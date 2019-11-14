@@ -163,15 +163,28 @@ public class BSSurfaceView extends FlashSurfaceView {
             BSShip theShip = state.p1Ships[i];
             shipRectP1[i] = new RectF(left_margin + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
                                         left_margin+(cell_width * (theShip.getx2()+1)), top_margin + (cell_height * (1+theShip.gety2())));
-
+            for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
+                for (int k = theShip.gety1(); k <= theShip.gety2(); k++){
+                    BSLocation location = new BSLocation(); //create temporary location object
+                    location.setSpot(2); //set location to ship
+                    state.p1Board[j][k] = location; //store in p1Board
+                }
+            }
         }
 
-        //RectF shipRectP2[]=new RectF[5];
-        //for (int j = 0; j < state.p2Ships.length; j++){
-            //BSShip theShip = state.p2Ships[j];
+        RectF shipRectP2[]=new RectF[5];
+        for (int i = 0; i < state.p2Ships.length; i++){
+            BSShip theShip = state.p2Ships[i];
             //shipRectP2[j] = new RectF(left_margin + (11*cell_width) + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
                     //left_margin + (11 * cell_width) + (cell_width * (theShip.getx2()+1)), top_margin + (cell_height * (1+theShip.gety2())));
-        //}
+            for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
+                for (int k = theShip.gety1(); k <= theShip.gety2(); k++){
+                    BSLocation location = new BSLocation(); //create temporary location object
+                    location.setSpot(2); //set location to ship
+                    state.p2Board[j][k] = location; //store in p2Board
+                }
+            }
+        }
 
         // draw ships
         canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
