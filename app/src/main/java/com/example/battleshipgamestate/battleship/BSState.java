@@ -150,7 +150,7 @@ public class BSState extends GameState {
 
     //checks value of a location object at a coordinate in a player's board
     public int checkSpot(int x, int y, int playerNum) {
-        if (this.playerID == playerNum && playerNum == 0) {
+        if (playerNum == 0) {
             if (this.p1Board[y][x].isWater == true) {
                 return 1;
             } else if (this.p1Board[y][x].isShip == true) {
@@ -160,7 +160,7 @@ public class BSState extends GameState {
             } else if (this.p1Board[y][x].isMiss == true) {
                 return 4;
             }
-        } else if (this.playerID == playerNum && playerNum == 1) {
+        } else if (playerNum == 1) {
             if (this.p2Board[y][x].isWater == true) {
                 return 1;
             } else if (this.p2Board[y][x].isShip == true) {
@@ -218,7 +218,7 @@ public class BSState extends GameState {
             if (checkSpot(x, y, 0) == 3 || checkSpot(x, y, 0) == 4) {
                 this.p1Board[y][x] = temp;
                 Logger.log("Coordinate","spot is hit/miss");
-                valid=false;
+                valid=true;
             } else if (checkSpot(x, y, 0) == 2) {
                 this.p2TotalHits += 1;
                 temp.setSpot(3);
@@ -236,7 +236,7 @@ public class BSState extends GameState {
             if (checkSpot(x, y, 1) == 3 || checkSpot(x, y, 1) == 4) {
                 this.p2Board[y][x] = temp;
                 Logger.log("spot3","spot is hit/miss");
-                valid=false;
+                valid=true;
             } else if (checkSpot(x, y, 1) == 2) {
                 this.p1TotalHits += 1;
                 temp.setSpot(3);

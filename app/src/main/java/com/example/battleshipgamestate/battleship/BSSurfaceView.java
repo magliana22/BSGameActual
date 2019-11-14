@@ -158,27 +158,27 @@ public class BSSurfaceView extends FlashSurfaceView {
         //state.addAllShips(0);
         //state.addAllShips(1);
 
-        for (int i = 0; i < 10; i++){ //set locations loop
+       /* for (int i = 0; i < 10; i++){ //set locations loop
             for (int j = 0; j < 10; j++){
                 BSLocation initialLoc = new BSLocation();
                 initialLoc.setSpot(1);
                 state.p1Board[i][j] = initialLoc;
                 state.p2Board[i][j] = initialLoc;
             }
-        }
+        }*/
 
         RectF shipRectP1[]=new RectF[5]; //create array of ships for p1
         for (int i = 0; i < state.p1Ships.length; i++){ //create ships for the array
             BSShip theShip = state.p1Ships[i];
             shipRectP1[i] = new RectF(left_margin + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
                                         left_margin+(cell_width * (theShip.getx2()+1)), top_margin + (cell_height * (1+theShip.gety2())));
-            for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
+            /*for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
                 for (int k = theShip.gety1(); k <= theShip.gety2(); k++){
                     BSLocation location = new BSLocation(); //create temporary location object
                     location.setSpot(2); //set location to ship
                     state.p1Board[j][k] = location; //store in p1Board
                 }
-            }
+            }*/
         }
 
         RectF shipRectP2[]=new RectF[5];
@@ -186,13 +186,13 @@ public class BSSurfaceView extends FlashSurfaceView {
             BSShip theShip = state.p2Ships[i];
             //shipRectP2[j] = new RectF(left_margin + (11*cell_width) + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
                     //left_margin + (11 * cell_width) + (cell_width * (theShip.getx2()+1)), top_margin + (cell_height * (1+theShip.gety2())));
-            for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
+           /* for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
                 for (int k = theShip.gety1(); k <= theShip.gety2(); k++){
                     BSLocation location = new BSLocation(); //create temporary location object
                     location.setSpot(2); //set location to ship
                     state.p2Board[j][k] = location; //store in p2Board
                 }
-            }
+            }*/
         }
 
         // draw ships
@@ -224,7 +224,13 @@ public class BSSurfaceView extends FlashSurfaceView {
         //if (state == null) {
            // return;
         //}
+
+        //cheat by prefilling board with some hits and misses
         state.p1Board[1][0].setSpot(4);
+        state.p1Board[4][6].setSpot(3);
+        state.p2Board[3][8].setSpot(3);
+        state.p2Board[5][5].setSpot(3);
+
         // for each square that has a hit or miss, draw it on the appropriate place on the canvas
         for (int row = 0; row < num_row; row++) {
             for (int col = 0; col < num_col; col++) {
@@ -241,7 +247,7 @@ public class BSSurfaceView extends FlashSurfaceView {
                 if (result2 == 3){ //if square is a hit
                     drawHit(canvas, row, (num_col + 1) + col);
                 }
-                if (result == 4){ //if square is a miss
+                if (result2 == 4){ //if square is a miss
                     drawMiss(canvas, row, (num_col + 1) + col);
                 }
             }

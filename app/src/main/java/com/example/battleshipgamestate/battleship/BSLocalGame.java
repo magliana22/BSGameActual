@@ -119,7 +119,7 @@ public class BSLocalGame extends LocalGame {
             return true;
         }
         else{
-            Logger.log("moveIsValid", "moveValid");
+            Logger.log("moveIsInvalid", "moveInvalid");
             //return false;
             return false;
         }
