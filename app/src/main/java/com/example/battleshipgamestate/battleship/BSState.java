@@ -34,9 +34,9 @@ public class BSState extends GameState {
         this.playerID = 0;
         this.p1TotalHits = 0;
         this.p2TotalHits = 0;
-        this.p1ShipsAlive = 10;
+        this.p1ShipsAlive = 0;
         this.p1ShipsSunk = 0;
-        this.p2ShipsAlive = 10;
+        this.p2ShipsAlive = 0;
         this.p2ShipsSunk = 0;
         this.phaseOfGame = "SetUp";
         this.p1Board = new BSLocation[10][10];
@@ -60,7 +60,8 @@ public class BSState extends GameState {
                 this.p2Board[row][col] = new BSLocation();
             }
         }
-
+        //don't use this when setup phase is working
+        updateShipLocations();
     }
 
 
@@ -95,6 +96,22 @@ public class BSState extends GameState {
 
     }
 
+    public void updateShipLocations(){
+        for (int i = 0; i < p1Ships.length; i++){
+            for (int x = p1Ships[i].getx1(); x <= p1Ships[i].getx2(); x++){
+                for (int y = p1Ships[i].gety1(); y <= p1Ships[i].gety2(); y++){
+                    p1Board[x][y].setSpot(2);
+                }
+            }
+        }
+        for (int i = 0; i < p2Ships.length; i++){
+            for (int x = p2Ships[i].getx1(); x <= p2Ships[i].getx2(); x++){
+                for (int y = p2Ships[i].gety1(); y <= p2Ships[i].gety2(); y++){
+                    p2Board[x][y].setSpot(2);
+                }
+            }
+        }
+    }
 
     // gets which players turn it is
     public int getPlayerID() {
@@ -135,7 +152,25 @@ public class BSState extends GameState {
 
     //changes coordinates of a player's board to store ship values of a given ship
     public boolean addShip(int playerNum, BSShip ship) {
-        //if (playerNum == this.getPlayerID()) {
+        //this does no checks to see if ships are in a valid location
+        Logger.log("addShip","adding a ship");
+        if(getPhaseOfGame() == "inPlay")
+        {
+            return false;
+        }
+        if (playerNum == 0){
+            p1Ships[p1ShipsAlive++] = ship;
+        } else{
+            p2Ships[p2ShipsAlive++] = ship;
+        }
+
+        if (p1ShipsAlive == 5 && p2ShipsAlive == 5){
+            updateShipLocations();
+            setPhaseOfGame(2);
+        }
+
+
+        /*
         for (int row = ship.gety1(); row < ship.gety2(); row++) {
             for (int col = ship.getx1(); row < ship.getx2(); col++) {
                 if (playerNum == 0) {
@@ -144,8 +179,8 @@ public class BSState extends GameState {
                     this.p2Board[row - 1][col - 1].setSpot(2);
                 }
             }
-        }
-        return false;
+        }*/
+        return true;
     }
 
     //checks value of a location object at a coordinate in a player's board
@@ -209,7 +244,9 @@ public class BSState extends GameState {
 
     //fire method checks value of a location object at a coordinate in an opponent's board, changes water to miss and ship to hit
     public boolean fire(int y, int x) {
-
+        if(getPhaseOfGame() == "setUp"){
+            return false;
+        }
         boolean valid=false;
 
         if (this.getPlayerID() == 1) {
@@ -218,7 +255,7 @@ public class BSState extends GameState {
             if (checkSpot(x, y, 0) == 3 || checkSpot(x, y, 0) == 4) {
                 this.p1Board[y][x] = temp;
                 Logger.log("Coordinate","spot is hit/miss");
-                valid=true;
+                valid=false;
             } else if (checkSpot(x, y, 0) == 2) {
                 this.p2TotalHits += 1;
                 temp.setSpot(3);
@@ -236,7 +273,7 @@ public class BSState extends GameState {
             if (checkSpot(x, y, 1) == 3 || checkSpot(x, y, 1) == 4) {
                 this.p2Board[y][x] = temp;
                 Logger.log("spot3","spot is hit/miss");
-                valid=true;
+                valid=false;
             } else if (checkSpot(x, y, 1) == 2) {
                 this.p1TotalHits += 1;
                 temp.setSpot(3);

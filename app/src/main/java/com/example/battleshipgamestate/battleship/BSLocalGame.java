@@ -107,23 +107,27 @@ public class BSLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
-        Logger.log("makeMove", "about to fire");
-       //get the row and column position of the player's move
-        BSMoveAction bsm = (BSMoveAction) action;
-        int row = bsm.getRow();
-        int col = bsm.getCol();
-        boolean okayMove=state.fire(row,col);
-        if(okayMove){
-            Logger.log("changeTurn","moveisValid");
-            state.changeTurn();
-            return true;
+        if (action instanceof BSMoveAction) {
+            Logger.log("makeMove", "about to fire");
+            //get the row and column position of the player's move
+            BSMoveAction bsm = (BSMoveAction) action;
+            int row = bsm.getRow();
+            int col = bsm.getCol();
+            boolean okayMove = state.fire(row, col);
+            if (okayMove) {
+                Logger.log("changeTurn", "moveisValid");
+                state.changeTurn();
+                return true;
+            } else {
+                Logger.log("moveIsInvalid", "moveInvalid");
+                //return false;
+                return false;
+            }
         }
-        else{
-            Logger.log("moveIsInvalid", "moveInvalid");
-            //return false;
-            return false;
+        else if (action instanceof BSAddShip){
+            BSAddShip bas = (BSAddShip) action;
+            return state.addShip(getPlayerIdx(bas.getPlayer()), bas.getShip());
         }
-
         /**
         // get the 0/1 id of target player (player who's board is being attacked)
         int playerId = state.getPlayerTarget();
@@ -149,6 +153,6 @@ public class BSLocalGame extends LocalGame {
         // return true, indicating the it was a legal move
         return true;*/
 
-
+        return false;
     }
 }

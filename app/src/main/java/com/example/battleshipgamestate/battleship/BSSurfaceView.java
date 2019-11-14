@@ -45,6 +45,8 @@ public class BSSurfaceView extends FlashSurfaceView {
     public float[] yBoard2start = new float[10];
     public float[] yBoard2end = new float[10];
 
+    private boolean cheatmode = true;
+
     //background image variables
     private SurfaceHolder holder;
     private Bitmap bmp;
@@ -184,8 +186,8 @@ public class BSSurfaceView extends FlashSurfaceView {
         RectF shipRectP2[]=new RectF[5];
         for (int i = 0; i < state.p2Ships.length; i++){
             BSShip theShip = state.p2Ships[i];
-            //shipRectP2[j] = new RectF(left_margin + (11*cell_width) + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
-                    //left_margin + (11 * cell_width) + (cell_width * (theShip.getx2()+1)), top_margin + (cell_height * (1+theShip.gety2())));
+            shipRectP2[i] = new RectF(left_margin + (11*cell_width) + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
+                    left_margin + (11 * cell_width) + (cell_width * (theShip.getx2()+1)), top_margin + (cell_height * (1+theShip.gety2())));
            /* for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
                 for (int k = theShip.gety1(); k <= theShip.gety2(); k++){
                     BSLocation location = new BSLocation(); //create temporary location object
@@ -202,12 +204,14 @@ public class BSSurfaceView extends FlashSurfaceView {
         canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
         canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
 
-        //canvas.drawBitmap(this.ship1, null, shipRectP2[0], null); //draw ship
-        //canvas.drawBitmap(this.ship2, null, shipRectP2[1], null); //draw ship
-        //canvas.drawBitmap(this.ship3, null, shipRectP2[2], null); //draw ship
-        //canvas.drawBitmap(this.ship4, null, shipRectP2[3], null); //draw ship
-        //canvas.drawBitmap(this.ship5, null, shipRectP2[4], null); //draw ship
+        if (cheatmode) {
 
+            canvas.drawBitmap(this.ship1, null, shipRectP2[0], null); //draw ship
+            canvas.drawBitmap(this.ship2, null, shipRectP2[1], null); //draw ship
+            canvas.drawBitmap(this.ship3, null, shipRectP2[2], null); //draw ship
+            canvas.drawBitmap(this.ship4, null, shipRectP2[3], null); //draw ship
+            canvas.drawBitmap(this.ship5, null, shipRectP2[4], null); //draw ship
+        }
         //draw hits
         //drawHit(canvas, 0, 1);
 
@@ -226,10 +230,10 @@ public class BSSurfaceView extends FlashSurfaceView {
         //}
 
         //cheat by prefilling board with some hits and misses
-        state.p1Board[1][0].setSpot(4);
-        state.p1Board[4][6].setSpot(3);
-        state.p2Board[3][8].setSpot(3);
-        state.p2Board[5][5].setSpot(3);
+        //state.p1Board[1][0].setSpot(4);
+        //state.p1Board[4][6].setSpot(3);
+        //state.p2Board[3][8].setSpot(3);
+        //state.p2Board[5][5].setSpot(3);
 
         // for each square that has a hit or miss, draw it on the appropriate place on the canvas
         for (int row = 0; row < num_row; row++) {
