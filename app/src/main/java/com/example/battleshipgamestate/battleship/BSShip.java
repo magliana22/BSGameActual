@@ -7,12 +7,21 @@ public class BSShip {
     private int yCoord2; //ending y coordinate for ship
     private int Owner; //playerId of owner
 
-    public BSShip(int xLocationStart, int xLocationEnd, int yLocationStart, int yLocationEnd, int idOfOwner, int shipSize) {
+    public BSShip(int xLocationStart, int xLocationEnd, int yLocationStart, int yLocationEnd, int idOfOwner) {
         this.xCoord1 = xLocationStart;
         this.yCoord1 = yLocationStart;
         this.xCoord2 = xLocationEnd;
         this.yCoord2 = yLocationEnd;
         this.Owner = idOfOwner;
+    }
+
+    public BSShip(BSShip original){
+        this.xCoord1 = original.xCoord1;
+        this.yCoord1 = original.yCoord1;
+        this.xCoord2 = original.xCoord2;
+        this.yCoord2 = original.yCoord2;
+        this.Owner = original.Owner;
+
     }
 
 

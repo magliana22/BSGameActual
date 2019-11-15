@@ -1,6 +1,7 @@
 package com.example.battleshipgamestate.battleship;
 
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameState;
+import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 import java.util.Random;
 
@@ -25,18 +26,33 @@ public class BSState extends GameState {
     public BSLocation[][] p1Board;
     public BSLocation[][] p2Board;
 
+    public BSShip[] p1Ships;
+    public BSShip[] p2Ships;
+
     //default constructor
     public BSState() {
         this.playerID = 0;
         this.p1TotalHits = 0;
         this.p2TotalHits = 0;
-        this.p1ShipsAlive = 10;
+        this.p1ShipsAlive = 0;
         this.p1ShipsSunk = 0;
-        this.p2ShipsAlive = 10;
+        this.p2ShipsAlive = 0;
         this.p2ShipsSunk = 0;
         this.phaseOfGame = "SetUp";
         this.p1Board = new BSLocation[10][10];
         this.p2Board = new BSLocation[10][10];
+        this.p1Ships = new BSShip[5];
+        this.p2Ships = new BSShip[5];
+        this.p1Ships[0] = new BSShip(0,1,0,0,0);
+        this.p1Ships[1] = new BSShip(3,4,1,1,0);
+        this.p1Ships[2] = new BSShip(1,3,2,2,0);
+        this.p1Ships[3] = new BSShip(5,8,3,3,0);
+        this.p1Ships[4] = new BSShip(4,8,4,4,0);
+        this.p2Ships[0] = new BSShip(0,1,0,0,1);
+        this.p2Ships[1] = new BSShip(3,4,1,1,1);
+        this.p2Ships[2] = new BSShip(1,3,2,2,1);
+        this.p2Ships[3] = new BSShip(5,8,3,3,1);
+        this.p2Ships[4] = new BSShip(4,8,5,5,1);
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
@@ -44,7 +60,8 @@ public class BSState extends GameState {
                 this.p2Board[row][col] = new BSLocation();
             }
         }
-
+        //don't use this when setup phase is working
+        updateShipLocations();
     }
 
 
@@ -60,25 +77,64 @@ public class BSState extends GameState {
         this.phaseOfGame = original.phaseOfGame;
         this.p1Board = new BSLocation[10][10];
         this.p2Board = new BSLocation[10][10];
+        this.p1Ships = new BSShip[5];
+        this.p2Ships = new BSShip[5];
+
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
-                this.p1Board[row][col] = original.p1Board[row][col];
-                this.p2Board[row][col] = original.p2Board[row][col];
+                this.p1Board[row][col] = new BSLocation(original.p1Board[row][col]);
+                this.p2Board[row][col] = new BSLocation(original.p2Board[row][col]);
             }
+        }
+
+        for (int i = 0; i < 5; i++){
+                this.p1Ships[i] = new BSShip(original.p1Ships[i]);
+                this.p2Ships[i] = new BSShip(original.p2Ships[i]);
         }
 
 
     }
 
+    public void updateShipLocations(){
+        for (int i = 0; i < p1Ships.length; i++){
+            for (int x = p1Ships[i].getx1(); x <= p1Ships[i].getx2(); x++){
+                for (int y = p1Ships[i].gety1(); y <= p1Ships[i].gety2(); y++){
+                    p1Board[x][y].setSpot(2);
+                }
+            }
+        }
+        for (int i = 0; i < p2Ships.length; i++){
+            for (int x = p2Ships[i].getx1(); x <= p2Ships[i].getx2(); x++){
+                for (int y = p2Ships[i].gety1(); y <= p2Ships[i].gety2(); y++){
+                    p2Board[x][y].setSpot(2);
+                }
+            }
+        }
+    }
 
     // gets which players turn it is
     public int getPlayerID() {
         return this.playerID;
     }
 
+    //changes phase of game to either setUp(1) or inPlay(2)
+    public void setPhaseOfGame(int phase){
+        if(phase==2){
+            this.phaseOfGame="inPlay";
+        }
+        else if(phase==1){
+            this.phaseOfGame="setUp";
+        }
+    }
+
+    //gets phase of game String from state
+    public String getPhaseOfGame(){
+        return this.phaseOfGame;
+    }
+
     //gets the player whose turn it is NOT
-    public int getPlayerTarget(){
+    public int getTargetPlayer(){
         int passivePlayer=3;
         if(this.playerID==0){
             passivePlayer= 1;
@@ -96,7 +152,25 @@ public class BSState extends GameState {
 
     //changes coordinates of a player's board to store ship values of a given ship
     public boolean addShip(int playerNum, BSShip ship) {
-        //if (playerNum == this.getPlayerID()) {
+        //this does no checks to see if ships are in a valid location
+        Logger.log("addShip","adding a ship");
+        if(getPhaseOfGame() == "inPlay")
+        {
+            return false;
+        }
+        if (playerNum == 0){
+            p1Ships[p1ShipsAlive++] = ship;
+        } else{
+            p2Ships[p2ShipsAlive++] = ship;
+        }
+
+        if (p1ShipsAlive == 5 && p2ShipsAlive == 5){
+            updateShipLocations();
+            setPhaseOfGame(2);
+        }
+
+
+        /*
         for (int row = ship.gety1(); row < ship.gety2(); row++) {
             for (int col = ship.getx1(); row < ship.getx2(); col++) {
                 if (playerNum == 0) {
@@ -105,13 +179,13 @@ public class BSState extends GameState {
                     this.p2Board[row - 1][col - 1].setSpot(2);
                 }
             }
-        }
-        return false;
+        }*/
+        return true;
     }
 
     //checks value of a location object at a coordinate in a player's board
     public int checkSpot(int x, int y, int playerNum) {
-        if (this.playerID == playerNum && playerNum == 0) {
+        if (playerNum == 0) {
             if (this.p1Board[y][x].isWater == true) {
                 return 1;
             } else if (this.p1Board[y][x].isShip == true) {
@@ -121,7 +195,7 @@ public class BSState extends GameState {
             } else if (this.p1Board[y][x].isMiss == true) {
                 return 4;
             }
-        } else if (this.playerID == playerNum && playerNum == 1) {
+        } else if (playerNum == 1) {
             if (this.p2Board[y][x].isWater == true) {
                 return 1;
             } else if (this.p2Board[y][x].isShip == true) {
@@ -136,6 +210,7 @@ public class BSState extends GameState {
 
     }
 
+    // changes the current players turn after a valid move
     public void changeTurn() {
         if (this.playerID == 0) {
             this.setPlayerID(1);
@@ -152,49 +227,10 @@ public class BSState extends GameState {
         int max4 = 7;
         int max5 = 6;
         Random rand = new Random(); //create new random object
-
-        // generate random values for starting x coords of ships
-        int patrolboatX = rand.nextInt(max - min + 1) + min;
-        int submarineX = rand.nextInt(max - min + 1) + min;
-        int cruiserX = rand.nextInt(max3 - min + 1) + min;
-        int destroyerX = rand.nextInt(max4 - min + 1) + min;
-        int carrierX = rand.nextInt(max5 - min + 1) + min;
-
-        int patrolboatXend = submarineX + 1;
-        int submarineXend = submarineX + 1;
-        int cruiserXend =  cruiserX + 2;
-        int destroyerXend = destroyerX + 3;
-        int carrierXend = carrierX + 4;
-
-        int patrolboatY = rand.nextInt(max - min + 1) + min;
-        int submarineY = rand.nextInt(max - min + 1) + min;
-        int cruiserY = rand.nextInt(max - min + 1) + min;
-        int destroyerY = rand.nextInt(max - min + 1) + min;
-        int carrierY =rand.nextInt(max - min + 1) + min;
-
-        int patrolboatYend = patrolboatY;
-        int submarineYend = submarineY;
-        int cruiserYend = cruiserY;
-        int destroyerYend = destroyerY;
-        int carrierYend = carrierY;
-
-                //if (this.playerID == playerNum) {
-        BSShip carrier = new BSShip(carrierX, carrierXend, carrierY, carrierYend, playerNum, 5);
-        BSShip destroyer = new BSShip(destroyerX, destroyerXend, destroyerY, destroyerYend, playerNum, 4);
-        BSShip cruiser = new BSShip(cruiserX, cruiserXend, cruiserY, cruiserYend, playerNum, 3);
-        BSShip submarine = new BSShip(submarineX, submarineXend, submarineY, submarineYend, playerNum, 2);
-        BSShip patrolboat = new BSShip(patrolboatX, patrolboatXend, patrolboatY, patrolboatYend, playerNum, 2);
-
-        this.addShip(playerNum, carrier);
-        this.addShip(playerNum, destroyer);
-        this.addShip(playerNum, cruiser);
-        this.addShip(playerNum, submarine);
-        this.addShip(playerNum, patrolboat);
-
         return true;
     }
 
-
+    // toString method leftover from GameState HW (for testing purposes)
     @Override
     public String toString() {
 
@@ -208,7 +244,9 @@ public class BSState extends GameState {
 
     //fire method checks value of a location object at a coordinate in an opponent's board, changes water to miss and ship to hit
     public boolean fire(int y, int x) {
-
+        if(getPhaseOfGame() == "setUp"){
+            return false;
+        }
         boolean valid=false;
 
         if (this.getPlayerID() == 1) {
@@ -216,30 +254,36 @@ public class BSState extends GameState {
 
             if (checkSpot(x, y, 0) == 3 || checkSpot(x, y, 0) == 4) {
                 this.p1Board[y][x] = temp;
+                Logger.log("Coordinate","spot is hit/miss");
                 valid=false;
             } else if (checkSpot(x, y, 0) == 2) {
                 this.p2TotalHits += 1;
                 temp.setSpot(3);
                 this.p1Board[y][x] = temp;
+                Logger.log("spot","spot is ship");
                 valid=true;
             } else if (checkSpot(x, y, 0) == 1) {
                 temp.setSpot(4);
                 this.p1Board[y][x] = temp;
+                Logger.log("spot2","spot is water");
                 valid=true;
             }
         } else if (this.getPlayerID() == 0) {
             BSLocation temp = this.p2Board[y][x];
             if (checkSpot(x, y, 1) == 3 || checkSpot(x, y, 1) == 4) {
                 this.p2Board[y][x] = temp;
+                Logger.log("spot3","spot is hit/miss");
                 valid=false;
             } else if (checkSpot(x, y, 1) == 2) {
                 this.p1TotalHits += 1;
                 temp.setSpot(3);
                 this.p2Board[y][x] = temp;
+                Logger.log("spot4","spot is ship");
                 valid=true;
             } else if (checkSpot(x, y, 1) == 1) {
                 temp.setSpot(4);
                 this.p2Board[y][x] = temp;
+                Logger.log("spot5","spot is water");
                 valid=true;
             }
         }
