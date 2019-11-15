@@ -336,7 +336,7 @@ public class BSSurfaceView extends FlashSurfaceView {
     public Point mapPixelToSquare(int x, int y) {
 
         for (int i = 0; i < num_row; i++) { //player taps on second board
-            for (int j = 0; j < num_col+11; j++) {
+            for (int j = 0; j < num_col + 11; j++) {
                 float left = left_margin + (j * cell_width); // use this value of left for first board
                 //float left = left_margin + (j * cell_width) + (11*cell_width); //left of cell (right board starts at col 11)
                 float right = left + cell_width; //right of cell is 1 cell_width away from left of cell
@@ -346,6 +346,9 @@ public class BSSurfaceView extends FlashSurfaceView {
                 if ((x > left) != (x > right) && (y > top) != (y > bottom)) {
                     if (j > num_col){
                         j -= 11;
+                    }
+                    if (j == 10){ //for empty column between boards, return null
+                        return null;
                     }
                     return new Point(i, j); //if point is in square, return point
                 }
