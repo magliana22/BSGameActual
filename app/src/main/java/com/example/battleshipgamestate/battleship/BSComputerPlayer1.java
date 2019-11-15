@@ -6,8 +6,9 @@ import com.example.battleshipgamestate.game.GameFramework.infoMessage.NotYourTur
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSComputerPlayer1 extends GameComputerPlayer{
+    
     // Tag for logging
-    private static final String TAG = "TTTComputerPlayer1";
+    private static final String TAG = "BSComputerPlayer1";
 
 
     /*
