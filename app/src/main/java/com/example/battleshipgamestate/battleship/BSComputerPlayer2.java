@@ -5,32 +5,35 @@ import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameInfo;
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.NotYourTurnInfo;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
-public class BSComputerPlayer1 extends GameComputerPlayer{
+public class BSComputerPlayer2 extends GameComputerPlayer {
+
     // Tag for logging
-    private static final String TAG = "TTTComputerPlayer1";
+    private static  final String TAG = "BSComputerPlayer2";
 
-
-    /*
-     * Constructor for the BSComputerPlayer1 class
-     */
-
-    public BSComputerPlayer1(String name){
-        // invoke superclass constructor
-        super(name);
-        // invoke superclass constructor
-    }
 
     /**
-     * Called when the player receives a game-state (or other info) from the
-     * game.
+     * constructor for a computer player
      *
-     * @param info
-     * 		the message from the game
+     * @param name
+     * 		the player's name
      */
+    public BSComputerPlayer2(String name){
+        super(name);
+    }
+
+
     @Override
     protected void receiveInfo(GameInfo info) {
+        //if (!(info instanceof BSState)) return;
+        //BSState myState = (BSState)info;
+
+        // if it's not our move, ignore it
+        //if (myState.getPlayerID() != this.playerNum) return;
+
+        //sleep(5);
+
         if (info instanceof NotYourTurnInfo) return;
-        Logger.log("BSComputer","My turn!");
+        Logger.log("BSComputer2","My turn!");
 
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());
@@ -43,5 +46,4 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         // Commented out b/c LocalGame incomplete
         game.sendAction(new BSMoveAction(this, xVal,yVal));
     }
-
 }
