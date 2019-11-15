@@ -43,6 +43,7 @@ public class BSState extends GameState {
         this.p2Board = new BSLocation[10][10];
         this.p1Ships = new BSShip[5];
         this.p2Ships = new BSShip[5];
+        //add ships for testing
         this.p1Ships[0] = new BSShip(0,1,0,0,0);
         this.p1Ships[1] = new BSShip(3,4,1,1,0);
         this.p1Ships[2] = new BSShip(1,3,2,2,0);
@@ -168,18 +169,6 @@ public class BSState extends GameState {
             updateShipLocations();
             setPhaseOfGame(2);
         }
-
-
-        /*
-        for (int row = ship.gety1(); row < ship.gety2(); row++) {
-            for (int col = ship.getx1(); row < ship.getx2(); col++) {
-                if (playerNum == 0) {
-                    this.p1Board[row - 1][col - 1].setSpot(2);
-                } else {
-                    this.p2Board[row - 1][col - 1].setSpot(2);
-                }
-            }
-        }*/
         return true;
     }
 
