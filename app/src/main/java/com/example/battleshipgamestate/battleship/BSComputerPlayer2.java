@@ -24,26 +24,14 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
 
     @Override
     protected void receiveInfo(GameInfo info) {
-        //if (!(info instanceof BSState)) return;
-        //BSState myState = (BSState)info;
+        if (!(info instanceof BSState)) return;
+        BSState myState = (BSState)info;
 
         // if it's not our move, ignore it
-        //if (myState.getPlayerID() != this.playerNum) return;
+        if (myState.getPlayerID() != this.playerNum) return;
 
-        //sleep(5);
-
-        if (info instanceof NotYourTurnInfo) return;
-        Logger.log("BSComputer2","My turn!");
-
-        int xVal = (int)(10*Math.random());
-        int yVal = (int)(10*Math.random());
+        sleep(5);
 
 
-        // delay for 2 seconds to mimic thinking
-        sleep(2);
-
-
-        // Commented out b/c LocalGame incomplete
-        game.sendAction(new BSMoveAction(this, xVal,yVal));
     }
 }

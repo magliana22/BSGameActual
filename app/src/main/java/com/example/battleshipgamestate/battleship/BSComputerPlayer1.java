@@ -40,7 +40,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         sleep(2);
 
 
-        // Commented out b/c LocalGame incomplete
+        // sends action
         game.sendAction(new BSMoveAction(this, xVal,yVal));
     }
 
