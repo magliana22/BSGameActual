@@ -145,7 +145,10 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             else{
                 //we are in setup phase
                 BSShip ship = new BSShip(0,1,0,0,0); //p1's ship 2 tiles wide
+                
+
                 BSAddShip action = new BSAddShip(this, ship);
+
                 Logger.log("onTouch", "Human player sending BSAS ...");
                 game.sendAction(action);
 
