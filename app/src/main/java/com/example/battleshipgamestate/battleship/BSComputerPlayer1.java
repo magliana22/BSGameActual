@@ -6,10 +6,6 @@ import com.example.battleshipgamestate.game.GameFramework.infoMessage.NotYourTur
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSComputerPlayer1 extends GameComputerPlayer{
-    
-    // Tag for logging
-    private static final String TAG = "BSComputerPlayer1";
-
 
     /*
      * Constructor for the BSComputerPlayer1 class
@@ -36,12 +32,43 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());
 
+        BSState state = new BSState();
+        state = (BSState) info; //get game info
+        if (state.getPhaseOfGame() != "inPlay"){
+            Logger.log("shipAction", "ai adding ship");
+            int shipSize = 0; //variable for size of ship
+                //xVal = (int) (10 * Math.random());
+                //yVal = (int) (10 * Math.random());
+                if (state.p2ShipsAlive == 0 || state.p2ShipsAlive == 1) {
+                    shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
+                } else if (state.p2ShipsAlive == 2) {
+                    shipSize = 2;
+                } else if (state.p2ShipsAlive == 3) {
+                    shipSize = 3;
+                } else if (state.p2ShipsAlive == 4) {
+                    shipSize = 4;
+                }
+                int xEnd = xVal + shipSize;
+                int yEnd = yVal;
 
-        // delay for 2 seconds to mimic thinking
-        sleep(2);
+                BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 1); //p2's (AI's ship)
+
+                if (xEnd > 9) { //bounds check right side of board, shift out-of-bounds ships to left
+                    xEnd -= shipSize;
+                    ship = new BSShip(xVal - shipSize, xEnd, yVal, yEnd, 1);
+                }
+                //this.p2Ships[x] = ship;
+                BSAddShip action = new BSAddShip(this, ship);
+                game.sendAction(action);
+        } else{
+            Logger.log("fire","ai sending fire");
+            sleep(2);
+            BSMoveAction action = new BSMoveAction(this, yVal, xVal);
+            game.sendAction(action);
+        }
 
 
-        // sends action
+        // Commented out b/c LocalGame incomplete
         game.sendAction(new BSMoveAction(this, xVal,yVal));
     }
 

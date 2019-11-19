@@ -49,6 +49,7 @@ public class BSState extends GameState {
         this.p1Ships[2] = new BSShip(1,3,2,2,0);
         this.p1Ships[3] = new BSShip(5,8,3,3,0);
         this.p1Ships[4] = new BSShip(4,8,4,4,0);
+
         this.p2Ships[0] = new BSShip(0,1,0,0,1);
         this.p2Ships[1] = new BSShip(3,4,1,1,1);
         this.p2Ships[2] = new BSShip(1,3,2,2,1);
@@ -62,7 +63,7 @@ public class BSState extends GameState {
             }
         }
         //don't use this when setup phase is working
-        updateShipLocations();
+        //updateShipLocations();
     }
 
 
@@ -93,7 +94,6 @@ public class BSState extends GameState {
                 this.p1Ships[i] = new BSShip(original.p1Ships[i]);
                 this.p2Ships[i] = new BSShip(original.p2Ships[i]);
         }
-
 
     }
 
@@ -159,14 +159,17 @@ public class BSState extends GameState {
         {
             return false;
         }
-        if (playerNum == 0){
+        if (playerNum == 0 && p1ShipsAlive < 5){
             p1Ships[p1ShipsAlive++] = ship;
-        } else{
+            updateShipLocations();
+        } else if (playerNum == 1 && p2ShipsAlive < 5){
             p2Ships[p2ShipsAlive++] = ship;
+            updateShipLocations();
         }
 
         if (p1ShipsAlive == 5 && p2ShipsAlive == 5){
             updateShipLocations();
+            Logger.log("changePhase","set phase to inPlay");
             setPhaseOfGame(2);
         }
         return true;
