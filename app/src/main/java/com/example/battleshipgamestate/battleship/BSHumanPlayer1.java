@@ -130,7 +130,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
      */
     public boolean onTouch(View v, MotionEvent event) {
         // ignore if not an "up" event
-        if (event.getAction() != MotionEvent.ACTION_UP) {
+        if (event.getAction() != MotionEvent.ACTION_UP) return true;
             // get the x and y coordinates of the touch-location;
             // convert them to square coordinates (where both
             // values are in the range 0..9)
@@ -187,7 +187,6 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
                 }
             }
-        }
         // register that we have handled the event
         Logger.log(TAG, "went to end of onTOuch");
         return true;
