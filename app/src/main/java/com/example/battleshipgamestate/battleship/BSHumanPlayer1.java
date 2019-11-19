@@ -66,9 +66,9 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             // if the move was out of turn or otherwise illegal, flash the screen
             surfaceView.flash(Color.RED, 50);
         }
-        else if (!(info instanceof BSState))
+        else if (!(info instanceof BSState)) {
             // if we do not have a BSState, ignore
-            return;
+        }
         else {
             surfaceView.setState((BSState)info);
             surfaceView.invalidate();
@@ -122,58 +122,58 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
      */
     public boolean onTouch(View v, MotionEvent event) {
         // ignore if not an "up" event
-        if (event.getAction() != MotionEvent.ACTION_UP) return true;
-        // get the x and y coordinates of the touch-location;
-        // convert them to square coordinates (where both
-        // values are in the range 0..9)
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        Point p = surfaceView.mapPixelToSquare(x, y);
+        if (event.getAction() != MotionEvent.ACTION_UP) {
+            // get the x and y coordinates of the touch-location;
+            // convert them to square coordinates (where both
+            // values are in the range 0..9)
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+            Point p = surfaceView.mapPixelToSquare(x, y);
 
-        // if the location did not map to a legal square, flash
-        // the screen; otherwise, create and send an action to
-        // the game
-        if (p == null) {
-            surfaceView.flash(Color.RED, 50);
-        } else {
-            if (surfaceView.state.getPhaseOfGame() == "inPlay") {
-                BSMoveAction action = new BSMoveAction(this, p.y, p.x);
-                Logger.log("onTouch", "Human player sending fireAction ...");
-                game.sendAction(action);
-                //surfaceView.invalidate();
-            }
-            else{
-                //we are in setup phase
-                int shipSize = 0; //variable for size of ship
-                // set size of ship depending on order placed (go from smallest to largest)
-                if (surfaceView.state.p1ShipsAlive == 0 || surfaceView.state.p1ShipsAlive == 1){
-                    shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
-                } else if (surfaceView.state.p1ShipsAlive == 2){
-                    shipSize = 2;
-                } else if (surfaceView.state.p1ShipsAlive == 3){
-                    shipSize = 3;
-                } else if (surfaceView.state.p1ShipsAlive == 4){
-                    shipSize = 4;
-                }
-                int xEnd = p.x + shipSize;
-                int yEnd = p.y;
-                BSShip ship = new BSShip(p.x,xEnd,p.y,yEnd,0); //p1's
+            // if the location did not map to a legal square, flash
+            // the screen; otherwise, create and send an action to
+            // the game
+            if (p == null) {
+                surfaceView.flash(Color.RED, 500);
+            } else {
+                if (surfaceView.state.getPhaseOfGame().equals("inPlay")) {
+                    BSMoveAction action = new BSMoveAction(this, p.y, p.x);
+                    Logger.log("onTouch", "Human player sending fireAction ...");
+                    game.sendAction(action);
+                    return true;
+                } else {
+                    //we are in setup phase
+                    int shipSize = 0; //variable for size of ship
+                    // set size of ship depending on order placed (go from smallest to largest)
+                    if (surfaceView.state.p1ShipsAlive == 0 || surfaceView.state.p1ShipsAlive == 1) {
+                        shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
+                    } else if (surfaceView.state.p1ShipsAlive == 2) {
+                        shipSize = 2;
+                    } else if (surfaceView.state.p1ShipsAlive == 3) {
+                        shipSize = 3;
+                    } else if (surfaceView.state.p1ShipsAlive == 4) {
+                        shipSize = 4;
+                    }
+                    int xEnd = p.x + shipSize;
+                    int yEnd = p.y;
+                    BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, 0); //p1's
 
-                if (p.x + shipSize > 9){ //bounds check right side of board, shift out-of-bounds ships to left
-                    xEnd -= shipSize;
-                    ship = new BSShip(p.x-shipSize, xEnd, p.y, yEnd, 0);
-                }
-                BSAddShip action = new BSAddShip(this, ship);
+                    if (p.x + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
+                        xEnd -= shipSize;
+                        ship = new BSShip(p.x - shipSize, xEnd, p.y, yEnd, 0);
+                    }
+                    BSAddShip action = new BSAddShip(this, ship);
 
-                //if (surfaceView.state.p1ShipsAlive == 5){
+                    //if (surfaceView.state.p1ShipsAlive == 5){
                     //surfaceView.state.setPhaseOfGame(2); //set to play after setup
-                //}
-                Logger.log("onTouch", "Human player sending addShipAction ...");
-                game.sendAction(action);
+                    //}
+                    Logger.log("onTouch", "Human player sending addShipAction ...");
+                    game.sendAction(action);
+                    return true;
 
+                }
             }
         }
-
         // register that we have handled the event
         return true;
 

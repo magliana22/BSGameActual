@@ -11,6 +11,7 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
     private static  final String TAG = "BSComputerPlayer2";
 
 
+
     /**
      * constructor for a computer player
      *
@@ -30,7 +31,7 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
         // if it's not our move, ignore it
         if (myState.getPlayerID() != this.playerNum) return;
 
-        sleep(5);
+        sleep(4);
 
 
     }
