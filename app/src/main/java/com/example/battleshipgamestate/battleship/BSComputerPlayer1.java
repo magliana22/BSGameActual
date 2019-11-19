@@ -27,7 +27,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
     @Override
     protected void receiveInfo(GameInfo info) {
         if (info instanceof NotYourTurnInfo) return;
-        Logger.log("BSComputer","My turn!");
+        Logger.log("BSComputer","CP turn now!");
 
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());
@@ -67,9 +67,6 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
             game.sendAction(action);
         }
 
-
-        // Commented out b/c LocalGame incomplete
-        game.sendAction(new BSMoveAction(this, xVal,yVal));
     }
 
 }

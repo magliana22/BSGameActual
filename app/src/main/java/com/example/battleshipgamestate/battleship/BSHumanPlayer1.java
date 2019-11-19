@@ -60,6 +60,8 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     @Override
     public void receiveInfo(GameInfo info) {
 
+
+
         if (surfaceView == null) return;
 
         if (info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo) {
@@ -69,8 +71,10 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         else if (!(info instanceof BSState)) {
             // if we do not have a BSState, ignore
         }
-        else {
-            surfaceView.setState((BSState)info);
+        else if(info instanceof BSState){
+            BSState currentState= new BSState((BSState) info);
+            Logger.log("state change","current state of surface has changed");
+            surfaceView.setState(currentState);
             surfaceView.invalidate();
             Logger.debugLog(TAG, "receiving");
         }
