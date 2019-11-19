@@ -101,14 +101,14 @@ public class BSState extends GameState {
         for (int i = 0; i < p1Ships.length; i++){
             for (int x = p1Ships[i].getx1(); x <= p1Ships[i].getx2(); x++){
                 for (int y = p1Ships[i].gety1(); y <= p1Ships[i].gety2(); y++){
-                    p1Board[x][y].setSpot(2);
+                    p1Board[y][x].setSpot(2);
                 }
             }
         }
         for (int i = 0; i < p2Ships.length; i++){
             for (int x = p2Ships[i].getx1(); x <= p2Ships[i].getx2(); x++){
                 for (int y = p2Ships[i].gety1(); y <= p2Ships[i].gety2(); y++){
-                    p2Board[x][y].setSpot(2);
+                    p2Board[y][x].setSpot(2);
                 }
             }
         }
