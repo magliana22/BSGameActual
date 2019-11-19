@@ -371,11 +371,32 @@ public class BSState extends GameState {
         return spot;
     }
     public boolean winCondition(){
-        if (p1TotalHits == 16){
+        boolean p1won = false;
+        boolean p2won = false;
+        int shipfound1 = 0;
+        int shipfound2 = 0;
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                int result = this.checkSpot(row, col, 0);
+                int result2 = this.checkSpot(row, col, 1);
+                // player1's board
+                if (result == 2){ //if square is a ship
+                    shipfound1++;
+                    //return false;
+                }
+                // player2's board
+                if (result2 == 2){ //if square is
+                    shipfound2++;
+                    //return false;
+                }
+
+            }
+        }
+        if (shipfound1 == 0){
             Logger.log("Win Condition", "Player 1 has WON!");
             return true;
         }
-        else if (p2TotalHits == 16){
+        else if (shipfound2 == 0){
             Logger.log("Win Condition", "Player 2 has WON!");
             return true;
         }
