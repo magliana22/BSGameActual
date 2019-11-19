@@ -67,7 +67,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             surfaceView.flash(Color.RED, 50);
         }
         else if (!(info instanceof BSState))
-            // if we do not have a TTTState, ignore
+            // if we do not have a BSState, ignore
             return;
         else {
             surfaceView.setState((BSState)info);
@@ -138,7 +138,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         } else {
             if (surfaceView.state.getPhaseOfGame() == "inPlay") {
                 BSMoveAction action = new BSMoveAction(this, p.y, p.x);
-                Logger.log("onTouch", "Human player sending BSMA ...");
+                Logger.log("onTouch", "Human player sending fireAction ...");
                 game.sendAction(action);
                 //surfaceView.invalidate();
             }
@@ -159,13 +159,16 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                 int yEnd = p.y;
                 BSShip ship = new BSShip(p.x,xEnd,p.y,yEnd,0); //p1's
 
-                if (p.x + shipSize > 9){ //bounds check right side of board
+                if (p.x + shipSize > 9){ //bounds check right side of board, shift out-of-bounds ships to left
                     xEnd -= shipSize;
                     ship = new BSShip(p.x-shipSize, xEnd, p.y, yEnd, 0);
                 }
                 BSAddShip action = new BSAddShip(this, ship);
 
-                Logger.log("onTouch", "Human player sending BSAS ...");
+                //if (surfaceView.state.p1ShipsAlive == 5){
+                    //surfaceView.state.setPhaseOfGame(2); //set to play after setup
+                //}
+                Logger.log("onTouch", "Human player sending addShipAction ...");
                 game.sendAction(action);
 
             }
