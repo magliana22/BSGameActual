@@ -136,21 +136,21 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         if (p == null) {
             surfaceView.flash(Color.RED, 50);
         } else {
-            if (surfaceView.state.getPhaseOfGame() == "inPlay") {
+            //if (surfaceView.state.getPhaseOfGame() == "inPlay") {
                 BSMoveAction action = new BSMoveAction(this, p.y, p.x);
                 Logger.log("onTouch", "Human player sending BSMA ...");
                 game.sendAction(action);
                 //surfaceView.invalidate();
             }
-            else{
+            //else{
                 //we are in setup phase
-                BSShip ship = new BSShip(0,1,0,0,0); //p1's ship 2 tiles wide
-                BSAddShip action = new BSAddShip(this, ship);
-                Logger.log("onTouch", "Human player sending BSAS ...");
-                game.sendAction(action);
+               // BSShip ship = new BSShip(0,1,0,0,0); //p1's ship 2 tiles wide
+               // BSAddShip action = new BSAddShip(this, ship);
+               // Logger.log("onTouch", "Human player sending BSAS ...");
+               // game.sendAction(action);
 
-            }
-        }
+          //  }
+       // }
 
         // register that we have handled the event
         return true;
