@@ -38,6 +38,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     // the ID for the layout to use
     private int layoutId;
 
+
     /**
      * constructor
      *
@@ -81,7 +82,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
      */
     public void setAsGui(GameMainActivity activity) {
 
-        // remember our activitiy
+        // remember our activity
         myActivity = activity;
 
         // Load the layout resource for the new configuration
@@ -89,7 +90,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
         // set the surfaceView instance variable
         surfaceView = (BSSurfaceView)myActivity.findViewById(R.id.surfaceView);
-        Logger.log("set listener","OnTouch");
+      //  Logger.log("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
     }
 
@@ -139,6 +140,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             //if (surfaceView.state.getPhaseOfGame() == "inPlay") {
                 BSMoveAction action = new BSMoveAction(this, p.y, p.x);
                 Logger.log("onTouch", "Human player sending BSMA ...");
+                surfaceView.state.winCondition();
                 game.sendAction(action);
                 //surfaceView.invalidate();
             }
@@ -156,6 +158,5 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         return true;
 
     }
-
 
 }

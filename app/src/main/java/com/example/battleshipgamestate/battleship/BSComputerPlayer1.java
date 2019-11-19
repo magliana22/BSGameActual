@@ -27,7 +27,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
     @Override
     protected void receiveInfo(GameInfo info) {
         if (info instanceof NotYourTurnInfo) return;
-        Logger.log("BSComputer","My turn!");
+      //  Logger.log("BSComputer","My turn!");
 
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());

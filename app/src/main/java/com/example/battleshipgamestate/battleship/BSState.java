@@ -22,7 +22,6 @@ public class BSState extends GameState {
     public String phaseOfGame;
 
 
-
     public BSLocation[][] p1Board;
     public BSLocation[][] p2Board;
 
@@ -312,5 +311,16 @@ public class BSState extends GameState {
                     break;
             }
         return spot;
+    }
+    public boolean winCondition(){
+        if (p1TotalHits == 16){
+            Logger.log("Win Condition", "Player 1 has WON!");
+
+
+        }
+        else if (p2TotalHits == 16){
+            Logger.log("Win Condition", "Player 2 has WON!");
+        }
+        return false;
     }
 }
