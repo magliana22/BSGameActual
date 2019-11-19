@@ -76,7 +76,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             Logger.log("state change","current state of surface has changed");
             surfaceView.setState(currentState);
             surfaceView.invalidate();
-            Logger.debugLog(TAG, "receiving");
+            Logger.debugLog(TAG, "surfaceView is redrawn");
         }
     }
 
