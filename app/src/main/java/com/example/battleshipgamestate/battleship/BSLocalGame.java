@@ -125,6 +125,7 @@ public class BSLocalGame extends LocalGame {
             }
         }
         else if (action instanceof BSAddShip){
+            Logger.log(TAG,"action is addShip");
             BSAddShip bas = (BSAddShip) action;
             return state.addShip(getPlayerIdx(bas.getPlayer()), bas.getShip());
         }

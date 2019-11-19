@@ -35,6 +35,9 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     // the surface view
     private BSSurfaceView surfaceView;
 
+    //trying to use a gameState in humanPlayer
+    private BSState playerState;
+
     // the ID for the layout to use
     private int layoutId;
 
@@ -75,6 +78,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             BSState currentState= new BSState((BSState) info);
             Logger.log("state change","current state of surface has changed");
             surfaceView.setState(currentState);
+            playerState=currentState;
             surfaceView.invalidate();
             Logger.debugLog(TAG, "surfaceView is redrawn");
         }
@@ -138,14 +142,17 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             // the screen; otherwise, create and send an action to
             // the game
             if (p == null) {
+                Logger.log(TAG,"point touched is null and invalid");
                 surfaceView.flash(Color.RED, 500);
+                return true;
             } else {
-                if (surfaceView.state.getPhaseOfGame().equals("inPlay")) {
+                if (playerState.getPhaseOfGame().equals("inPlay")) {
                     BSMoveAction action = new BSMoveAction(this, p.y, p.x);
                     Logger.log("onTouch", "Human player sending fireAction ...");
                     game.sendAction(action);
                     return true;
                 } else {
+                    Logger.log(TAG, "skipped past human passing the fire action");
                     //we are in setup phase
                     int shipSize = 0; //variable for size of ship
                     // set size of ship depending on order placed (go from smallest to largest)
@@ -168,9 +175,12 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                     }
                     BSAddShip action = new BSAddShip(this, ship);
 
-                    //if (surfaceView.state.p1ShipsAlive == 5){
-                    //surfaceView.state.setPhaseOfGame(2); //set to play after setup
-                    //}
+                    if (surfaceView.state.p1ShipsAlive == 5){
+                        Logger.log(TAG,"setting phase of game to inPlay for surfaceView and player states");
+                    surfaceView.state.setPhaseOfGame(2); //set to play after setup
+                        playerState.setPhaseOfGame(2);
+                        return true;
+                    }
                     Logger.log("onTouch", "Human player sending addShipAction ...");
                     game.sendAction(action);
                     return true;
@@ -179,6 +189,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             }
         }
         // register that we have handled the event
+        Logger.log(TAG, "went to end of onTOuch");
         return true;
 
     }
