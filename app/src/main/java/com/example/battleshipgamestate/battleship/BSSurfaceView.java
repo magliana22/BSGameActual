@@ -45,7 +45,7 @@ public class BSSurfaceView extends FlashSurfaceView {
     public float[] yBoard2start = new float[10];
     public float[] yBoard2end = new float[10];
 
-    private boolean cheatmode = true;
+    private boolean cheatmode = false; //if true, p2 ships will draw
 
     //background image variables
     private SurfaceHolder holder;
