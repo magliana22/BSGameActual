@@ -122,6 +122,7 @@ public class BSSurfaceView extends FlashSurfaceView {
 
     }
 
+
     protected BSState state; //local state variable
 
     /** setState method: sets the local state variable

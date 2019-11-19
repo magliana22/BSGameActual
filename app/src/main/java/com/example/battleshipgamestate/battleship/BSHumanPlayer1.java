@@ -187,9 +187,6 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
                 }
             }
-        // register that we have handled the event
-        Logger.log(TAG, "went to end of onTOuch");
-        return true;
 
     }
 
