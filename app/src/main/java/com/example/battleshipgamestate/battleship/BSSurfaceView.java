@@ -125,11 +125,11 @@ public class BSSurfaceView extends FlashSurfaceView {
     protected BSState state; //local state variable
 
     /** setState method: sets the local state variable
-     * @param state
+     * @param theState
      *              state to reference for setting local state
      */
-    public void setState(BSState state) {
-        this.state = state;
+    public void setState(BSState theState) {
+        state = theState;
     }
 
     /** public method onDraw will draw the GUI
@@ -138,29 +138,30 @@ public class BSSurfaceView extends FlashSurfaceView {
      */
     public void onDraw(Canvas canvas) {
 
-        if(state == null) {
+        if (state == null) {
             Logger.log("NullState", "state is null");
             return;
-        }
-        Logger.log("onDraw","about to draw");
-        width = getWidth(); //get width of canvas
-        height = getHeight(); //get height of canvas
-        left_margin = width/5; //space between left edge and start of 1st board
-        right_margin = width - (width/5); //space between right edge and end of 2nd board
-        top_margin = height/5; //space between top edge and top of boards
-        bottom_margin = height - (height/5); //space between bottom edge and bottom of boards
-        cell_width = width/35; //width of 1 cell
-        cell_height = height/17; //height of 1 cell
+        } else {
+            Logger.log("State is good", "state is not null");
+            Logger.log("onDraw", "about to draw");
+            width = getWidth(); //get width of canvas
+            height = getHeight(); //get height of canvas
+            left_margin = width / 5; //space between left edge and start of 1st board
+            right_margin = width - (width / 5); //space between right edge and end of 2nd board
+            top_margin = height / 5; //space between top edge and top of boards
+            bottom_margin = height - (height / 5); //space between bottom edge and bottom of boards
+            cell_width = width / 35; //width of 1 cell
+            cell_height = height / 17; //height of 1 cell
 
-        RectF newRect = new RectF(0,0,width,height); //rectangle for background
+            RectF newRect = new RectF(0, 0, width, height); //rectangle for background
 
-        canvas.drawBitmap(this.bmp, null, newRect, null); //draw background
+            canvas.drawBitmap(this.bmp, null, newRect, null); //draw background
 
-        //draw grid boards
-        drawBoard(canvas);
+            //draw grid boards
+            drawBoard(canvas);
 
-        //state.addAllShips(0);
-        //state.addAllShips(1);
+            //state.addAllShips(0);
+            //state.addAllShips(1);
 
        /* for (int i = 0; i < 10; i++){ //set locations loop
             for (int j = 0; j < 10; j++){
@@ -171,11 +172,11 @@ public class BSSurfaceView extends FlashSurfaceView {
             }
         }*/
 
-        RectF shipRectP1[]=new RectF[5]; //create array of ships for p1
-        for (int i = 0; i < state.p1Ships.length; i++){ //create ships for the array
-            BSShip theShip = state.p1Ships[i];
-            shipRectP1[i] = new RectF(left_margin + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
-                                        left_margin+(cell_width * (theShip.getx2()+1)), top_margin + (cell_height * (1+theShip.gety2())));
+            RectF[] shipRectP1 = new RectF[5]; //create array of ships for p1
+            for (int i = 0; i < state.p1Ships.length; i++) { //create ships for the array
+                BSShip theShip = state.p1Ships[i];
+                shipRectP1[i] = new RectF(left_margin + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
+                        left_margin + (cell_width * (theShip.getx2() + 1)), top_margin + (cell_height * (1 + theShip.gety2())));
             /*for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
                 for (int k = theShip.gety1(); k <= theShip.gety2(); k++){
                     BSLocation location = new BSLocation(); //create temporary location object
@@ -183,13 +184,13 @@ public class BSSurfaceView extends FlashSurfaceView {
                     state.p1Board[j][k] = location; //store in p1Board
                 }
             }*/
-        }
+            }
 
-        RectF shipRectP2[]=new RectF[5];
-        for (int i = 0; i < state.p2Ships.length; i++){
-            BSShip theShip = state.p2Ships[i];
-            shipRectP2[i] = new RectF(left_margin + (11*cell_width) + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
-                    left_margin + (11 * cell_width) + (cell_width * (theShip.getx2()+1)), top_margin + (cell_height * (1+theShip.gety2())));
+            RectF shipRectP2[] = new RectF[5];
+            for (int i = 0; i < state.p2Ships.length; i++) {
+                BSShip theShip = state.p2Ships[i];
+                shipRectP2[i] = new RectF(left_margin + (11 * cell_width) + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
+                        left_margin + (11 * cell_width) + (cell_width * (theShip.getx2() + 1)), top_margin + (cell_height * (1 + theShip.gety2())));
            /* for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
                 for (int k = theShip.gety1(); k <= theShip.gety2(); k++){
                     BSLocation location = new BSLocation(); //create temporary location object
@@ -197,59 +198,60 @@ public class BSSurfaceView extends FlashSurfaceView {
                     state.p2Board[j][k] = location; //store in p2Board
                 }
             }*/
-        }
+            }
 
-        // draw ships
-        canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
-        canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
-        canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
-        canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
-        canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
+            // draw ships
+            canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
+            canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
+            canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
+            canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
+            canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
 
-        if (cheatmode) {
+            if (cheatmode) {
 
-            canvas.drawBitmap(this.ship1, null, shipRectP2[0], null); //draw ship
-            canvas.drawBitmap(this.ship2, null, shipRectP2[1], null); //draw ship
-            canvas.drawBitmap(this.ship3, null, shipRectP2[2], null); //draw ship
-            canvas.drawBitmap(this.ship4, null, shipRectP2[3], null); //draw ship
-            canvas.drawBitmap(this.ship5, null, shipRectP2[4], null); //draw ship
-        }
-        //draw hits
-        //drawHit(canvas, 0, 1);
+                canvas.drawBitmap(this.ship1, null, shipRectP2[0], null); //draw ship
+                canvas.drawBitmap(this.ship2, null, shipRectP2[1], null); //draw ship
+                canvas.drawBitmap(this.ship3, null, shipRectP2[2], null); //draw ship
+                canvas.drawBitmap(this.ship4, null, shipRectP2[3], null); //draw ship
+                canvas.drawBitmap(this.ship5, null, shipRectP2[4], null); //draw ship
+            }
+            //draw hits
+            //drawHit(canvas, 0, 1);
 
-        //for (int j = 0; j < 10; j++){
-          //  for (int k = 0; k < 10; k++){
-             //   if(state.p1Board[j][k].isHit)
-                    //draw hit here
-           // }
-        //}
-        //draw misses
-        //drawMiss(canvas, 1, 4);
+            //for (int j = 0; j < 10; j++){
+            //  for (int k = 0; k < 10; k++){
+            //   if(state.p1Board[j][k].isHit)
+            //draw hit here
+            // }
+            //}
+            //draw misses
+            //drawMiss(canvas, 1, 4);
 
-        //if we don't have any state, there's nothing more to draw, so return
-        //if (state == null) {
-           // return;
-        //}
+            //if we don't have any state, there's nothing more to draw, so return
+            //if (state == null) {
+            // return;
+            //}
 
 
-        // for each square that has a hit or miss, draw it on the appropriate place on the canvas
-        for (int row = 0; row < num_row; row++) {
-            for (int col = 0; col < num_col; col++) {
-                int result = state.checkSpot(row, col, 0);
-                int result2 = state.checkSpot(row, col, 1);
-                // player1's board
-                if (result == 3){ //if square is a hit
-                    drawHit(canvas, row, col);
-                }
-                if (result == 4){ //if square is a miss
-                    drawMiss(canvas, row, col);
-                }
-                // player2's board
-                if (result2 == 3){ //if square is a hit
-                    drawHit(canvas, row, (num_col + 1) + col);
-                }
-                if (result2 == 4){ //if square is a miss
-                    drawMiss(canvas, row, (num_col + 1) + col);
+            // for each square that has a hit or miss, draw it on the appropriate place on the canvas
+            for (int row = 0; row < num_row; row++) {
+                for (int col = 0; col < num_col; col++) {
+                    int result = state.checkSpot(row, col, 0);
+                    int result2 = state.checkSpot(row, col, 1);
+                    // player1's board
+                    if (result == 3) { //if square is a hit
+                        drawHit(canvas, row, col);
+                    }
+                    if (result == 4) { //if square is a miss
+                        drawMiss(canvas, row, col);
+                    }
+                    // player2's board
+                    if (result2 == 3) { //if square is a hit
+                        drawHit(canvas, row, (num_col + 1) + col);
+                    }
+                    if (result2 == 4) { //if square is a miss
+                        drawMiss(canvas, row, (num_col + 1) + col);
+                    }
                 }
             }
         }
