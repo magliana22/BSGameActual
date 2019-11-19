@@ -129,7 +129,7 @@ public class BSSurfaceView extends FlashSurfaceView {
      *              state to reference for setting local state
      */
     public void setState(BSState theState) {
-        state = theState;
+        this.state = theState;
     }
 
     /** public method onDraw will draw the GUI
