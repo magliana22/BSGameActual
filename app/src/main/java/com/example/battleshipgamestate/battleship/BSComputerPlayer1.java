@@ -32,7 +32,6 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());
 
-
         // delay for 2 seconds to mimic thinking
         sleep(2);
 

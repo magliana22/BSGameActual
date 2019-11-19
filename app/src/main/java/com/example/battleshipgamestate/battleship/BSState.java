@@ -53,6 +53,64 @@ public class BSState extends GameState {
         this.p2Ships[3] = new BSShip(5,8,3,3,1);
         this.p2Ships[4] = new BSShip(4,8,5,5,1);
 
+        //randomly place player1 and player 2's ships
+
+        //RANDOMLY PLACE P1'S SHIPS
+        int shipSize = 0; //variable for size of ship
+        int shipNum = 0;
+        for (int i = 0; i < 5; i++) {
+            // set size of ship depending on order placed (go from smallest to largest)
+            int xVal = (int) (10 * Math.random());
+            int yVal = (int) (10 * Math.random());
+            if (shipNum == 0 || shipNum == 1) {
+                shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
+            } else if (shipNum == 2) {
+                shipSize = 2;
+            } else if (shipNum == 3) {
+                shipSize = 3;
+            } else if (shipNum == 4) {
+                shipSize = 4;
+            }
+            int xEnd = xVal + shipSize;
+            int yEnd = yVal;
+            BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 0); //p1's
+
+            if (xVal + shipSize > 9) { //bounds check right side of board
+                xEnd -= shipSize;
+                ship = new BSShip(xVal - shipSize, xEnd, yVal, yEnd, 0);
+            }
+            p1Ships[i] = ship;
+            shipNum++;
+        }
+
+        // RANDOMLY PLACE P2'S SHIPS
+        int shipSize2 = 0; //variable for size of ship
+        int shipNum2 = 0;
+        for (int i = 0; i < 5; i++) {
+            // set size of ship depending on order placed (go from smallest to largest)
+            int xVal = (int) (10 * Math.random());
+            int yVal = (int) (10 * Math.random());
+            if (shipNum2 == 0 || shipNum2 == 1) {
+                shipSize2 = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
+            } else if (shipNum2 == 2) {
+                shipSize2 = 2;
+            } else if (shipNum2 == 3) {
+                shipSize2 = 3;
+            } else if (shipNum2 == 4) {
+                shipSize2 = 4;
+            }
+            int xEnd = xVal + shipSize2;
+            int yEnd = yVal;
+            BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 1); //p1's
+
+            if (xVal + shipSize2 > 9) { //bounds check right side of board
+                xEnd -= shipSize2;
+                ship = new BSShip(xVal - shipSize2, xEnd, yVal, yEnd, 1);
+            }
+            p2Ships[i] = ship;
+            shipNum2++;
+        }
+
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 this.p1Board[row][col] = new BSLocation();
@@ -315,11 +373,11 @@ public class BSState extends GameState {
     public boolean winCondition(){
         if (p1TotalHits == 16){
             Logger.log("Win Condition", "Player 1 has WON!");
-
-
+            return true;
         }
         else if (p2TotalHits == 16){
             Logger.log("Win Condition", "Player 2 has WON!");
+            return true;
         }
         return false;
     }

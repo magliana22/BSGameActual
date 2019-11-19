@@ -204,6 +204,10 @@ public class BSSurfaceView extends FlashSurfaceView {
         canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
         canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
 
+        if (state.winCondition()){
+            cheatmode = true; //if game won, show all ships
+        }
+
         if (cheatmode) {
 
             canvas.drawBitmap(this.ship1, null, shipRectP2[0], null); //draw ship
