@@ -138,8 +138,10 @@ public class BSSurfaceView extends FlashSurfaceView {
      */
     public void onDraw(Canvas canvas) {
 
-        if(state == null)
+        if(state == null) {
+            Logger.log("NullState", "state is null");
             return;
+        }
         Logger.log("onDraw","about to draw");
         width = getWidth(); //get width of canvas
         height = getHeight(); //get height of canvas
@@ -229,11 +231,6 @@ public class BSSurfaceView extends FlashSurfaceView {
            // return;
         //}
 
-        //cheat by prefilling board with some hits and misses
-        //state.p1Board[1][0].setSpot(4);
-        //state.p1Board[4][6].setSpot(3);
-        //state.p2Board[3][8].setSpot(3);
-        //state.p2Board[5][5].setSpot(3);
 
         // for each square that has a hit or miss, draw it on the appropriate place on the canvas
         for (int row = 0; row < num_row; row++) {
