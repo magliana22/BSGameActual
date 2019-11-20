@@ -108,18 +108,18 @@ public class BSLocalGame extends LocalGame {
     protected boolean makeMove(GameAction action) {
 
         if (action instanceof BSMoveAction) {
-            Logger.log("makeMove", "about to fire");
+          //  Logger.log("makeMove", "about to fire");
             //get the row and column position of the player's move
             BSMoveAction bsm = (BSMoveAction) action;
             int row = bsm.getRow();
             int col = bsm.getCol();
             boolean okayMove = state.fire(row, col);
             if (okayMove) {
-                Logger.log("changeTurn", "moveisValid");
+              //  Logger.log("changeTurn", "moveisValid");
                 state.changeTurn();
                 return true;
             } else {
-                Logger.log("moveIsInvalid", "moveInvalid");
+               // Logger.log("moveIsInvalid", "moveInvalid");
                 //return false;
                 return false;
             }

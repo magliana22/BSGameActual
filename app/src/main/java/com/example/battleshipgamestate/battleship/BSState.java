@@ -22,7 +22,6 @@ public class BSState extends GameState {
     public String phaseOfGame;
 
 
-
     public BSLocation[][] p1Board;
     public BSLocation[][] p2Board;
 
@@ -43,18 +42,74 @@ public class BSState extends GameState {
         this.p2Board = new BSLocation[10][10];
         this.p1Ships = new BSShip[5];
         this.p2Ships = new BSShip[5];
-        //add ships for testing
         this.p1Ships[0] = new BSShip(0,1,0,0,0);
         this.p1Ships[1] = new BSShip(3,4,1,1,0);
         this.p1Ships[2] = new BSShip(1,3,2,2,0);
         this.p1Ships[3] = new BSShip(5,8,3,3,0);
         this.p1Ships[4] = new BSShip(4,8,4,4,0);
-
         this.p2Ships[0] = new BSShip(0,1,0,0,1);
         this.p2Ships[1] = new BSShip(3,4,1,1,1);
         this.p2Ships[2] = new BSShip(1,3,2,2,1);
         this.p2Ships[3] = new BSShip(5,8,3,3,1);
         this.p2Ships[4] = new BSShip(4,8,5,5,1);
+
+        //randomly place player1 and player 2's ships
+
+        //RANDOMLY PLACE P1'S SHIPS
+        int shipSize = 0; //variable for size of ship
+        int shipNum = 0;
+        for (int i = 0; i < 5; i++) {
+            // set size of ship depending on order placed (go from smallest to largest)
+            int xVal = (int) (10 * Math.random());
+            int yVal = (int) (10 * Math.random());
+            if (shipNum == 0 || shipNum == 1) {
+                shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
+            } else if (shipNum == 2) {
+                shipSize = 2;
+            } else if (shipNum == 3) {
+                shipSize = 3;
+            } else if (shipNum == 4) {
+                shipSize = 4;
+            }
+            int xEnd = xVal + shipSize;
+            int yEnd = yVal;
+            BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 0); //p1's
+
+            if (xVal + shipSize > 9) { //bounds check right side of board
+                xEnd -= shipSize;
+                ship = new BSShip(xVal - shipSize, xEnd, yVal, yEnd, 0);
+            }
+            p1Ships[i] = ship;
+            shipNum++;
+        }
+
+        // RANDOMLY PLACE P2'S SHIPS
+        int shipSize2 = 0; //variable for size of ship
+        int shipNum2 = 0;
+        for (int i = 0; i < 5; i++) {
+            // set size of ship depending on order placed (go from smallest to largest)
+            int xVal = (int) (10 * Math.random());
+            int yVal = (int) (10 * Math.random());
+            if (shipNum2 == 0 || shipNum2 == 1) {
+                shipSize2 = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
+            } else if (shipNum2 == 2) {
+                shipSize2 = 2;
+            } else if (shipNum2 == 3) {
+                shipSize2 = 3;
+            } else if (shipNum2 == 4) {
+                shipSize2 = 4;
+            }
+            int xEnd = xVal + shipSize2;
+            int yEnd = yVal;
+            BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 1); //p1's
+
+            if (xVal + shipSize2 > 9) { //bounds check right side of board
+                xEnd -= shipSize2;
+                ship = new BSShip(xVal - shipSize2, xEnd, yVal, yEnd, 1);
+            }
+            p2Ships[i] = ship;
+            shipNum2++;
+        }
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
@@ -63,7 +118,7 @@ public class BSState extends GameState {
             }
         }
         //don't use this when setup phase is working
-        //updateShipLocations();
+        updateShipLocations();
     }
 
 
@@ -95,20 +150,21 @@ public class BSState extends GameState {
                 this.p2Ships[i] = new BSShip(original.p2Ships[i]);
         }
 
+
     }
 
     public void updateShipLocations(){
         for (int i = 0; i < p1Ships.length; i++){
             for (int x = p1Ships[i].getx1(); x <= p1Ships[i].getx2(); x++){
                 for (int y = p1Ships[i].gety1(); y <= p1Ships[i].gety2(); y++){
-                    p1Board[y][x].setSpot(2);
+                    p1Board[x][y].setSpot(2);
                 }
             }
         }
         for (int i = 0; i < p2Ships.length; i++){
             for (int x = p2Ships[i].getx1(); x <= p2Ships[i].getx2(); x++){
                 for (int y = p2Ships[i].gety1(); y <= p2Ships[i].gety2(); y++){
-                    p2Board[y][x].setSpot(2);
+                    p2Board[x][y].setSpot(2);
                 }
             }
         }
@@ -159,19 +215,28 @@ public class BSState extends GameState {
         {
             return false;
         }
-        if (playerNum == 0 && p1ShipsAlive < 5){
+        if (playerNum == 0){
             p1Ships[p1ShipsAlive++] = ship;
-            updateShipLocations();
-        } else if (playerNum == 1 && p2ShipsAlive < 5){
+        } else{
             p2Ships[p2ShipsAlive++] = ship;
-            updateShipLocations();
         }
 
         if (p1ShipsAlive == 5 && p2ShipsAlive == 5){
             updateShipLocations();
-            Logger.log("changePhase","set phase to inPlay");
             setPhaseOfGame(2);
         }
+
+
+        /*
+        for (int row = ship.gety1(); row < ship.gety2(); row++) {
+            for (int col = ship.getx1(); row < ship.getx2(); col++) {
+                if (playerNum == 0) {
+                    this.p1Board[row - 1][col - 1].setSpot(2);
+                } else {
+                    this.p2Board[row - 1][col - 1].setSpot(2);
+                }
+            }
+        }*/
         return true;
     }
 
@@ -305,6 +370,36 @@ public class BSState extends GameState {
             }
         return spot;
     }
+    public boolean winCondition(){
+        boolean p1won = false;
+        boolean p2won = false;
+        int shipfound1 = 0;
+        int shipfound2 = 0;
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                int result = this.checkSpot(row, col, 0);
+                int result2 = this.checkSpot(row, col, 1);
+                // player1's board
+                if (result == 2){ //if square is a ship
+                    shipfound1++;
+                    //return false;
+                }
+                // player2's board
+                if (result2 == 2){ //if square is
+                    shipfound2++;
+                    //return false;
+                }
 
-
+            }
+        }
+        if (shipfound1 == 0){
+            Logger.log("Win Condition", "Player 1 has WON!");
+            return true;
+        }
+        else if (shipfound2 == 0){
+            Logger.log("Win Condition", "Player 2 has WON!");
+            return true;
+        }
+        return false;
+    }
 }
