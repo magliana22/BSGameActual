@@ -62,9 +62,9 @@ public class BSState extends GameState {
             // set size of ship depending on order placed (go from smallest to largest)
             int xVal = (int) (10 * Math.random());
             int yVal = (int) (10 * Math.random());
-            if (shipNum == 0 || shipNum == 1) {
+            if (shipNum == 0) {
                 shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
-            } else if (shipNum == 2) {
+            } else if (shipNum == 1 || shipNum == 2) {
                 shipSize = 2;
             } else if (shipNum == 3) {
                 shipSize = 3;
@@ -90,9 +90,9 @@ public class BSState extends GameState {
             // set size of ship depending on order placed (go from smallest to largest)
             int xVal = (int) (10 * Math.random());
             int yVal = (int) (10 * Math.random());
-            if (shipNum2 == 0 || shipNum2 == 1) {
+            if (shipNum2 == 0) {
                 shipSize2 = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
-            } else if (shipNum2 == 2) {
+            } else if (shipNum2 == 1 || shipNum2 == 2) {
                 shipSize2 = 2;
             } else if (shipNum2 == 3) {
                 shipSize2 = 3;
