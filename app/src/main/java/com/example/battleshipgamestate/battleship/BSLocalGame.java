@@ -50,18 +50,42 @@ public class BSLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
+        int shipfound1 = 0;
+        int shipfound2 = 0;
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                int result = state.checkSpot(row, col, 0);
+                int result2 = state.checkSpot(row, col, 1);
+                // player1's board
+                if (result == 2){ //if square is a ship
+                    shipfound1++;
+                }
+                // player2's board
+                if (result2 == 2){ //if square is
+                    shipfound2++;
+                }
 
-
-
-        if(state.p1TotalHits==17){
+            }
+        }
+        if (shipfound1 == 0){
+            Logger.log("Win Condition", "Player 1 has WON!");
             return playerNames[0]+" is the winner.";
         }
-        else if(state.p2TotalHits==17){
+        else if (shipfound2 == 0){
+            Logger.log("Win Condition", "Player 2 has WON!");
             return playerNames[1]+" is the winner.";
         }
-        else{
-            return null;
-        }
+        return null;
+
+        //if(state.p1TotalHits==17){
+          //  return playerNames[0]+" is the winner.";
+        //}
+        //else if(state.p2TotalHits==17){
+          //  return playerNames[1]+" is the winner.";
+        //}
+        //else{
+          //  return null;
+        //}
 
     }
 
