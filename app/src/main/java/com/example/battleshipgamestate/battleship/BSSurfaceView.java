@@ -81,7 +81,7 @@ public class BSSurfaceView extends FlashSurfaceView {
 
         hitPaint.setStrokeWidth(7); //set hit X thickness
 
-        missPaint.setColor(Color.rgb(224, 224, 224)); //set miss color to shade of white
+        missPaint.setColor(Color.argb(125,224, 224, 224)); //set miss color to shade of white
 
         /**
          External Citation
