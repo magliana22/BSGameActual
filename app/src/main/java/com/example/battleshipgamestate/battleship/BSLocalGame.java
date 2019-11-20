@@ -67,13 +67,13 @@ public class BSLocalGame extends LocalGame {
 
             }
         }
-        if (shipfound2 == 0){
+        if (shipfound1 == 0){
             Logger.log("Win Condition", "Player 1 has WON!");
-            return playerNames[0]+" is the winner.";
-        }
-        else if (shipfound1 == 0){
-            Logger.log("Win Condition", "Player 2 has WON!");
             return playerNames[1]+" is the winner.";
+        }
+        else if (shipfound2 == 0){
+            Logger.log("Win Condition", "Player 2 has WON!");
+            return playerNames[0]+" is the winner.";
         }
         return null;
 
