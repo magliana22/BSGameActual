@@ -116,8 +116,8 @@ public class BSSurfaceView extends FlashSurfaceView {
 
         this.ship1 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship1); //2 tile sized ship
         this.ship2 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship2); //2 tile sized ship
-        this.ship3 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship5); //cruiser (3 tiles)
-        this.ship4 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship4); //destroyer (4 tiles)
+        this.ship3 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship4); //cruiser (3 tiles)
+        this.ship4 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship5); //destroyer (4 tiles)
         this.ship5 = BitmapFactory.decodeResource(getResources(), R.drawable.battleship3); //carrier (5 tiles)
 
     }
