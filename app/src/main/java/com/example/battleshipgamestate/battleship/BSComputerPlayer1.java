@@ -33,10 +33,9 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         int yVal = (int)(10*Math.random());
 
         // delay for 2 seconds to mimic thinking
-        sleep(2);
+        sleep(0.5);
 
 
-        // Commented out b/c LocalGame incomplete
         game.sendAction(new BSMoveAction(this, xVal,yVal));
     }
 
