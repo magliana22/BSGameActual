@@ -62,8 +62,36 @@ public class BSState extends GameState {
                 this.p2Board[row][col] = new BSLocation();
             }
         }
+
+        // RANDOMLY PLACE P2'S SHIPS
+        int shipSize2 = 0; //variable for size of ship
+        int shipNum2 = 0;
+        for (int i = 0; i < 5; i++) {
+            // set size of ship depending on order placed (go from smallest to largest)
+            int xVal = (int) (10 * Math.random());
+            int yVal = (int) (10 * Math.random());
+            if (shipNum2 == 0) {
+                shipSize2 = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
+            } else if (shipNum2 == 1 || shipNum2 == 2) {
+                shipSize2 = 2;
+            } else if (shipNum2 == 3) {
+                shipSize2 = 3;
+            } else if (shipNum2 == 4) {
+                shipSize2 = 4;
+            }
+            int xEnd = xVal + shipSize2;
+            int yEnd = yVal;
+            BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 1); //p1's
+
+            if (xVal + shipSize2 > 9) { //bounds check right side of board
+                xEnd -= shipSize2;
+                ship = new BSShip(xVal - shipSize2, xEnd, yVal, yEnd, 1);
+            }
+            p2Ships[i] = ship;
+            shipNum2++;
+        }
         //don't use this when setup phase is working
-        //updateShipLocations();
+        updateShipLocations();
     }
 
 

@@ -39,9 +39,9 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
             int shipSize = 0; //variable for size of ship
                 //xVal = (int) (10 * Math.random());
                 //yVal = (int) (10 * Math.random());
-                if (state.p2ShipsAlive == 0 || state.p2ShipsAlive == 1) {
+                if (state.p2ShipsAlive == 0) {
                     shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
-                } else if (state.p2ShipsAlive == 2) {
+                } else if (state.p2ShipsAlive == 1 || state.p2ShipsAlive == 2) {
                     shipSize = 2;
                 } else if (state.p2ShipsAlive == 3) {
                     shipSize = 3;

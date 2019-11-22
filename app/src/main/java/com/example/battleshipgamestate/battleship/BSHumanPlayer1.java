@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 /**
  * class GameHumanPlayer
@@ -26,7 +27,7 @@ import android.view.View;
  * @version July 2013
  *
  */
-public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListener {
+public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener {
     //Tag for logging
     private static final String TAG = "BSHumanPlayer1";
     // the current activity
@@ -37,6 +38,9 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
     // the ID for the layout to use
     private int layoutId;
+
+    //buttons
+    private Button myButton;
 
     /**
      * constructor
@@ -95,6 +99,10 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         surfaceView = (BSSurfaceView)myActivity.findViewById(R.id.surfaceView);
         Logger.log("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
+
+        myButton = (Button)myActivity.findViewById(R.id.play_button);
+        myButton.setOnClickListener(this);
+
     }
 
     /**
@@ -183,5 +191,9 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     }
 
 
-
+    @Override
+    public void onClick(View v) {
+        Logger.log("play", "setting phase to play");
+        surfaceView.state.setPhaseOfGame(2); //set to play phase when button is pressed.
+    }
 }

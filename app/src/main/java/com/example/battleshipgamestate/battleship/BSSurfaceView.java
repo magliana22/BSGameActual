@@ -334,8 +334,8 @@ public class BSSurfaceView extends FlashSurfaceView {
      */
     public Point mapPixelToSquare(int x, int y) {
 
-        for (int i = 0; i < num_col + 11; i++) {
-            for (int j = 0; j < num_row; j++) {
+        for (int i = 0; i < num_row; i++) {
+            for (int j = 0; j < num_col + 11; j++) {
                 float left = left_margin + (j * cell_width); // use this value of left for first board
                 //float left = left_margin + (j * cell_width) + (11*cell_width); //left of cell (right board starts at col 11)
                 float right = left + cell_width; //right of cell is 1 cell_width away from left of cell
@@ -346,18 +346,21 @@ public class BSSurfaceView extends FlashSurfaceView {
                     //if (j > num_col){
                         //j -= 11;
                     //}
-                    if (state.getPhaseOfGame() == "setUp" && i > 10){
+                    if (state.getPhaseOfGame() == "setUp" && j > 10){
                         return null; //don't allow tapping right board during setup
-                    } else if (state.getPhaseOfGame() == "inPlay" && i < 10){
+                    }
+                    if (state.getPhaseOfGame() == "inPlay" && j < 10){
+                        Logger.log("inPlay", "tap returned null during inPlay");
                         return null; //don't allow tapping left board during game play
                     }
                     if (i == 10){ //for empty column between boards, return null
                         return null;
                     }
-                    return new Point(j, i); //if point is in square, return point
+                    return new Point(i,j); //if point is in square, return point
                 }
             }
         }
         return null; //if not on board, return null
     }
+
 }
