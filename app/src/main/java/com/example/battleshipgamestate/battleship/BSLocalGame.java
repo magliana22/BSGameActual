@@ -25,6 +25,8 @@ public class BSLocalGame extends LocalGame {
     private static final String TAG = "BSLocalGame";
     // the game's state
     protected BSState state;
+    private boolean p1Ready;
+    private boolean p2Ready;
 
 
 
@@ -38,6 +40,8 @@ public class BSLocalGame extends LocalGame {
 
         // create a new, unfilled-in BSState object
         state = new BSState();
+        p1Ready=false;
+        p2Ready=false;
     }
 
     /**
@@ -131,7 +135,7 @@ public class BSLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
-        if (action instanceof BSFire) {
+        if (action instanceof BSFire && this.checkGamePhase()==2) {
           //  Logger.log("makeMove", "about to fire");
             //get the row and column position of the player's move
             BSFire bsm = (BSFire) action;
@@ -148,7 +152,7 @@ public class BSLocalGame extends LocalGame {
                 return false;
             }
         }
-        else if (action instanceof BSAddShip){
+        else if (action instanceof BSAddShip && this.checkGamePhase()==1){
             Logger.log(TAG,"action is addShip");
             BSAddShip bas = (BSAddShip) action;
             return state.addShip(getPlayerIdx(bas.getPlayer()), bas.getShip());
@@ -179,5 +183,15 @@ public class BSLocalGame extends LocalGame {
         return true;*/
 
         return false;
+    }
+
+    public int checkGamePhase(){
+        if(state.phaseOfGame.equals("Setup")){
+            return 1;
+        }
+        else if(state.phaseOfGame.equals("inPlay")){
+            return 2;
+        }
+        return 0;
     }
 }
