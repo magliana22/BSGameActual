@@ -3,7 +3,6 @@ package com.example.battleshipgamestate.battleship;
 import com.example.battleshipgamestate.game.GameFramework.GameComputerPlayer;
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameInfo;
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.NotYourTurnInfo;
-import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSComputerPlayer1 extends GameComputerPlayer{
 
@@ -36,7 +35,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         //sleep(0.5);
 
 
-        game.sendAction(new BSMoveAction(this, xVal,yVal));
+        game.sendAction(new BSFire(this, xVal,yVal));
     }
 
 }

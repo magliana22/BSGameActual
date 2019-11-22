@@ -138,7 +138,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             surfaceView.flash(Color.RED, 50);
         } else {
             //if (surfaceView.state.getPhaseOfGame() == "inPlay") {
-                BSMoveAction action = new BSMoveAction(this, p.y, p.x);
+                BSFire action = new BSFire(this, p.y, p.x);
                 Logger.log("onTouch", "Human player sending BSMA ...");
                 surfaceView.state.winCondition();
                 game.sendAction(action);

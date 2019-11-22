@@ -1,23 +1,8 @@
 package com.example.battleshipgamestate.battleship;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-
 import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 import com.example.battleshipgamestate.game.GameFramework.LocalGame;
-import com.example.battleshipgamestate.game.GameFramework.actionMessage.EndTurnAction;
 import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameAction;
-import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameOverAckAction;
-import com.example.battleshipgamestate.game.GameFramework.actionMessage.MyNameIsAction;
-import com.example.battleshipgamestate.game.GameFramework.actionMessage.ReadyAction;
-import com.example.battleshipgamestate.game.GameFramework.actionMessage.TimerAction;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.BindGameInfo;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameOverInfo;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.IllegalMoveInfo;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.NotYourTurnInfo;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.StartGameInfo;
-import com.example.battleshipgamestate.game.GameFramework.utilities.GameTimer;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSLocalGame extends LocalGame {
@@ -135,10 +120,10 @@ public class BSLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
-        if (action instanceof BSMoveAction && this.checkGamePhase()==2) {
+        if (action instanceof BSFire && this.checkGamePhase()==2) {
           //  Logger.log("makeMove", "about to fire");
             //get the row and column position of the player's move
-            BSMoveAction bsm = (BSMoveAction) action;
+            BSFire bsm = (BSFire) action;
             int row = bsm.getRow();
             int col = bsm.getCol();
             boolean okayMove = state.fire(row, col);
