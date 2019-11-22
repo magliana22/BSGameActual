@@ -27,10 +27,16 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/menu_button"
+                android:id="@+id/p1_ready_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Menu" />
+                android:text="P1 Ready" />
+
+            <Button
+                android:id="@+id/p2_ready_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="P2 Ready" />
 
         </LinearLayout>
 
