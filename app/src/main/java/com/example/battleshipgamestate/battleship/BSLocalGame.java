@@ -131,10 +131,10 @@ public class BSLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
-        if (action instanceof BSMoveAction) {
+        if (action instanceof BSFire) {
           //  Logger.log("makeMove", "about to fire");
             //get the row and column position of the player's move
-            BSMoveAction bsm = (BSMoveAction) action;
+            BSFire bsm = (BSFire) action;
             int row = bsm.getRow();
             int col = bsm.getCol();
             boolean okayMove = state.fire(row, col);

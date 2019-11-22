@@ -3,7 +3,7 @@ package com.example.battleshipgamestate.battleship;
 import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameAction;
 
-public class BSMoveAction extends GameAction {
+public class BSFire extends GameAction {
 
     //Tag for logging
     // Not sure if needed
@@ -20,7 +20,7 @@ public class BSMoveAction extends GameAction {
      * @param row the row of the square selected (0-9)
      * @param col the column of the square selected
      */
-    public BSMoveAction(GamePlayer player, int row, int col) {
+    public BSFire(GamePlayer player, int row, int col) {
         super(player);
 
         this.row = Math.max(0, Math.min(9,row));

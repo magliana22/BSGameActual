@@ -29,14 +29,14 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         if (info instanceof NotYourTurnInfo) return;
       //  Logger.log("BSComputer","My turn!");
 
-        int xVal = (int)(10*Math.random());
-        int yVal = (int)(10*Math.random());
+        int xLoc = (int)(10*Math.random());
+        int yLoc = (int)(10*Math.random());
 
         // delay for 2 seconds to mimic thinking
         //sleep(0.5);
 
 
-        game.sendAction(new BSMoveAction(this, xVal,yVal));
+        game.sendAction(new BSFire(this, xLoc,yLoc));
     }
 
 }

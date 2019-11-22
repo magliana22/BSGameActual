@@ -33,11 +33,21 @@ public class BSMainActivity extends GameMainActivity {
                 return new BSComputerPlayer1(name);
             }
         });
+
+        // smarter computer player
+        playerTypes.add(new GamePlayerType("Computer Player (impossible)") {
+            public GamePlayer createPlayer(String name) {
+                return new BSComputerPlayer2(name);
+            }
+        });
+
         // Create a game configuration class
         GameConfig defaultConfig = new GameConfig(playerTypes, 2, 2, "BattleShip", PORT_NUMBER);
         // Add the default players
         defaultConfig.addPlayer("Human", 0); // yellow-on-blue GUI
         defaultConfig.addPlayer("Computer 1", 1); // dumb computer player
+
+        defaultConfig.addPlayer("Computer 2",2); // smart computer player
         // Set the initial information for the remote player
         defaultConfig.setRemoteData("Remote Player", "", 1); // red-on-yellow GUI
         //done!
