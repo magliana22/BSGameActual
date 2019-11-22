@@ -1,8 +1,23 @@
 package com.example.battleshipgamestate.battleship;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+
 import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 import com.example.battleshipgamestate.game.GameFramework.LocalGame;
+import com.example.battleshipgamestate.game.GameFramework.actionMessage.EndTurnAction;
 import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameAction;
+import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameOverAckAction;
+import com.example.battleshipgamestate.game.GameFramework.actionMessage.MyNameIsAction;
+import com.example.battleshipgamestate.game.GameFramework.actionMessage.ReadyAction;
+import com.example.battleshipgamestate.game.GameFramework.actionMessage.TimerAction;
+import com.example.battleshipgamestate.game.GameFramework.infoMessage.BindGameInfo;
+import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameOverInfo;
+import com.example.battleshipgamestate.game.GameFramework.infoMessage.IllegalMoveInfo;
+import com.example.battleshipgamestate.game.GameFramework.infoMessage.NotYourTurnInfo;
+import com.example.battleshipgamestate.game.GameFramework.infoMessage.StartGameInfo;
+import com.example.battleshipgamestate.game.GameFramework.utilities.GameTimer;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSLocalGame extends LocalGame {
@@ -10,8 +25,6 @@ public class BSLocalGame extends LocalGame {
     private static final String TAG = "BSLocalGame";
     // the game's state
     protected BSState state;
-    private boolean p1Ready;
-    private boolean p2Ready;
 
 
 
@@ -25,8 +38,6 @@ public class BSLocalGame extends LocalGame {
 
         // create a new, unfilled-in BSState object
         state = new BSState();
-        p1Ready=false;
-        p2Ready=false;
     }
 
     /**
@@ -120,7 +131,7 @@ public class BSLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
-        if (action instanceof BSFire && this.checkGamePhase()==2) {
+        if (action instanceof BSFire) {
           //  Logger.log("makeMove", "about to fire");
             //get the row and column position of the player's move
             BSFire bsm = (BSFire) action;
@@ -137,7 +148,7 @@ public class BSLocalGame extends LocalGame {
                 return false;
             }
         }
-        else if (action instanceof BSAddShip && this.checkGamePhase()==1){
+        else if (action instanceof BSAddShip){
             Logger.log(TAG,"action is addShip");
             BSAddShip bas = (BSAddShip) action;
             return state.addShip(getPlayerIdx(bas.getPlayer()), bas.getShip());
@@ -168,15 +179,5 @@ public class BSLocalGame extends LocalGame {
         return true;*/
 
         return false;
-    }
-
-    public int checkGamePhase(){
-        if(state.phaseOfGame.equals("Setup")){
-            return 1;
-        }
-        else if(state.phaseOfGame.equals("inPlay")){
-            return 2;
-        }
-        return 0;
     }
 }

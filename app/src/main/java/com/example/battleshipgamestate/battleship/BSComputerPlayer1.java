@@ -3,6 +3,7 @@ package com.example.battleshipgamestate.battleship;
 import com.example.battleshipgamestate.game.GameFramework.GameComputerPlayer;
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameInfo;
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.NotYourTurnInfo;
+import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSComputerPlayer1 extends GameComputerPlayer{
 
