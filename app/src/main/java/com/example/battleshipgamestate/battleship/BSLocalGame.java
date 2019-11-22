@@ -185,7 +185,8 @@ public class BSLocalGame extends LocalGame {
         return false;
     }
 
-    public int checkGamePhase(){
+    //checks the phase of the game. Will be used to check what moveActions can be used when
+    protected int checkGamePhase(){
         if(state.phaseOfGame.equals("Setup")){
             return 1;
         }
@@ -193,5 +194,15 @@ public class BSLocalGame extends LocalGame {
             return 2;
         }
         return 0;
+    }
+
+    //if both players are ready the LocalGame will set the phase of game for it's state to inPlay
+    protected void progressGame(){
+        if(p1Ready && p2Ready){
+            state.setPhaseOfGame(2);
+        }
+        else{
+            state.setPhaseOfGame(1);
+        }
     }
 }
