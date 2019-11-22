@@ -36,7 +36,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         //sleep(0.5);
 
 
-        game.sendAction(new BSMoveAction(this, xVal,yVal));
+        game.sendAction(new BSFire(this, xVal,yVal));
     }
 
 }
