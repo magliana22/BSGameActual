@@ -7,14 +7,14 @@ public class BSFire extends GameAction {
 
     //Tag for logging
     // Not sure if needed
-    private static final String TAG = "BSMoveAction";
+    private static final String TAG = "BSFire";
 
     // instance variables: the selected row and column
     private int row;
     private int col;
 
     /**
-     * Constructor for BSMoveAction
+     * Constructor for BSFire
      *
      * @param player the player who created the action
      * @param row the row of the square selected (0-9)
