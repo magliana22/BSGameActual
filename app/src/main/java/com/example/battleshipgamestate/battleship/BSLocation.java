@@ -1,6 +1,6 @@
 package com.example.battleshipgamestate.battleship;
 
-public class BSLocation {
+public class  BSLocation {
     public boolean isWater;
     public boolean isShip;
     public boolean isHit;
