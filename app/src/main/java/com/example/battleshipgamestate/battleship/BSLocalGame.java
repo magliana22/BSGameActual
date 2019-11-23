@@ -3,7 +3,10 @@ package com.example.battleshipgamestate.battleship;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.View;
+import android.widget.Button;
 
+import com.example.battleshipgamestate.R;
 import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 import com.example.battleshipgamestate.game.GameFramework.LocalGame;
 import com.example.battleshipgamestate.game.GameFramework.actionMessage.EndTurnAction;
@@ -25,8 +28,7 @@ public class BSLocalGame extends LocalGame {
     private static final String TAG = "BSLocalGame";
     // the game's state
     protected BSState state;
-    private boolean p1Ready;
-    private boolean p2Ready;
+
 
 
 
@@ -40,8 +42,6 @@ public class BSLocalGame extends LocalGame {
 
         // create a new, unfilled-in BSState object
         state = new BSState();
-        p1Ready=false;
-        p2Ready=false;
     }
 
     /**
@@ -196,13 +196,5 @@ public class BSLocalGame extends LocalGame {
         return 0;
     }
 
-    //if both players are ready the LocalGame will set the phase of game for it's state to inPlay
-    protected void progressGame(){
-        if(p1Ready && p2Ready){
-            state.setPhaseOfGame(2);
-        }
-        else{
-            state.setPhaseOfGame(1);
-        }
-    }
+
 }

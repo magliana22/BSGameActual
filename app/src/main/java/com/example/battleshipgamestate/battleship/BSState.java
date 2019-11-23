@@ -16,6 +16,8 @@ public class BSState extends GameState {
     public int p1ShipsSunk;
     public int p2ShipsAlive;
     public int p2ShipsSunk;
+    private boolean p1Ready;
+    private boolean p2Ready;
 
 
 
@@ -52,6 +54,8 @@ public class BSState extends GameState {
         this.p2Ships[2] = new BSShip(1,3,2,2,1);
         this.p2Ships[3] = new BSShip(5,8,3,3,1);
         this.p2Ships[4] = new BSShip(4,8,5,5,1);
+        p1Ready=false;
+        p2Ready=false;
 
         //randomly place player1 and player 2's ships
 
@@ -136,6 +140,8 @@ public class BSState extends GameState {
         this.p2Board = new BSLocation[10][10];
         this.p1Ships = new BSShip[5];
         this.p2Ships = new BSShip[5];
+        this.p1Ready=original.p1Ready;
+        this.p2Ready=original.p2Ready;
 
 
         for (int row = 0; row < 10; row++) {
@@ -401,5 +407,41 @@ public class BSState extends GameState {
             return true;
         }
         return false;
+    }
+
+    public boolean getP1Ready(){
+        return this.p1Ready;
+    }
+
+    public boolean getP2Ready(){
+        return this.p2Ready;
+    }
+
+    public void changeP1Ready(){
+        if(this.p1Ready){
+            this.p1Ready=false;
+        }
+        else{
+            this.p1Ready=true;
+        }
+    }
+
+    public void changeP2Ready(){
+        if(this.p2Ready){
+            this.p2Ready=false;
+        }
+        else{
+            this.p2Ready=true;
+        }
+    }
+
+    //if both players are ready the State will set the phase of game to inPlay
+    public void progressGame(){
+        if(this.getP1Ready() && this.getP2Ready()){
+            this.setPhaseOfGame(2);
+        }
+        else{
+            this.setPhaseOfGame(1);
+        }
     }
 }

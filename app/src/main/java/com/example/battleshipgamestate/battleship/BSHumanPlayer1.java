@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 /**
  * class GameHumanPlayer
@@ -157,6 +158,15 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         // register that we have handled the event
         return true;
 
+    }
+
+    public void onClick(View v){
+    if(v.getId()==R.id.p1_ready_button){
+        surfaceView.state.changeP1Ready();
+    }
+    else if(v.getId()==R.id.p2_ready_button){
+        surfaceView.state.changeP2Ready();
+    }
     }
 
 }

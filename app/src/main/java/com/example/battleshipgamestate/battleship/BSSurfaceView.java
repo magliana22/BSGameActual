@@ -11,12 +11,14 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.battleshipgamestate.R;
 import com.example.battleshipgamestate.game.GameFramework.utilities.FlashSurfaceView;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
-public class BSSurfaceView extends FlashSurfaceView {
+public class BSSurfaceView extends FlashSurfaceView implements View.OnClickListener {
 
     Paint boardPaint = new Paint();
     Paint dividerPaint = new Paint();
@@ -353,5 +355,14 @@ public class BSSurfaceView extends FlashSurfaceView {
             }
         }
         return null; //if not on board, return null
+    }
+
+    public void onClick(View button){
+        if(button.getId()==R.id.p1_ready_button) {
+            state.changeP1Ready();
+        }
+        else if(button.getId()==R.id.p2_ready_button){
+            state.changeP2Ready();
+        }
     }
 }
