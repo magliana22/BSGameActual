@@ -96,6 +96,8 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         surfaceView.setOnTouchListener(this);
         Button p1ReadyUp=myActivity.findViewById(R.id.p1_ready_button);
         p1ReadyUp.setOnClickListener(this);
+        Button rotateButton=myActivity.findViewById(R.id.rotate_button);
+        rotateButton.setOnClickListener(this);
     }
 
     /**
@@ -164,9 +166,12 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     }
 
     public void onClick(View v){
-    if(v.getId()==R.id.p1_ready_button){
+    if(v.getId()==R.id.p1_ready_button && surfaceView.state.phaseOfGame.equals("setUp")){
         Logger.log("Tag","p1 is ready");
         surfaceView.state.changeP1Ready();
+    }
+    else if(v.getId()==R.id.rotate_button && surfaceView.state.phaseOfGame.equals("setUp")){
+    surfaceView.state.rotateShip(0);
     }
     }
 
