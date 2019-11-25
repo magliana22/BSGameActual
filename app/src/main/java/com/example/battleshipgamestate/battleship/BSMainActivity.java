@@ -7,6 +7,10 @@ import com.example.battleshipgamestate.game.GameFramework.LocalGame;
 import com.example.battleshipgamestate.game.GameFramework.gameConfiguration.GameConfig;
 import com.example.battleshipgamestate.game.GameFramework.gameConfiguration.GamePlayerType;
 
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
 import java.util.ArrayList;
 
 
@@ -58,4 +62,5 @@ public class BSMainActivity extends GameMainActivity {
     public LocalGame createLocalGame() {
         return new BSLocalGame();
     }
+
 }
