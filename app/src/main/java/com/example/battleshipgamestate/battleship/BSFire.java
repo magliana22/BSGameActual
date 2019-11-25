@@ -1,6 +1,5 @@
 package com.example.battleshipgamestate.battleship;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 
 import com.example.battleshipgamestate.R;
@@ -9,6 +8,10 @@ import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameActi
 
 public class BSFire extends GameAction {
 
+    /**MediaPlayer explosion= MediaPlayer.create(BSFire.this, R.raw.explosion);
+        explosion.start();
+     explosion sound, not sure how to implement it
+     **/
     //Tag for logging
     // Not sure if needed
     private static final String TAG = "BSFire";
