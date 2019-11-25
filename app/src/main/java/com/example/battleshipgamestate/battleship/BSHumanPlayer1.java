@@ -14,6 +14,7 @@ import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 
 /**
  * class GameHumanPlayer
@@ -27,7 +28,7 @@ import android.view.View.OnClickListener;
  * @version July 2013
  *
  */
-public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListener {
+public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener {
     //Tag for logging
     private static final String TAG = "BSHumanPlayer1";
     // the current activity
@@ -93,6 +94,8 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         surfaceView = (BSSurfaceView)myActivity.findViewById(R.id.surfaceView);
       //  Logger.log("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
+        Button p1ReadyUp=myActivity.findViewById(R.id.p1_ready_button);
+        p1ReadyUp.setOnClickListener(surfaceView);
     }
 
     /**
@@ -163,9 +166,6 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     public void onClick(View v){
     if(v.getId()==R.id.p1_ready_button){
         surfaceView.state.changeP1Ready();
-    }
-    else if(v.getId()==R.id.p2_ready_button){
-        surfaceView.state.changeP2Ready();
     }
     }
 
