@@ -7,8 +7,6 @@ import java.util.Random;
 
 public class BSState extends GameState {
 
-
-
     public int p1TotalHits;
     public int p2TotalHits;
     public int playerID;
@@ -18,8 +16,6 @@ public class BSState extends GameState {
     public int p2ShipsSunk;
     private boolean p1Ready;
     private boolean p2Ready;
-
-
 
     public String phaseOfGame;
 
@@ -56,6 +52,8 @@ public class BSState extends GameState {
         this.p2Ships[4] = new BSShip(4,8,5,5,1,2,5);
         p1Ready=false;
         p2Ready=false;
+
+
 
         //randomly place player1 and player 2's ships
 
