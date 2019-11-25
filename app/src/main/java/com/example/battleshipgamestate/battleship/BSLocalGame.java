@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.example.battleshipgamestate.R;
 import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 import com.example.battleshipgamestate.game.GameFramework.LocalGame;
 import com.example.battleshipgamestate.game.GameFramework.actionMessage.EndTurnAction;
@@ -118,7 +119,7 @@ public class BSLocalGame extends LocalGame {
      * @param playerIdx
      * 		the player's player-number (ID)
      * @return
-     * 		true iff the player is allowed to move
+     * 		true if the player is allowed to move
      */
     protected boolean canMove(int playerIdx) {
         return playerIdx == state.getPlayerID();

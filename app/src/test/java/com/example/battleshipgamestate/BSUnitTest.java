@@ -1,6 +1,7 @@
 package com.example.battleshipgamestate;
 
 import com.example.battleshipgamestate.battleship.BSLocation;
+import com.example.battleshipgamestate.battleship.BSShip;
 import com.example.battleshipgamestate.battleship.BSState;
 
 import org.junit.Test;
@@ -43,7 +44,9 @@ public class BSUnitTest {
     @Test
     public void addShip() throws Exception{
         BSState testState=new BSState();
-
+        BSShip ship = new BSShip(0,1,0,0,0);
+        testState.addShip(0,ship);
+        assertEquals("inPlay", ship);
     }
 
     // Gianni wrote this test

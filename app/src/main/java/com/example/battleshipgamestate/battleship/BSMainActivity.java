@@ -14,11 +14,13 @@ public class BSMainActivity extends GameMainActivity {
 
     public static final int PORT_NUMBER = 5213;
 
+
     @Override
     public GameConfig createDefaultConfig() {
 
         // Define the allowed player types
         ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
+
 
         // yellow-on-blue GUI
         playerTypes.add(new GamePlayerType("Local Human Player (human)") {
