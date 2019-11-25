@@ -26,51 +26,34 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
     @Override
     protected void receiveInfo(GameInfo info) {
         if (info instanceof NotYourTurnInfo) return;
-        BSState theState = (BSState)info;
+        BSState theState = new BSState();
 
         Logger.log(TAG,"My Turn");
 
+       //int rand = (int)(3*Math.random());
         int xLoc = (int)(10*Math.random());
         int yLoc = (int)(10*Math.random());
 
         //int xLoc = 1;
         //int yLoc = 1;
 
-       // game.sendAction(new BSMoveAction(this, xLoc, yLoc ));
+        if (theState.checkSpot(yLoc,xLoc,0)==2||theState.checkSpot(yLoc,xLoc,0)==3){
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++){
+                    game.sendAction(new BSFire(this, j, i));
 
-        // anywhere not on edges for col
-        if(theState.checkSpot(xLoc,yLoc,0)==3){
-            //&& (yLoc<9 || yLoc>0)) {
-                game.sendAction(new BSFire(this, 0, yLoc ));
-        /**
-        // if ship col 0
-        } else if (theState.p1Board[xLoc][yLoc].isHit && yLoc == 0) {
-            for (int i = 0; i > 3; i++) {
-                game.sendAction(new BSMoveAction(this, xLoc, yLoc+i));
+                }
             }
-            // if ship col 10
-        } else if (theState.p1Board[xLoc][yLoc].isHit && yLoc == 10) {
-            for (int i = 0; i > 3; i++) {
-                game.sendAction(new BSMoveAction(this, xLoc, yLoc-i));
+            /**
+            for (int j = 0; j < 10; j++){
+                game.sendAction(new BSFire(this, j, xLoc));
+
             }
-            // anywhere not on edges for row
-        } else if (theState.p1Board[xLoc][yLoc].isHit && (xLoc<10 || xLoc>0)) {
-            for (int i = 0; i > 3; i++) {
-                game.sendAction(new BSMoveAction(this, xLoc , yLoc+i));
-            }
-            // if ship row 0
-        } else if (theState.p1Board[xLoc][yLoc].isHit && xLoc == 0){
-            for (int i = 0; i > 3; i++) {
-                    game.sendAction(new BSMoveAction(this, xLoc , yLoc+i));
-            }
-            // if ship row 10
-        } else if (theState.p1Board[xLoc][yLoc].isHit && xLoc == 10 ){
-            for (int i = 0; i > 3; i++) {
-                game.sendAction(new BSMoveAction(this, xLoc , yLoc-i));
-            }*/
-        } else {
-            game.sendAction(new BSFire(this,xLoc,yLoc));
+             */
+        }else if (theState.checkSpot(yLoc,xLoc,0)==1||theState.checkSpot(yLoc,xLoc,0)==4){
+            //game.sendAction(new BSFire(this,xLoc,yLoc));
         }
 
+       
     }
 }

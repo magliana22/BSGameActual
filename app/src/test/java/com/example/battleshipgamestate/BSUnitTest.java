@@ -1,5 +1,6 @@
 package com.example.battleshipgamestate;
 
+import com.example.battleshipgamestate.battleship.BSLocalGame;
 import com.example.battleshipgamestate.battleship.BSLocation;
 import com.example.battleshipgamestate.battleship.BSState;
 
@@ -20,7 +21,12 @@ public class BSUnitTest {
         assertTrue(idNum==0);
     }
 
-    // Kyle wrote this test
+    /**
+     *
+     * @Author
+     * @KyleSanchez
+     *
+     */
     @Test
     public void getPhaseOfGame() throws Exception{
         BSState testState=new BSState();
@@ -30,7 +36,12 @@ public class BSUnitTest {
         assertEquals("inPlay",testState.getPhaseOfGame());
     }
 
-    // Kyle wrote this test
+    /**
+     *
+     * @Author
+     * @KyleSanchez
+     *
+     */
     @Test
     public void getPlayerTarget() throws Exception{
         BSState testState=new BSState();
@@ -40,11 +51,6 @@ public class BSUnitTest {
         assertEquals(0,testState.getTargetPlayer());
     }
 
-    @Test
-    public void addShip() throws Exception{
-        BSState testState=new BSState();
-
-    }
 
     // Gianni wrote this test
     @Test
@@ -56,7 +62,12 @@ public class BSUnitTest {
     }
 
 
-    // Kyle Sanchez wrote this test
+    /**
+     *
+     * @Author
+     * @KyleSanchez
+     *
+     */
     @Test
     public void changeTurn() throws Exception{
         BSState testState = new BSState();
@@ -82,7 +93,12 @@ public class BSUnitTest {
     }
 
 
-    // Kyle Sanchez wrote this test
+    /**
+     *
+     * @Author
+     * @KyleSanchez
+     *
+     */
     @Test
     public void spotString () throws Exception{
         BSState testState = new BSState();
@@ -92,6 +108,19 @@ public class BSUnitTest {
     }
 
 
+    /**
+     *
+     * @Author
+     * @KyleSanchez
+     *
+     */
+    @Test
+    public void winCondition () throws Exception{
+        BSState testState = new BSState();
+        testState.winCondition();
+        assertEquals(false,false);
+
+    }
 
 
 

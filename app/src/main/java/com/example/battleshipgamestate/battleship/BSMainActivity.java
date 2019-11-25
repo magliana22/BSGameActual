@@ -35,7 +35,7 @@ public class BSMainActivity extends GameMainActivity {
         });
 
         // smarter computer player
-        playerTypes.add(new GamePlayerType("Computer Player (impossible)") {
+        playerTypes.add(new GamePlayerType("Computer Player (smart)") {
             public GamePlayer createPlayer(String name) {
                 return new BSComputerPlayer2(name);
             }
