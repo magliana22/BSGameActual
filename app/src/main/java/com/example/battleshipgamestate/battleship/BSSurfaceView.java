@@ -171,6 +171,32 @@ public class BSSurfaceView extends FlashSurfaceView implements View.OnClickListe
             }
         }*/
 
+        RectF sideShipsP1[] = new RectF[5]; //for displaying ships on the side
+        RectF sideShipsP2[] = new RectF[5]; //for displaying ships on the side
+        float side_margin = left_margin/4; //margin for placing ships on the side
+        float right_margin = 3 * (width/4) + side_margin*2;
+        for (int s = 0; s < state.p1Ships.length; s++){
+            BSShip sideShip = state.p1Ships[s];
+            sideShipsP1[s] = new RectF(side_margin, top_margin + (cell_height * s * 2),
+                    side_margin + (cell_width* (sideShip.getx2()-sideShip.getx1()+1)), top_margin +(cell_height * s * 2) + (cell_height));
+        }
+        for (int t = 0; t < state.p1Ships.length; t++){
+            BSShip sideShip = state.p2Ships[t];
+            sideShipsP2[t] = new RectF(right_margin, top_margin + (cell_height * t * 2),
+                    right_margin + (cell_width* (sideShip.getx2()-sideShip.getx1()+1)), top_margin +(cell_height * t * 2) + (cell_height));
+        }
+
+        canvas.drawBitmap(this.ship1, null, sideShipsP1[0], null); //draw ship
+        canvas.drawBitmap(this.ship2, null, sideShipsP1[1], null); //draw ship
+        canvas.drawBitmap(this.ship3, null, sideShipsP1[2], null); //draw ship
+        canvas.drawBitmap(this.ship4, null, sideShipsP1[3], null); //draw ship
+        canvas.drawBitmap(this.ship5, null, sideShipsP1[4], null); //draw ship
+        canvas.drawBitmap(this.ship1, null, sideShipsP2[0], null); //draw ship
+        canvas.drawBitmap(this.ship2, null, sideShipsP2[1], null); //draw ship
+        canvas.drawBitmap(this.ship3, null, sideShipsP2[2], null); //draw ship
+        canvas.drawBitmap(this.ship4, null, sideShipsP2[3], null); //draw ship
+        canvas.drawBitmap(this.ship5, null, sideShipsP2[4], null); //draw ship
+
         RectF shipRectP1[]=new RectF[5]; //create array of ships for p1
         for (int i = 0; i < state.p1Ships.length; i++){ //create ships for the array
             BSShip theShip = state.p1Ships[i];
