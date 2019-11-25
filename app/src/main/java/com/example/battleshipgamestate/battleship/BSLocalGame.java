@@ -1,23 +1,8 @@
 package com.example.battleshipgamestate.battleship;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-
 import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 import com.example.battleshipgamestate.game.GameFramework.LocalGame;
-import com.example.battleshipgamestate.game.GameFramework.actionMessage.EndTurnAction;
 import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameAction;
-import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameOverAckAction;
-import com.example.battleshipgamestate.game.GameFramework.actionMessage.MyNameIsAction;
-import com.example.battleshipgamestate.game.GameFramework.actionMessage.ReadyAction;
-import com.example.battleshipgamestate.game.GameFramework.actionMessage.TimerAction;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.BindGameInfo;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameOverInfo;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.IllegalMoveInfo;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.NotYourTurnInfo;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.StartGameInfo;
-import com.example.battleshipgamestate.game.GameFramework.utilities.GameTimer;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSLocalGame extends LocalGame {
@@ -118,7 +103,7 @@ public class BSLocalGame extends LocalGame {
      * @param playerIdx
      * 		the player's player-number (ID)
      * @return
-     * 		true iff the player is allowed to move
+     * 		true if the player is allowed to move
      */
     protected boolean canMove(int playerIdx) {
         return playerIdx == state.getPlayerID();

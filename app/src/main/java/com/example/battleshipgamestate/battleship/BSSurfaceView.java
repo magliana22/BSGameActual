@@ -159,18 +159,6 @@ public class BSSurfaceView extends FlashSurfaceView implements View.OnClickListe
         //draw grid boards
         drawBoard(canvas);
 
-        //state.addAllShips(0);
-        //state.addAllShips(1);
-
-       /* for (int i = 0; i < 10; i++){ //set locations loop
-            for (int j = 0; j < 10; j++){
-                BSLocation initialLoc = new BSLocation();
-                initialLoc.setSpot(1);
-                state.p1Board[i][j] = initialLoc;
-                state.p2Board[i][j] = initialLoc;
-            }
-        }*/
-
         RectF sideShipsP1[] = new RectF[5]; //for displaying ships on the side
         RectF sideShipsP2[] = new RectF[5]; //for displaying ships on the side
         float side_margin = left_margin/4; //margin for placing ships on the side
@@ -216,13 +204,7 @@ public class BSSurfaceView extends FlashSurfaceView implements View.OnClickListe
             BSShip theShip = state.p2Ships[i];
             shipRectP2[i] = new RectF(left_margin + (11*cell_width) + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
                     left_margin + (11 * cell_width) + (cell_width * (theShip.getx2()+1)), top_margin + (cell_height * (1+theShip.gety2())));
-           /* for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
-                for (int k = theShip.gety1(); k <= theShip.gety2(); k++){
-                    BSLocation location = new BSLocation(); //create temporary location object
-                    location.setSpot(2); //set location to ship
-                    state.p2Board[j][k] = location; //store in p2Board
-                }
-            }*/
+
         }
 
         // draw ships
@@ -244,28 +226,6 @@ public class BSSurfaceView extends FlashSurfaceView implements View.OnClickListe
             canvas.drawBitmap(this.ship4, null, shipRectP2[3], null); //draw ship
             canvas.drawBitmap(this.ship5, null, shipRectP2[4], null); //draw ship
         }
-        //draw hits
-        //drawHit(canvas, 0, 1);
-
-        //for (int j = 0; j < 10; j++){
-          //  for (int k = 0; k < 10; k++){
-             //   if(state.p1Board[j][k].isHit)
-                    //draw hit here
-           // }
-        //}
-        //draw misses
-        //drawMiss(canvas, 1, 4);
-
-        //if we don't have any state, there's nothing more to draw, so return
-        //if (state == null) {
-           // return;
-        //}
-
-        //cheat by prefilling board with some hits and misses
-        //state.p1Board[1][0].setSpot(4);
-        //state.p1Board[4][6].setSpot(3);
-        //state.p2Board[3][8].setSpot(3);
-        //state.p2Board[5][5].setSpot(3);
 
         // for each square that has a hit or miss, draw it on the appropriate place on the canvas
         for (int row = 0; row < num_row; row++) {

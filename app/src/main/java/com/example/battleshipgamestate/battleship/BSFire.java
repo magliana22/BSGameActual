@@ -1,10 +1,17 @@
 package com.example.battleshipgamestate.battleship;
 
+import android.media.MediaPlayer;
+
+import com.example.battleshipgamestate.R;
 import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameAction;
 
 public class BSFire extends GameAction {
 
+    /**MediaPlayer explosion= MediaPlayer.create(BSFire.this, R.raw.explosion);
+        explosion.start();
+     explosion sound, not sure how to implement it
+     **/
     //Tag for logging
     // Not sure if needed
     private static final String TAG = "BSFire";
@@ -22,7 +29,6 @@ public class BSFire extends GameAction {
      */
     public BSFire(GamePlayer player, int row, int col) {
         super(player);
-
         this.row = Math.max(0, Math.min(9,row));
         this.col = Math.max(0, Math.min(9,col));
 
