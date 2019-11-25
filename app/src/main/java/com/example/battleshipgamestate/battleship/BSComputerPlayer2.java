@@ -54,6 +54,6 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
             //game.sendAction(new BSFire(this,xLoc,yLoc));
         }
 
-       
+
     }
 }
