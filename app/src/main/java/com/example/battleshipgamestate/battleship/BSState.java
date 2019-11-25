@@ -50,8 +50,8 @@ public class BSState extends GameState {
         this.p2Ships[2] = new BSShip(1,3,2,2,1,2,3);
         this.p2Ships[3] = new BSShip(5,8,3,3,1,2,4);
         this.p2Ships[4] = new BSShip(4,8,5,5,1,2,5);
-        p1Ready=false;
-        p2Ready=false;
+        p1Ready = false;
+        p2Ready = false;
 
 
 
@@ -121,6 +121,7 @@ public class BSState extends GameState {
         }
         //don't use this when setup phase is working
         updateShipLocations();
+        progressGame();
     }
 
 
@@ -140,7 +141,6 @@ public class BSState extends GameState {
         this.p2Ships = new BSShip[5];
         this.p1Ready=original.p1Ready;
         this.p2Ready=original.p2Ready;
-
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
