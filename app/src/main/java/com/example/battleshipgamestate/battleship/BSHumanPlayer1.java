@@ -136,9 +136,6 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         int y = (int) event.getY();
         Point p = surfaceView.mapPixelToSquare(x, y);
 
-        // if the location did not map to a legal square, flash
-        // the screen; otherwise, create and send an action to
-        // the game
         if (p == null) {
             surfaceView.flash(Color.RED, 50);
         } else {

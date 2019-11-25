@@ -66,16 +66,6 @@ public class BSLocalGame extends LocalGame {
         }
         return null;
 
-        //if(state.p1TotalHits==17){
-          //  return playerNames[0]+" is the winner.";
-        //}
-        //else if(state.p2TotalHits==17){
-          //  return playerNames[1]+" is the winner.";
-        //}
-        //else{
-          //  return null;
-        //}
-
     }
 
     /**
@@ -121,18 +111,18 @@ public class BSLocalGame extends LocalGame {
     protected boolean makeMove(GameAction action) {
 
         if (action instanceof BSFire && this.checkGamePhase()==2) {
-          //  Logger.log("makeMove", "about to fire");
+
             //get the row and column position of the player's move
             BSFire bsm = (BSFire) action;
             int row = bsm.getRow();
             int col = bsm.getCol();
             boolean okayMove = state.fire(row, col);
             if (okayMove) {
-              //  Logger.log("changeTurn", "moveisValid");
+
                 state.changeTurn();
                 return true;
             } else {
-               // Logger.log("moveIsInvalid", "moveInvalid");
+
                 //return false;
                 return false;
             }

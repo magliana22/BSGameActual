@@ -230,17 +230,6 @@ public class BSState extends GameState {
             setPhaseOfGame(2);
         }
 
-
-        /*
-        for (int row = ship.gety1(); row < ship.gety2(); row++) {
-            for (int col = ship.getx1(); row < ship.getx2(); col++) {
-                if (playerNum == 0) {
-                    this.p1Board[row - 1][col - 1].setSpot(2);
-                } else {
-                    this.p2Board[row - 1][col - 1].setSpot(2);
-                }
-            }
-        }*/
         return true;
     }
 
