@@ -95,7 +95,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
       //  Logger.log("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
         Button p1ReadyUp=myActivity.findViewById(R.id.p1_ready_button);
-        p1ReadyUp.setOnClickListener(surfaceView);
+        p1ReadyUp.setOnClickListener(this);
     }
 
     /**
@@ -165,6 +165,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
     public void onClick(View v){
     if(v.getId()==R.id.p1_ready_button){
+        Logger.log("Tag","p1 is ready");
         surfaceView.state.changeP1Ready();
     }
     }
