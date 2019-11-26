@@ -402,4 +402,20 @@ public class BSState extends GameState {
         }
         return false;
     }
+
+    /** validLocation method: checks if ship already exists in a specified location
+     *
+     * @param x x coordinate to check
+     * @param y y coordinate to check
+     * @return true if valid (ship can be placed), false if invalid (ship can't be placed)
+     */
+    public boolean validLocation(BSShip ship, int x, int y, int playerNum){
+        if (ship.getx1() <= x && ship.getx2() >= x && ship.gety1() <= y && ship.gety2() >= y){
+            if (playerNum == 0 && p1Board[x][y].isShip)
+               return false; //if ship is not placeable
+            if (playerNum == 1 && p2Board[x][y].isShip)
+                return false; //if ship is not placeable
+        }
+        return true; //default return
+    }
 }
