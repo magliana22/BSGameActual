@@ -56,8 +56,18 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
                     xEnd -= shipSize;
                     ship = new BSShip(xVal - shipSize, xEnd, yVal, yEnd, 1);
                 }
-                //this.p2Ships[x] = ship;
+
+            while (!state.validLocation(ship, xVal, yVal, 1)){ //check if ship already exists
+                xVal = (int)(10*Math.random());
+                yVal = (int)(10*Math.random());
+                xEnd = xVal + shipSize;
+                yEnd = yVal;
+                Logger.log("invalidPlacementAI","ship exists already, placing again" + " " + xVal + " " + yVal);
+                ship = new BSShip(xVal - shipSize, xEnd, yVal, yEnd, 1);
+            }
+
                 BSAddShip action = new BSAddShip(this, ship);
+
                 game.sendAction(action);
         } else{
             Logger.log("fire","ai sending fire");
