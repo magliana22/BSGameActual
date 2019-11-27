@@ -426,10 +426,10 @@ public class BSState extends GameState {
     //if both players are ready the State will set the phase of game to inPlay
     public void progressGame(){
         if(this.getP1Ready() && this.getP2Ready()){
-            this.setPhaseOfGame(2);
+            this.setPhaseOfGame(2);//2 is for inPlay
         }
         else{
-            this.setPhaseOfGame(1);
+            this.setPhaseOfGame(1);//1 is for setUp
         }
     }
 

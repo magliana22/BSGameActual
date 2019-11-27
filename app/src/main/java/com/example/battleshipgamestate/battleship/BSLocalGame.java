@@ -12,8 +12,6 @@ public class BSLocalGame extends LocalGame {
     private static final String TAG = "BSLocalGame";
     // the game's state
     protected BSState state;
-    private boolean p1Ready;
-    private boolean p2Ready;
 
 
 
@@ -27,8 +25,6 @@ public class BSLocalGame extends LocalGame {
 
         // create a new, unfilled-in BSState object
         state = new BSState();
-        p1Ready=false;
-        p2Ready=false;
     }
 
     /**
@@ -111,7 +107,6 @@ public class BSLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
-        tryToProgressGame();
 
         if (action instanceof BSFire && this.checkGamePhase()==2) {
 
@@ -166,6 +161,7 @@ public class BSLocalGame extends LocalGame {
             else if(theReadyPlayer==2){
                 state.changeP2Ready();
             }
+            state.progressGame();
         }
         /**
         // get the 0/1 id of target player (player who's board is being attacked)
@@ -204,10 +200,5 @@ public class BSLocalGame extends LocalGame {
             return 2;
         }
         return 0;
-    }
-
-    //Checks the state of the localGame
-    protected void tryToProgressGame(){
-        state.progressGame();
     }
 }
