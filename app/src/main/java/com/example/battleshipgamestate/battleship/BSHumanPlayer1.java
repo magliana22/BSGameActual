@@ -177,13 +177,18 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                         xEnd = p.x + shipSize;
                         ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
                     }
-                    BSAddShip action = new BSAddShip(this, ship);
 
-
-                    if (!surfaceView.state.validLocation(ship, p.x, p.y, 0)){ //check if ship already exists at location
-                        Logger.log("invalidPlacement","ship is alaready there");
-                        return false;
+                    //check if all locations of ship are empty (no ship is there already)
+                    for (int i = p.x; i <= xEnd; i++){
+                        for (int j = p.y; j <= yEnd; j++){
+                            if (!surfaceView.state.validLocation(ship,i, j, 0)){
+                                Logger.log("invalidPlacement","ship is already there");
+                                return false; //if not empty, return false
+                            }
+                        }
                     }
+
+                    BSAddShip action = new BSAddShip(this, ship);
 
                     Logger.log("onTouch", "Human player sending addShipAction ...");
                     game.sendAction(action);
