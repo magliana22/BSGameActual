@@ -173,7 +173,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                     BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, 0); //p1's
 
                     if (p.x + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
-                        p.x -= shipSize;
+                        p.x = 9 - shipSize;
                         xEnd = p.x + shipSize;
                         ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
                     }

@@ -53,7 +53,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
                 BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 1); //p2's (AI's ship)
 
                 if (xEnd > 9) { //bounds check right side of board, shift out-of-bounds ships to left
-                    xVal -= shipSize;
+                    xVal = 9 - shipSize;
                     xEnd = xVal + shipSize;
                     yEnd = yVal;
                     ship = new BSShip(xVal, xEnd, yVal, yEnd, 1);
