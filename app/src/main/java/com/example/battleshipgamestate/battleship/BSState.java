@@ -7,8 +7,6 @@ import java.util.Random;
 
 public class BSState extends GameState {
 
-
-
     public int p1TotalHits;
     public int p2TotalHits;
     public int playerID;
@@ -16,12 +14,7 @@ public class BSState extends GameState {
     public int p1ShipsSunk;
     public int p2ShipsAlive;
     public int p2ShipsSunk;
-
-
-
     public String phaseOfGame;
-
-
 
     public BSLocation[][] p1Board;
     public BSLocation[][] p2Board;
@@ -43,18 +36,6 @@ public class BSState extends GameState {
         this.p2Board = new BSLocation[10][10];
         this.p1Ships = new BSShip[5];
         this.p2Ships = new BSShip[5];
-        //add ships for testing
-        //this.p1Ships[0] = new BSShip(0,1,0,0,0);
-        //this.p1Ships[1] = new BSShip(3,4,1,1,0);
-        //this.p1Ships[2] = new BSShip(1,3,2,2,0);
-        //this.p1Ships[3] = new BSShip(5,8,3,3,0);
-        //this.p1Ships[4] = new BSShip(4,8,4,4,0);
-
-        //this.p2Ships[0] = new BSShip(0,1,0,0,1);
-        //this.p2Ships[1] = new BSShip(3,4,1,1,1);
-        //this.p2Ships[2] = new BSShip(1,3,2,2,1);
-        //this.p2Ships[3] = new BSShip(5,8,3,3,1);
-        //this.p2Ships[4] = new BSShip(4,8,5,5,1);
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
@@ -90,10 +71,7 @@ public class BSState extends GameState {
             p2Ships[i] = ship;
             shipNum2++;
         }
-        //don't use this when setup phase is working
-        //updateShipLocations();
     }
-
 
     // Copy Constructor
     public BSState(BSState original) {
@@ -109,7 +87,6 @@ public class BSState extends GameState {
         this.p2Board = new BSLocation[10][10];
         this.p1Ships = new BSShip[5];
         this.p2Ships = new BSShip[5];
-
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
@@ -266,7 +243,6 @@ public class BSState extends GameState {
 
     }
 
-
     //fire method checks value of a location object at a coordinate in an opponent's board, changes water to miss and ship to hit
     public boolean fire(int y, int x) {
         if(getPhaseOfGame() == "setUp"){
@@ -338,6 +314,4 @@ public class BSState extends GameState {
             }
         return spot;
     }
-
-
 }

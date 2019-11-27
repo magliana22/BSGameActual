@@ -37,8 +37,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         if (state.getPhaseOfGame() != "inPlay"){
             Logger.log("shipAction", "ai adding ship");
             int shipSize = 0; //variable for size of ship
-                //xVal = (int) (10 * Math.random());
-                //yVal = (int) (10 * Math.random());
+
                 if (state.p2ShipsAlive == 0) {
                     shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
                 } else if (state.p2ShipsAlive == 1 || state.p2ShipsAlive == 2) {
@@ -65,7 +64,5 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
             BSMoveAction action = new BSMoveAction(this, yVal, xVal);
             game.sendAction(action);
         }
-
     }
-
 }

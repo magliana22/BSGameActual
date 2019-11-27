@@ -166,30 +166,11 @@ public class BSSurfaceView extends FlashSurfaceView {
             //draw grid boards
             drawBoard(canvas);
 
-            //state.addAllShips(0);
-            //state.addAllShips(1);
-
-       /* for (int i = 0; i < 10; i++){ //set locations loop
-            for (int j = 0; j < 10; j++){
-                BSLocation initialLoc = new BSLocation();
-                initialLoc.setSpot(1);
-                state.p1Board[i][j] = initialLoc;
-                state.p2Board[i][j] = initialLoc;
-            }
-        }*/
-
             RectF[] shipRectP1 = new RectF[5]; //create array of ships for p1
             for (int i = 0; i < state.p1ShipsAlive; i++) { //create ships for the array
                 BSShip theShip = state.p1Ships[i];
                 shipRectP1[i] = new RectF(left_margin + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
                         left_margin + (cell_width * (theShip.getx2() + 1)), top_margin + (cell_height * (1 + theShip.gety2())));
-            /*for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
-                for (int k = theShip.gety1(); k <= theShip.gety2(); k++){
-                    BSLocation location = new BSLocation(); //create temporary location object
-                    location.setSpot(2); //set location to ship
-                    state.p1Board[j][k] = location; //store in p1Board
-                }
-            }*/
             }
 
             RectF shipRectP2[] = new RectF[5];
@@ -197,13 +178,6 @@ public class BSSurfaceView extends FlashSurfaceView {
                 BSShip theShip = state.p2Ships[i];
                 shipRectP2[i] = new RectF(left_margin + (11 * cell_width) + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
                         left_margin + (11 * cell_width) + (cell_width * (theShip.getx2() + 1)), top_margin + (cell_height * (1 + theShip.gety2())));
-           /* for (int j = theShip.getx1(); j <= theShip.getx2(); j++){
-                for (int k = theShip.gety1(); k <= theShip.gety2(); k++){
-                    BSLocation location = new BSLocation(); //create temporary location object
-                    location.setSpot(2); //set location to ship
-                    state.p2Board[j][k] = location; //store in p2Board
-                }
-            }*/
             }
 
             // draw ships
@@ -369,35 +343,4 @@ public class BSSurfaceView extends FlashSurfaceView {
         }
         return null; //if not on board, return null
     }
-//    public Point mapPixelToSquare(int x, int y) {
-//        for (int i = 0; i < num_row; i++) { //player taps on second board
-//            for (int j = 0; j < num_col; j++) {
-//                float left;
-//                if (state.getPhaseOfGame() == "setUp") {
-//                    left = left_margin + (j * cell_width); // use this value of left for first board
-//                } else {
-//                    left = left_margin + (j * cell_width) + (11 * cell_width); //left of cell (right board starts at col 11)
-//                }
-//                float right = left + cell_width; //right of cell is 1 cell_width away from left of cell
-//                float top = top_margin + (i * cell_height); //top of cell
-//                float bottom = top + cell_height; //bottom of cell is 1 cell_height away from top of cell
-//
-//                if ((x > left) && (x < right) && (y > top) && (y < bottom)) {
-//                    if (state.getPhaseOfGame() == "setUp" && j > 10) {
-//                        return null; //don't allow tapping right board during setup
-//                    }
-//                    if (state.getPhaseOfGame() == "inPlay" && j > 10) {
-//                        Logger.log("inPlay", "tap returned null during inPlay");
-//                        return null; //don't allow tapping left board during game play
-//                    }
-//                    if (j == 10) { //for empty column between boards, return null
-//                        return null;
-//                    }
-//                        return new Point(j, i); //if point is in square, return point
-//                }
-//            }
-//            //return null; //if not on board, return null
-//        }
-//        return null;
-//    }
 }

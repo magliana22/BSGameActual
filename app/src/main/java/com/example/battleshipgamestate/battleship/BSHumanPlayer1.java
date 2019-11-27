@@ -192,7 +192,6 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
     }
 
-
     @Override
     public void onClick(View v) {
         Logger.log("play", "setting phase to play");
