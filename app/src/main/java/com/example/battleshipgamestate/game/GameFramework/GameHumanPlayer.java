@@ -365,5 +365,9 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
         // by default, do nothing
     }
 
+    public int getPlayerNum(){
+        return this.playerNum;
+    }
+
 }// class GameHumanPlayer
 

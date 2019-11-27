@@ -113,6 +113,7 @@ public class BSState extends GameState {
             shipNum2++;
         }
 
+
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 this.p1Board[row][col] = new BSLocation();

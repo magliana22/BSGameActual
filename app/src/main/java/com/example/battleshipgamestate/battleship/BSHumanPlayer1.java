@@ -184,10 +184,12 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     public void onClick(View v){
     if(v.getId()==R.id.p1_ready_button && surfaceView.state.phaseOfGame.equals("setUp")){
         Logger.log("Tag","p1 is ready");
-        surfaceView.state.changeP1Ready();
+        BSPlayerReadyAction action= new BSPlayerReadyAction(this);
+        game.sendAction(action);
     }
     else if(v.getId()==R.id.rotate_button && surfaceView.state.phaseOfGame.equals("setUp")){
-    surfaceView.state.rotateShip(0);
+        BSRotateAction action= new BSRotateAction(this);
+    game.sendAction(action);
     }
     }
 

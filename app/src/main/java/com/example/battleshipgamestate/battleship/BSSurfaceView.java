@@ -201,11 +201,11 @@ public class BSSurfaceView extends FlashSurfaceView implements View.OnClickListe
         }
 
         // draw ships
-        canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
-        canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
-        canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
-        canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
-        canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
+//        canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
+//        canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
+//        canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
+//        canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
+//        canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
 
         if (state.winCondition()){
             cheatmode = true; //if game won, show all ships

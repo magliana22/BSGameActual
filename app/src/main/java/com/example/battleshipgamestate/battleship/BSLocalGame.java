@@ -1,5 +1,7 @@
 package com.example.battleshipgamestate.battleship;
 
+import com.example.battleshipgamestate.game.GameFramework.GameComputerPlayer;
+import com.example.battleshipgamestate.game.GameFramework.GameHumanPlayer;
 import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 import com.example.battleshipgamestate.game.GameFramework.LocalGame;
 import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameAction;
@@ -132,6 +134,38 @@ public class BSLocalGame extends LocalGame {
             BSAddShip bas = (BSAddShip) action;
             return state.addShip(getPlayerIdx(bas.getPlayer()), bas.getShip());
         }
+        else if(action instanceof BSRotateAction && this.checkGamePhase()==1){
+            BSRotateAction bsra= (BSRotateAction) action;
+            GamePlayer player = action.getPlayer();
+            int playerId = -1;
+            if (player instanceof  BSHumanPlayer1){
+                playerId = ((BSHumanPlayer1)player).getPlayerNum();
+            }
+            else if(player instanceof  BSComputerPlayer1){
+                playerId=((BSComputerPlayer1)player).getPlayerNum();
+            }
+            else if(player instanceof BSComputerPlayer2){
+                playerId=((BSComputerPlayer2)player).getPlayerNum();
+            }
+            state.rotateShip(playerId);
+        }
+        else if(action instanceof BSPlayerReadyAction && this.checkGamePhase()==1){
+            int theReadyPlayer= -1;
+            BSPlayerReadyAction playerReady= (BSPlayerReadyAction) action;
+            GamePlayer player= action.getPlayer();
+            if(player instanceof GameHumanPlayer){
+                theReadyPlayer=((BSHumanPlayer1) player).getPlayerNum();
+            }
+            else if(player instanceof GameComputerPlayer){
+                theReadyPlayer=((GameComputerPlayer) player).getPlayerNum();
+            }
+            if(theReadyPlayer==1){
+                state.changeP1Ready();
+            }
+            else if(theReadyPlayer==2){
+                state.changeP2Ready();
+            }
+        }
         /**
         // get the 0/1 id of target player (player who's board is being attacked)
         int playerId = state.getPlayerTarget();
@@ -171,13 +205,8 @@ public class BSLocalGame extends LocalGame {
         return 0;
     }
 
-    //if both players are ready the LocalGame will set the phase of game for it's state to inPlay
-    protected void progressGame(){
-        if(p1Ready && p2Ready){
-            state.setPhaseOfGame(2);
-        }
-        else{
-            state.setPhaseOfGame(1);
-        }
+    //Checks the state of the localGame
+    protected void tryToProgressGame(){
+        state.progressGame();
     }
 }
