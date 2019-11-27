@@ -178,7 +178,6 @@ public class BSState extends GameState {
         }
 
         if (p1ShipsAlive == 5 && p2ShipsAlive == 5){
-            updateShipLocations();
             Logger.log("changePhase","set phase to inPlay");
             setPhaseOfGame(2);
         }

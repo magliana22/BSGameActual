@@ -53,8 +53,10 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
                 BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 1); //p2's (AI's ship)
 
                 if (xEnd > 9) { //bounds check right side of board, shift out-of-bounds ships to left
-                    xEnd -= shipSize;
-                    ship = new BSShip(xVal - shipSize, xEnd, yVal, yEnd, 1);
+                    xVal -= shipSize;
+                    xEnd = xVal + shipSize;
+                    yEnd = yVal;
+                    ship = new BSShip(xVal, xEnd, yVal, yEnd, 1);
                 }
 
             while (!state.validLocation(ship, xVal, yVal, 1)){ //check if ship already exists
@@ -63,7 +65,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
                 xEnd = xVal + shipSize;
                 yEnd = yVal;
                 Logger.log("invalidPlacementAI","ship exists already, placing again" + " " + xVal + " " + yVal);
-                ship = new BSShip(xVal - shipSize, xEnd, yVal, yEnd, 1);
+                ship = new BSShip(xVal, xEnd, yVal, yEnd, 1);
             }
 
                 BSAddShip action = new BSAddShip(this, ship);
