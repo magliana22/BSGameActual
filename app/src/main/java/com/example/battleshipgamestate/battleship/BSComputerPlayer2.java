@@ -41,15 +41,11 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < 10; j++){
                     game.sendAction(new BSFire(this, j, i));
+                    break;
 
                 }
             }
-            /**
-            for (int j = 0; j < 10; j++){
-                game.sendAction(new BSFire(this, j, xLoc));
 
-            }
-             */
         }else if (theState.checkSpot(yLoc,xLoc,0)==1||theState.checkSpot(yLoc,xLoc,0)==4){
             //game.sendAction(new BSFire(this,xLoc,yLoc));
         }
