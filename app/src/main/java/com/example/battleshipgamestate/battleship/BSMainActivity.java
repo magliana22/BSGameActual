@@ -33,6 +33,12 @@ public class BSMainActivity extends GameMainActivity {
             }
         });
 
+        playerTypes.add(new GamePlayerType("Local Human Player (human 2)"){
+            public GamePlayer createPlayer(String name){
+                return new BSHumanPlayer2(name,R.layout.activity_main);
+            }
+        });
+
         // dumb computer player
         playerTypes.add(new GamePlayerType("Computer Player (dumb)") {
             public GamePlayer createPlayer(String name) {

@@ -15,21 +15,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
-/**
- * class GameHumanPlayer
- *
- * is an abstract base class for a player that is controlled by a human. For any
- * particular game, a subclass should be created that can display the current
- * game state and responds to user commands.
- *
- * @author Steven R. Vegdahl
- * @author Andrew Nuxoll
- * @version July 2013
- *
- */
-public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener {
+public class BSHumanPlayer2 extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener {
+
     //Tag for logging
-    private static final String TAG = "BSHumanPlayer1";
+    private static final String TAG = "BSHumanPlayer2";
     // the current activity
     private Activity myActivity;
 
@@ -39,7 +28,6 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     // the ID for the layout to use
     private int layoutId;
 
-
     /**
      * constructor
      *
@@ -48,7 +36,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
      * @param layoutId
      *      the id of the layout to use
      */
-    public BSHumanPlayer1(String name, int layoutId) {
+    public BSHumanPlayer2(String name,int layoutId) {
         super(name);
         this.layoutId = layoutId;
     }
@@ -91,10 +79,10 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
         // set the surfaceView instance variable
         surfaceView = (BSSurfaceView)myActivity.findViewById(R.id.surfaceView);
-      //  Logger.log("set listener","OnTouch");
+        //  Logger.log("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
-        Button p1ReadyUp=myActivity.findViewById(R.id.p1_ready_button);
-        p1ReadyUp.setOnClickListener(this);
+        Button p2ReadyUp=myActivity.findViewById(R.id.p2_ready_button);
+        p2ReadyUp.setOnClickListener(this);
         Button rotateButton=myActivity.findViewById(R.id.rotate_button);
         rotateButton.setOnClickListener(this);
     }
@@ -150,18 +138,18 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                 //we are in setup phase
                 int shipSize = 0; //variable for size of ship
                 // set size of ship depending on order placed (go from smallest to largest)
-                if (surfaceView.state.p1ShipsAlive == 0 || surfaceView.state.p1ShipsAlive == 1) {
+                if (surfaceView.state.p2ShipsAlive == 0 || surfaceView.state.p2ShipsAlive == 1) {
                     shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
-                } else if (surfaceView.state.p1ShipsAlive == 2) {
+                } else if (surfaceView.state.p2ShipsAlive == 2) {
                     shipSize = 2;
-                } else if (surfaceView.state.p1ShipsAlive == 3) {
+                } else if (surfaceView.state.p2ShipsAlive == 3) {
                     shipSize = 3;
-                } else if (surfaceView.state.p1ShipsAlive == 4) {
+                } else if (surfaceView.state.p2ShipsAlive == 4) {
                     shipSize = 4;
                 }
                 int xEnd = p.x + shipSize;
                 int yEnd = p.y;
-                BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, 0, 1, shipSize + 1); //p1's
+                BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, 0, 1, shipSize + 1); //p2's
 
                 if (p.x + shipSize > 9) { //bounds check right side of board
                     xEnd -= shipSize;
@@ -182,15 +170,15 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     }
 
     public void onClick(View v){
-    if(v.getId()==R.id.p1_ready_button && surfaceView.state.phaseOfGame.equals("setUp")){
-        Logger.log("Tag","p1 is ready");
-        BSPlayerReadyAction action= new BSPlayerReadyAction(this);
-        game.sendAction(action);
-    }
-    else if(v.getId()==R.id.rotate_button && surfaceView.state.phaseOfGame.equals("setUp")){
-        BSRotateAction action= new BSRotateAction(this);
-    game.sendAction(action);
-    }
+        if(v.getId()==R.id.p2_ready_button && surfaceView.state.phaseOfGame.equals("setUp")){
+            Logger.log("Tag","p2 is ready");
+            BSPlayerReadyAction action= new BSPlayerReadyAction(this);
+            game.sendAction(action);
+        }
+        else if(v.getId()==R.id.rotate_button && surfaceView.state.phaseOfGame.equals("setUp")){
+            BSRotateAction action= new BSRotateAction(this);
+            game.sendAction(action);
+        }
     }
 
 }
