@@ -324,19 +324,20 @@ public class BSSurfaceView extends FlashSurfaceView {
                 float bottom = top + cell_height; //bottom of cell is 1 cell_height away from top of cell
 
                 if ((x > left) && (x < right) && (y > top) && (y < bottom)) {
-                    if (state.getPhaseOfGame() == "setUp" && col > 10){
-                        return null; //don't allow tapping right board during setup
-                    }
-                    if (state.getPhaseOfGame() == "inPlay" && col < 10){
+                    if (state.getPhaseOfGame() == "inPlay" && col < 10){ //return null for left board during inPlay phase
                         Logger.log("inPlay", "tap returned null during inPlay");
-                        return null; //don't allow tapping left board during game play
+                        return null;
+                    } else if (state.getPhaseOfGame() != "inPlay" && col > 10){ //return null for right board during setUp phase
+                        return null;
                     }
                     if (col == 10){ //for empty column between boards, return null
                         return null;
                     }
+                    Logger.log("tapPointBeforeCol-11", " " + col + " " + row);
                     if(col > 10){
                         col -=11;
                     }
+                    Logger.log("tapPoint"," " + col + " " + row);
                     return new Point(col,row); //if point is in square, return point
                 }
             }
