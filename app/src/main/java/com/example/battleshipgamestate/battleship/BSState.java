@@ -433,6 +433,10 @@ public class BSState extends GameState {
         }
     }
 
+    //DO THIS!!!!!!!!!!!
+    //make this return a boolean: true for a valid move and false for an invalid move
+    //before setting orientation check that the end coordinates are less than 10 and greater than -1
+    //also iterate through coordinates and make sure that no ships occupy the spaces that would be rotated into
     public void rotateShip(int playerId){
         if(playerId==0){
             //in setup, the number of ships alive corresponds to what ship is currently being placed due to a fixed order of ship placement

@@ -108,7 +108,7 @@ public class BSLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
-        if (action instanceof BSFire && this.checkGamePhase()==2) {
+        if (action instanceof BSFire && this.checkGamePhase() == 2) {
 
             //get the row and column position of the player's move
             BSFire bsm = (BSFire) action;
@@ -125,71 +125,47 @@ public class BSLocalGame extends LocalGame {
                 return false;
             }
         }
-        else if (action instanceof BSAddShip && this.checkGamePhase()==1){
-            Logger.log(TAG,"action is addShip");
+        else if (action instanceof BSAddShip && this.checkGamePhase() == 1) {
+            Logger.log(TAG, "action is addShip");
             BSAddShip bas = (BSAddShip) action;
             return state.addShip(getPlayerIdx(bas.getPlayer()), bas.getShip());
         }
-        else if(action instanceof BSRotateAction && this.checkGamePhase()==1){
-            BSRotateAction bsra= (BSRotateAction) action;
+        else if (action instanceof BSRotateAction && this.checkGamePhase() == 1) {
+            BSRotateAction bsra = (BSRotateAction) action;
             GamePlayer player = action.getPlayer();
             int playerId = -1;
-            if (player instanceof  BSHumanPlayer1){
-                playerId = ((BSHumanPlayer1)player).getPlayerNum();
+
+            if (player instanceof BSHumanPlayer1) {
+                playerId = ((BSHumanPlayer1) player).getPlayerNum();
             }
-            else if(player instanceof  BSComputerPlayer1){
-                playerId=((BSComputerPlayer1)player).getPlayerNum();
+            else if (player instanceof BSComputerPlayer1) {
+                playerId = ((BSComputerPlayer1) player).getPlayerNum();
             }
-            else if(player instanceof BSComputerPlayer2){
-                playerId=((BSComputerPlayer2)player).getPlayerNum();
+            else if (player instanceof BSComputerPlayer2) {
+                playerId = ((BSComputerPlayer2) player).getPlayerNum();
             }
             state.rotateShip(playerId);
+            return true;//the rotateShip method should probably return a boolean to verify the validity of the move.
         }
-        else if(action instanceof BSPlayerReadyAction && this.checkGamePhase()==1){
-            int theReadyPlayer= -1;
-            BSPlayerReadyAction playerReady= (BSPlayerReadyAction) action;
-            GamePlayer player= action.getPlayer();
-            if(player instanceof GameHumanPlayer){
-                theReadyPlayer=((BSHumanPlayer1) player).getPlayerNum();
+        else if (action instanceof BSPlayerReadyAction && this.checkGamePhase() == 1) {
+            int theReadyPlayer = -1;
+            GamePlayer player = action.getPlayer();
+            if (player instanceof GameHumanPlayer) {
+                theReadyPlayer = ((BSHumanPlayer1) player).getPlayerNum();
+            } else if (player instanceof GameComputerPlayer) {
+                theReadyPlayer = ((GameComputerPlayer) player).getPlayerNum();
             }
-            else if(player instanceof GameComputerPlayer){
-                theReadyPlayer=((GameComputerPlayer) player).getPlayerNum();
-            }
-            if(theReadyPlayer==1){
+            if (theReadyPlayer == 1) {
                 state.changeP1Ready();
-            }
-            else if(theReadyPlayer==2){
+            } else if (theReadyPlayer == 2) {
                 state.changeP2Ready();
             }
             state.progressGame();
+            return true;
         }
-        /**
-        // get the 0/1 id of target player (player who's board is being attacked)
-        int playerId = state.getPlayerTarget();
-
-        // if that space is not water or ship, indicate an illegal move
-        if (state.checkSpot(row, col, playerId) != 1 && state.checkSpot(row, col, playerId) != 2) {
-            return false;
-        }
-
-
-        // get the 0/1 id of the player whose move it is
-        int whoseMove = state.getPlayerID();
-
-        // place the player's piece on the selected square
-        state.setPiece(row, col, mark[playerId]);
-
-        // make it the other player's turn
-        state.changeTurn();
-
-        // bump the move count
-        moveCount++;
-
-        // return true, indicating the it was a legal move
-        return true;*/
-
         return false;
     }
+
 
     //checks the phase of the game. Will be used to check what moveActions can be used when
     protected int checkGamePhase(){
