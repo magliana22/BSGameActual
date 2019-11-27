@@ -26,13 +26,13 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-        if (info instanceof NotYourTurnInfo) return;
+        if (!(info instanceof BSState)) return;
         Logger.log("BSComputer","CP turn now!");
 
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());
 
-        BSState state = new BSState();
+        BSState state;
         state = (BSState) info; //get game info
         if (state.getPhaseOfGame() != "inPlay"){
             Logger.log("shipAction", "ai adding ship");
@@ -62,7 +62,6 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
                 game.sendAction(action);
         } else{
             Logger.log("fire","ai sending fire");
-            sleep(2);
             BSMoveAction action = new BSMoveAction(this, yVal, xVal);
             game.sendAction(action);
         }

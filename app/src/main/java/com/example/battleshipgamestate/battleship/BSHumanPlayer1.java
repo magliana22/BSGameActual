@@ -141,7 +141,9 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             int x = (int) event.getX();
             int y = (int) event.getY();
             Point p = surfaceView.mapPixelToSquare(x, y);
-
+            //Logger.log("pointX", ""+x);
+            //Logger.log("pointY", ""+y);
+            //Logger.log("pointP",p.toString());
             // if the location did not map to a legal square, flash
             // the screen; otherwise, create and send an action to
             // the game
@@ -149,7 +151,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                 surfaceView.flash(Color.RED, 500);
             } else {
                 if (surfaceView.state.getPhaseOfGame().equals("inPlay")) {
-                    BSMoveAction action = new BSMoveAction(this, p.y, p.x);
+                    BSMoveAction action = new BSMoveAction(this, p.x, p.y);
                     Logger.log("onTouch", "Human player sending fireAction ...");
                     game.sendAction(action);
                     return true;

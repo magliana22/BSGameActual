@@ -25,7 +25,9 @@ public class BSSurfaceView extends FlashSurfaceView {
     Paint hitPaint = new Paint();
     Paint missPaint = new Paint();
 
-    /** Declare/initialize variables for grid here **/
+    /**
+     * Declare/initialize variables for grid here
+     **/
     public int num_row = 10; //number of rows in a board
     public int num_col = 10; //number of columns in a board
     public float width; //width of canvas
@@ -81,7 +83,7 @@ public class BSSurfaceView extends FlashSurfaceView {
 
         hitPaint.setStrokeWidth(7); //set hit X thickness
 
-        missPaint.setColor(Color.rgb(224, 224, 224)); //set miss color to shade of white
+        missPaint.setColor(Color.argb(125, 224, 224, 224)); //set miss color to shade of white
 
         /**
          External Citation
@@ -98,7 +100,8 @@ public class BSSurfaceView extends FlashSurfaceView {
         holder.addCallback(new SurfaceHolder.Callback() {
 
             @Override
-            public void surfaceDestroyed(SurfaceHolder holder) { }
+            public void surfaceDestroyed(SurfaceHolder holder) {
+            }
 
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
@@ -110,7 +113,8 @@ public class BSSurfaceView extends FlashSurfaceView {
             }
 
             @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { }
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            }
 
         });
 
@@ -124,17 +128,19 @@ public class BSSurfaceView extends FlashSurfaceView {
 
     protected BSState state; //local state variable
 
-    /** setState method: sets the local state variable
-     * @param theState
-     *              state to reference for setting local state
+    /**
+     * setState method: sets the local state variable
+     *
+     * @param theState state to reference for setting local state
      */
     public void setState(BSState theState) {
         this.state = theState;
     }
 
-    /** public method onDraw will draw the GUI
-     * @param canvas
-     *              canvas to draw on
+    /**
+     * public method onDraw will draw the GUI
+     *
+     * @param canvas canvas to draw on
      */
     public void onDraw(Canvas canvas) {
 
@@ -173,7 +179,7 @@ public class BSSurfaceView extends FlashSurfaceView {
         }*/
 
             RectF[] shipRectP1 = new RectF[5]; //create array of ships for p1
-            for (int i = 0; i < state.p1Ships.length; i++) { //create ships for the array
+            for (int i = 0; i < state.p1ShipsAlive; i++) { //create ships for the array
                 BSShip theShip = state.p1Ships[i];
                 shipRectP1[i] = new RectF(left_margin + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
                         left_margin + (cell_width * (theShip.getx2() + 1)), top_margin + (cell_height * (1 + theShip.gety2())));
@@ -187,7 +193,7 @@ public class BSSurfaceView extends FlashSurfaceView {
             }
 
             RectF shipRectP2[] = new RectF[5];
-            for (int i = 0; i < state.p2Ships.length; i++) {
+            for (int i = 0; i < state.p2ShipsAlive; i++) {
                 BSShip theShip = state.p2Ships[i];
                 shipRectP2[i] = new RectF(left_margin + (11 * cell_width) + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
                         left_margin + (11 * cell_width) + (cell_width * (theShip.getx2() + 1)), top_margin + (cell_height * (1 + theShip.gety2())));
@@ -201,37 +207,39 @@ public class BSSurfaceView extends FlashSurfaceView {
             }
 
             // draw ships
-            canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
-            canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
-            canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
-            canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
-            canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
-
+            if (shipRectP1[0] != null) {
+                canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
+            }
+            if (shipRectP1[1] != null) {
+                canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
+            }
+            if (shipRectP1[2] != null) {
+                canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
+            }
+            if (shipRectP1[3] != null) {
+                canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
+            }
+            if (shipRectP1[4] != null) {
+                canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
+            }
             if (cheatmode) {
 
-                canvas.drawBitmap(this.ship1, null, shipRectP2[0], null); //draw ship
-                canvas.drawBitmap(this.ship2, null, shipRectP2[1], null); //draw ship
-                canvas.drawBitmap(this.ship3, null, shipRectP2[2], null); //draw ship
-                canvas.drawBitmap(this.ship4, null, shipRectP2[3], null); //draw ship
-                canvas.drawBitmap(this.ship5, null, shipRectP2[4], null); //draw ship
+                if (shipRectP2[0] != null) {
+                    canvas.drawBitmap(this.ship1, null, shipRectP2[0], null); //draw ship
+                }
+                if (shipRectP2[1] != null) {
+                    canvas.drawBitmap(this.ship2, null, shipRectP2[1], null); //draw ship
+                }
+                if (shipRectP2[2] != null) {
+                    canvas.drawBitmap(this.ship3, null, shipRectP2[2], null); //draw ship
+                }
+                if (shipRectP2[3] != null) {
+                    canvas.drawBitmap(this.ship4, null, shipRectP2[3], null); //draw ship
+                }
+                if (shipRectP2[4] != null) {
+                    canvas.drawBitmap(this.ship5, null, shipRectP2[4], null); //draw ship
+                }
             }
-            //draw hits
-            //drawHit(canvas, 0, 1);
-
-            //for (int j = 0; j < 10; j++){
-            //  for (int k = 0; k < 10; k++){
-            //   if(state.p1Board[j][k].isHit)
-            //draw hit here
-            // }
-            //}
-            //draw misses
-            //drawMiss(canvas, 1, 4);
-
-            //if we don't have any state, there's nothing more to draw, so return
-            //if (state == null) {
-            // return;
-            //}
-
 
             // for each square that has a hit or miss, draw it on the appropriate place on the canvas
             for (int row = 0; row < num_row; row++) {
@@ -257,9 +265,11 @@ public class BSSurfaceView extends FlashSurfaceView {
         }
     }
 
-    /** drawBoard method: draws the playing boards on the specified canvas
-     *  @param canvas
-     *              referenced canvas to draw on **/
+    /**
+     * drawBoard method: draws the playing boards on the specified canvas
+     *
+     * @param canvas referenced canvas to draw on
+     **/
     public void drawBoard(Canvas canvas) {
 
         for (int i = 0; i < num_row; i++) {
@@ -271,13 +281,12 @@ public class BSSurfaceView extends FlashSurfaceView {
 
     }
 
-    /** drawCell method: draws a single cell of the playing board
-     * @param canvas
-     *                  canvas to draw on
-     * @param row
-     *                  row of board to draw the cell
-     * @param col
-     *                  column of board to draw the cell
+    /**
+     * drawCell method: draws a single cell of the playing board
+     *
+     * @param canvas canvas to draw on
+     * @param row    row of board to draw the cell
+     * @param col    column of board to draw the cell
      */
     public void drawCell(Canvas canvas, float row, float col) {
 
@@ -290,13 +299,12 @@ public class BSSurfaceView extends FlashSurfaceView {
 
     }
 
-    /** drawHit method: draws an x where a player hits a ship
-     * @param canvas
-     *          the canvas referenced to draw on
-     * @param row
-     *          the row the hit will be drawn on
-     * @param col
-     *          the column the hit will be drawn on
+    /**
+     * drawHit method: draws an x where a player hits a ship
+     *
+     * @param canvas the canvas referenced to draw on
+     * @param row    the row the hit will be drawn on
+     * @param col    the column the hit will be drawn on
      */
     public void drawHit(Canvas canvas, float row, float col) {
         float cell_left = left_margin + (col * cell_width); //left of cell
@@ -305,17 +313,16 @@ public class BSSurfaceView extends FlashSurfaceView {
         float cell_bottom = cell_top + cell_height; //bottom of cell is 1 cell_height away from top of cell
 
         //draw the X
-        canvas.drawLine(cell_left,cell_top,cell_right,cell_bottom, hitPaint); //line from top left to bottom right of cell
-        canvas.drawLine(cell_left,cell_bottom,cell_right,cell_top, hitPaint); //line from bottom left to top right of cell
+        canvas.drawLine(cell_left, cell_top, cell_right, cell_bottom, hitPaint); //line from top left to bottom right of cell
+        canvas.drawLine(cell_left, cell_bottom, cell_right, cell_top, hitPaint); //line from bottom left to top right of cell
     }
 
-    /** drawMiss method: draws an o where a player misses
-     * @param canvas
-     *              canvas reference to draw on
-     * @param row
-     *              row to draw miss on
-     * @param col
-     *              col to draw miss on
+    /**
+     * drawMiss method: draws an o where a player misses
+     *
+     * @param canvas canvas reference to draw on
+     * @param row    row to draw miss on
+     * @param col    col to draw miss on
      */
     public void drawMiss(Canvas canvas, float row, float col) {
         float cell_left = left_margin + (col * cell_width); //left of cell
@@ -326,41 +333,71 @@ public class BSSurfaceView extends FlashSurfaceView {
         canvas.drawOval(myOval, missPaint);
     }
 
-    /** mapPixelToSquare method: converts a touch into a square on the board
-     * @param x
-     *              x coordinate where screen is touched
-     * @param y
-     *              y coordinate where screen is touched
+    /**
+     * mapPixelToSquare method: converts a touch into a square on the board
+     *
+     * @param x x coordinate where screen is touched
+     * @param y y coordinate where screen is touched
      */
     public Point mapPixelToSquare(int x, int y) {
 
-        for (int i = 0; i < num_row; i++) {
-            for (int j = 0; j < num_col + 11; j++) {
-                float left = left_margin + (j * cell_width); // use this value of left for first board
+        for (int row = 0; row < num_row; row++) {
+            for (int col = 0; col < num_col + 11; col++) {
+                float left = left_margin + (col * cell_width); // use this value of left for first board
                 //float left = left_margin + (j * cell_width) + (11*cell_width); //left of cell (right board starts at col 11)
                 float right = left + cell_width; //right of cell is 1 cell_width away from left of cell
-                float top = top_margin + (i * cell_height); //top of cell
+                float top = top_margin + (row * cell_height); //top of cell
                 float bottom = top + cell_height; //bottom of cell is 1 cell_height away from top of cell
 
-                if ((x > left) != (x > right) && (y > top) != (y > bottom)) {
-                    //if (j > num_col){
-                        //j -= 11;
-                    //}
-                    if (state.getPhaseOfGame() == "setUp" && j > 10){
+                if ((x > left) && (x < right) && (y > top) && (y < bottom)) {
+                    if (state.getPhaseOfGame() == "setUp" && col > 10){
                         return null; //don't allow tapping right board during setup
                     }
-                    if (state.getPhaseOfGame() == "inPlay" && j < 10){
+                    if (state.getPhaseOfGame() == "inPlay" && col < 10){
                         Logger.log("inPlay", "tap returned null during inPlay");
                         return null; //don't allow tapping left board during game play
                     }
-                    if (i == 10){ //for empty column between boards, return null
+                    if (col == 10){ //for empty column between boards, return null
                         return null;
                     }
-                    return new Point(i,j); //if point is in square, return point
+                    if(col > 10){
+                        col -=11;
+                    }
+                    return new Point(col,row); //if point is in square, return point
                 }
             }
         }
         return null; //if not on board, return null
     }
-
+//    public Point mapPixelToSquare(int x, int y) {
+//        for (int i = 0; i < num_row; i++) { //player taps on second board
+//            for (int j = 0; j < num_col; j++) {
+//                float left;
+//                if (state.getPhaseOfGame() == "setUp") {
+//                    left = left_margin + (j * cell_width); // use this value of left for first board
+//                } else {
+//                    left = left_margin + (j * cell_width) + (11 * cell_width); //left of cell (right board starts at col 11)
+//                }
+//                float right = left + cell_width; //right of cell is 1 cell_width away from left of cell
+//                float top = top_margin + (i * cell_height); //top of cell
+//                float bottom = top + cell_height; //bottom of cell is 1 cell_height away from top of cell
+//
+//                if ((x > left) && (x < right) && (y > top) && (y < bottom)) {
+//                    if (state.getPhaseOfGame() == "setUp" && j > 10) {
+//                        return null; //don't allow tapping right board during setup
+//                    }
+//                    if (state.getPhaseOfGame() == "inPlay" && j > 10) {
+//                        Logger.log("inPlay", "tap returned null during inPlay");
+//                        return null; //don't allow tapping left board during game play
+//                    }
+//                    if (j == 10) { //for empty column between boards, return null
+//                        return null;
+//                    }
+//                        return new Point(j, i); //if point is in square, return point
+//                }
+//            }
+//            //return null; //if not on board, return null
+//        }
+//        return null;
+//    }
 }

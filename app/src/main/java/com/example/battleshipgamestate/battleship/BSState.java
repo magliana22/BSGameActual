@@ -44,17 +44,17 @@ public class BSState extends GameState {
         this.p1Ships = new BSShip[5];
         this.p2Ships = new BSShip[5];
         //add ships for testing
-        this.p1Ships[0] = new BSShip(0,1,0,0,0);
-        this.p1Ships[1] = new BSShip(3,4,1,1,0);
-        this.p1Ships[2] = new BSShip(1,3,2,2,0);
-        this.p1Ships[3] = new BSShip(5,8,3,3,0);
-        this.p1Ships[4] = new BSShip(4,8,4,4,0);
+        //this.p1Ships[0] = new BSShip(0,1,0,0,0);
+        //this.p1Ships[1] = new BSShip(3,4,1,1,0);
+        //this.p1Ships[2] = new BSShip(1,3,2,2,0);
+        //this.p1Ships[3] = new BSShip(5,8,3,3,0);
+        //this.p1Ships[4] = new BSShip(4,8,4,4,0);
 
-        this.p2Ships[0] = new BSShip(0,1,0,0,1);
-        this.p2Ships[1] = new BSShip(3,4,1,1,1);
-        this.p2Ships[2] = new BSShip(1,3,2,2,1);
-        this.p2Ships[3] = new BSShip(5,8,3,3,1);
-        this.p2Ships[4] = new BSShip(4,8,5,5,1);
+        //this.p2Ships[0] = new BSShip(0,1,0,0,1);
+        //this.p2Ships[1] = new BSShip(3,4,1,1,1);
+        //this.p2Ships[2] = new BSShip(1,3,2,2,1);
+        //this.p2Ships[3] = new BSShip(5,8,3,3,1);
+        //this.p2Ships[4] = new BSShip(4,8,5,5,1);
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
@@ -91,7 +91,7 @@ public class BSState extends GameState {
             shipNum2++;
         }
         //don't use this when setup phase is working
-        updateShipLocations();
+        //updateShipLocations();
     }
 
 
@@ -118,25 +118,28 @@ public class BSState extends GameState {
             }
         }
 
-        for (int i = 0; i < 5; i++){
+        for (int i = 0; i < p1ShipsAlive; i++){
                 this.p1Ships[i] = new BSShip(original.p1Ships[i]);
+        }
+        for (int i = 0; i < p2ShipsAlive; i++){
                 this.p2Ships[i] = new BSShip(original.p2Ships[i]);
         }
 
     }
 
     public void updateShipLocations(){
-        for (int i = 0; i < p1Ships.length; i++){
+        for (int i = 0; i < p1ShipsAlive; i++){
             for (int x = p1Ships[i].getx1(); x <= p1Ships[i].getx2(); x++){
                 for (int y = p1Ships[i].gety1(); y <= p1Ships[i].gety2(); y++){
-                    p1Board[y][x].setSpot(2);
+                    p1Board[x][y].setSpot(2);
+                    Logger.log("zzzupdateShipLocations",""+x+" "+y);
                 }
             }
         }
-        for (int i = 0; i < p2Ships.length; i++){
+        for (int i = 0; i < p2ShipsAlive; i++){
             for (int x = p2Ships[i].getx1(); x <= p2Ships[i].getx2(); x++){
                 for (int y = p2Ships[i].gety1(); y <= p2Ships[i].gety2(); y++){
-                    p2Board[y][x].setSpot(2);
+                    p2Board[x][y].setSpot(2);
                 }
             }
         }
@@ -190,9 +193,11 @@ public class BSState extends GameState {
         if (playerNum == 0 && p1ShipsAlive < 5){
             p1Ships[p1ShipsAlive++] = ship;
             updateShipLocations();
+                setPlayerID(1);
         } else if (playerNum == 1 && p2ShipsAlive < 5){
             p2Ships[p2ShipsAlive++] = ship;
             updateShipLocations();
+                setPlayerID(0);
         }
 
         if (p1ShipsAlive == 5 && p2ShipsAlive == 5){
@@ -268,7 +273,7 @@ public class BSState extends GameState {
             return false;
         }
         boolean valid=false;
-
+        Logger.log("zzzfire",""+x+", "+y);
         if (this.getPlayerID() == 1) {
             BSLocation temp = new BSLocation(this.p1Board[y][x]);
 
@@ -285,7 +290,7 @@ public class BSState extends GameState {
             } else if (checkSpot(x, y, 0) == 1) {
                 temp.setSpot(4);
                 this.p1Board[y][x] = temp;
-                Logger.log("spot2","spot is water");
+                Logger.log("zzzspot2","spot is water "+x+" "+y);
                 valid=true;
             }
         } else if (this.getPlayerID() == 0) {

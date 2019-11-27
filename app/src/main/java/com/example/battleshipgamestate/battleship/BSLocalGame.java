@@ -51,8 +51,6 @@ public class BSLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver() {
 
-
-
         if(state.p1TotalHits==17){
             return playerNames[0]+" is the winner.";
         }
@@ -128,31 +126,6 @@ public class BSLocalGame extends LocalGame {
             BSAddShip bas = (BSAddShip) action;
             return state.addShip(getPlayerIdx(bas.getPlayer()), bas.getShip());
         }
-        /**
-        // get the 0/1 id of target player (player who's board is being attacked)
-        int playerId = state.getPlayerTarget();
-
-        // if that space is not water or ship, indicate an illegal move
-        if (state.checkSpot(row, col, playerId) != 1 && state.checkSpot(row, col, playerId) != 2) {
-            return false;
-        }
-
-
-        // get the 0/1 id of the player whose move it is
-        int whoseMove = state.getPlayerID();
-
-        // place the player's piece on the selected square
-        state.setPiece(row, col, mark[playerId]);
-
-        // make it the other player's turn
-        state.changeTurn();
-
-        // bump the move count
-        moveCount++;
-
-        // return true, indicating the it was a legal move
-        return true;*/
-
         return false;
     }
 }
