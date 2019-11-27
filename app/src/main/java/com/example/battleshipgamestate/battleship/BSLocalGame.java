@@ -111,6 +111,7 @@ public class BSLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
+        tryToProgressGame();
 
         if (action instanceof BSFire && this.checkGamePhase()==2) {
 
