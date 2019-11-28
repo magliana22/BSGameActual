@@ -26,19 +26,18 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-        if (info instanceof NotYourTurnInfo) return;
+        if (!(info instanceof BSState)) return;
         Logger.log("BSComputer","CP turn now!");
 
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());
 
-        BSState state = new BSState();
+        BSState state;
         state = (BSState) info; //get game info
         if (state.getPhaseOfGame() != "inPlay"){
             Logger.log("shipAction", "ai adding ship");
             int shipSize = 0; //variable for size of ship
-                //xVal = (int) (10 * Math.random());
-                //yVal = (int) (10 * Math.random());
+
                 if (state.p2ShipsAlive == 0) {
                     shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
                 } else if (state.p2ShipsAlive == 1 || state.p2ShipsAlive == 2) {
@@ -53,20 +52,29 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
 
                 BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 1); //p2's (AI's ship)
 
-                if (xEnd > 9) { //bounds check right side of board, shift out-of-bounds ships to left
-                    xEnd -= shipSize;
-                    ship = new BSShip(xVal - shipSize, xEnd, yVal, yEnd, 1);
+                if (xVal + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
+                    xVal = 9 - shipSize;
+                    xEnd = xVal + shipSize;
+                    ship = new BSShip(xVal, xEnd, yVal, yEnd, 1);
                 }
-                //this.p2Ships[x] = ship;
+
+            //check if all locations of ship are empty (no ship is there already)
+            for (int i = xVal; i <= xEnd; i++){
+                for (int j = yVal; j <= yEnd; j++){
+                    if (!state.validLocation(ship,i, j, 1)){
+                        Logger.log("invalidPlacementAI","ship exists already at: " + xVal + " " + yVal);
+                        this.receiveInfo(state); //recursively call receiveInfo on this state so AI places ship in a different spot
+                    }
+                }
+            }
+
                 BSAddShip action = new BSAddShip(this, ship);
+
                 game.sendAction(action);
         } else{
             Logger.log("fire","ai sending fire");
-            sleep(2);
             BSMoveAction action = new BSMoveAction(this, yVal, xVal);
             game.sendAction(action);
         }
-
     }
-
 }

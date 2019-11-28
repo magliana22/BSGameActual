@@ -50,19 +50,32 @@ public class BSLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
+        int shipfound1 = 0;
+        int shipfound2 = 0;
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                int result = state.checkSpot(row, col, 0);
+                int result2 = state.checkSpot(row, col, 1);
+                // player1's board
+                if (result == 2){ //if square is a ship
+                    shipfound1++;
+                }
+                // player2's board
+                if (result2 == 2){ //if square is
+                    shipfound2++;
+                }
 
-
-
-        if(state.p1TotalHits==17){
-            return playerNames[0]+" is the winner.";
+            }
         }
-        else if(state.p2TotalHits==17){
+        if (shipfound1 == 0 && state.getPhaseOfGame().equals("inPlay")){
+            Logger.log("Win Condition", "Player 1 has WON!");
             return playerNames[1]+" is the winner.";
         }
-        else{
-            return null;
+        else if (shipfound2 == 0 && state.getPhaseOfGame().equals("inPlay")){
+            Logger.log("Win Condition", "Player 2 has WON!");
+            return playerNames[0]+" is the winner.";
         }
-
+        return null;
     }
 
     /**
@@ -128,31 +141,6 @@ public class BSLocalGame extends LocalGame {
             BSAddShip bas = (BSAddShip) action;
             return state.addShip(getPlayerIdx(bas.getPlayer()), bas.getShip());
         }
-        /**
-        // get the 0/1 id of target player (player who's board is being attacked)
-        int playerId = state.getPlayerTarget();
-
-        // if that space is not water or ship, indicate an illegal move
-        if (state.checkSpot(row, col, playerId) != 1 && state.checkSpot(row, col, playerId) != 2) {
-            return false;
-        }
-
-
-        // get the 0/1 id of the player whose move it is
-        int whoseMove = state.getPlayerID();
-
-        // place the player's piece on the selected square
-        state.setPiece(row, col, mark[playerId]);
-
-        // make it the other player's turn
-        state.changeTurn();
-
-        // bump the move count
-        moveCount++;
-
-        // return true, indicating the it was a legal move
-        return true;*/
-
         return false;
     }
 }

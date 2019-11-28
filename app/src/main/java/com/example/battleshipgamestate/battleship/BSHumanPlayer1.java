@@ -141,7 +141,9 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             int x = (int) event.getX();
             int y = (int) event.getY();
             Point p = surfaceView.mapPixelToSquare(x, y);
-
+            //Logger.log("pointX", ""+x);
+            //Logger.log("pointY", ""+y);
+            //Logger.log("pointP",p.toString());
             // if the location did not map to a legal square, flash
             // the screen; otherwise, create and send an action to
             // the game
@@ -149,7 +151,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                 surfaceView.flash(Color.RED, 500);
             } else {
                 if (surfaceView.state.getPhaseOfGame().equals("inPlay")) {
-                    BSMoveAction action = new BSMoveAction(this, p.y, p.x);
+                    BSMoveAction action = new BSMoveAction(this, p.x, p.y);
                     Logger.log("onTouch", "Human player sending fireAction ...");
                     game.sendAction(action);
                     return true;
@@ -171,14 +173,23 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                     BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, 0); //p1's
 
                     if (p.x + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
-                        xEnd -= shipSize;
-                        ship = new BSShip(p.x - shipSize, xEnd, p.y, yEnd, 0);
+                        p.x = 9 - shipSize;
+                        xEnd = p.x + shipSize;
+                        ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
                     }
+
+                    //check if all locations of ship are empty (no ship is there already)
+                    for (int i = p.x; i <= xEnd; i++){
+                        for (int j = p.y; j <= yEnd; j++){
+                            if (!surfaceView.state.validLocation(ship,i, j, 0)){
+                                Logger.log("invalidPlacement","ship is already there");
+                                return false; //if not empty, return false
+                            }
+                        }
+                    }
+
                     BSAddShip action = new BSAddShip(this, ship);
 
-                    //if (surfaceView.state.p1ShipsAlive == 5){
-                    //surfaceView.state.setPhaseOfGame(2); //set to play after setup
-                    //}
                     Logger.log("onTouch", "Human player sending addShipAction ...");
                     game.sendAction(action);
                     return true;
@@ -189,7 +200,6 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         return true;
 
     }
-
 
     @Override
     public void onClick(View v) {
