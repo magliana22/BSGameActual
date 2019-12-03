@@ -12,10 +12,10 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
 
     // Tag for logging
     private static  final String TAG = "BSComputerPlayer2";
-
-    ArrayList<Pair<Integer,Integer>> toFire = new ArrayList<>();
-
-    Pair<Integer,Integer> lastFired = null;
+    // array list for locations to fire
+    protected ArrayList<Pair<Integer,Integer>> toFire = new ArrayList<>();
+    // pair for last location fired on
+    protected Pair<Integer,Integer> lastFired = null;
 
 
 
@@ -88,6 +88,7 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
             //Logger.log("Spot Type Is",""+state.checkSpot(xVal,yVal,0));
 
 
+            
             if(lastFired != null){
                 if(state.checkSpot(lastFired.first,lastFired.second,0)==3){
                     //add all neighbors that aren't hits or misses to the toFire list
@@ -125,6 +126,7 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                Pair<Integer,Integer> loc = toFire.get(0);
                toFire.remove(0);
                BSFire action = new BSFire(this,loc.first,loc.second);
+               game.sendAction(action);
             }
 
 
