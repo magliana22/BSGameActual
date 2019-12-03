@@ -2,7 +2,6 @@ package com.example.battleshipgamestate.battleship;
 
 import com.example.battleshipgamestate.game.GameFramework.GameComputerPlayer;
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameInfo;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.NotYourTurnInfo;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSComputerPlayer1 extends GameComputerPlayer{
@@ -73,7 +72,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
                 game.sendAction(action);
         } else{
             Logger.log("fire","ai sending fire");
-            BSMoveAction action = new BSMoveAction(this, yVal, xVal);
+            BSFire action = new BSFire(this, yVal, xVal);
             game.sendAction(action);
         }
     }

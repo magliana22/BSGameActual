@@ -2,8 +2,9 @@ package com.example.battleshipgamestate.battleship;
 
 import com.example.battleshipgamestate.game.GameFramework.GameComputerPlayer;
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameInfo;
-import com.example.battleshipgamestate.game.GameFramework.infoMessage.NotYourTurnInfo;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
+
+import java.util.ArrayList;
 
 public class BSComputerPlayer2 extends GameComputerPlayer {
 
@@ -47,7 +48,7 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                 shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
             } else if (state.p2ShipsAlive == 1 || state.p2ShipsAlive == 2) {
                 shipSize = 2;
-            } else if (state.p2ShipsAlive == 3) {
+            } else if (state.p2ShipsAlive == 3) { 
                 shipSize = 3;
             } else if (state.p2ShipsAlive == 4) {
                 shipSize = 4;
@@ -78,8 +79,35 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
             game.sendAction(action);
         } else{
             Logger.log("fire","ai sending fire");
-            BSMoveAction action = new BSMoveAction(this, yVal, xVal);
+            //Logger.log("Spot Type Is",""+state.checkSpot(xVal,yVal,0));
+
+            ArrayList<BSFire> hits;
+            hits = new ArrayList<BSFire>();
+
+            /**
+            if(){
+                BSFire loc = new BSFire(this,xVal,yVal);
+                hits.add(loc);
+            }
+            */
+
+            BSFire action = new BSFire(this,yVal,xVal);
             game.sendAction(action);
+
+
+
+            /**
+            if(state.checkSpot(xVal,yVal,0)==2||state.checkSpot(xVal,yVal,0)==3){
+                BSFire action = new BSFire(this,yVal,xVal);
+                game.sendAction(action);
+            }else if(state.checkSpot(xVal,yVal,0)==1||state.checkSpot(xVal,yVal,0)==4){
+                BSFire action = new BSFire(this,yVal,xVal);
+                game.sendAction(action);
+
+            }
+             */
+
+
         }
     }
 }
