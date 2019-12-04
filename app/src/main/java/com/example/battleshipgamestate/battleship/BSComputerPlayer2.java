@@ -1,5 +1,7 @@
 package com.example.battleshipgamestate.battleship;
 
+import android.util.Pair;
+
 import com.example.battleshipgamestate.game.GameFramework.GameComputerPlayer;
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameInfo;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
@@ -10,6 +12,10 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
 
     // Tag for logging
     private static  final String TAG = "BSComputerPlayer2";
+    // array list for locations to fire
+    protected ArrayList<Pair<Integer,Integer>> toFire = new ArrayList<>();
+    // pair for last location fired on
+    protected Pair<Integer,Integer> lastFired = null;
 
 
 
@@ -81,18 +87,50 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
             Logger.log("fire","ai sending fire");
             //Logger.log("Spot Type Is",""+state.checkSpot(xVal,yVal,0));
 
-            ArrayList<BSFire> hits;
-            hits = new ArrayList<BSFire>();
 
-            /**
-            if(){
-                BSFire loc = new BSFire(this,xVal,yVal);
-                hits.add(loc);
+            
+            if(lastFired != null){
+                if(state.checkSpot(lastFired.first,lastFired.second,0)==3){
+                    //add all neighbors that aren't hits or misses to the toFire list
+                    int type = state.checkSpot(lastFired.first+1,lastFired.second,0);
+                    if (type !=-1 && type!=1 && type !=3 ) {
+                        toFire.add(new Pair<Integer, Integer>(lastFired.first+1,lastFired.second));
+
+                    }
+                    type = state.checkSpot(lastFired.first,lastFired.second+1,0);
+                    if (type !=-1 && type!=1 && type !=3 ) {
+                        toFire.add(new Pair<Integer, Integer>(lastFired.first,lastFired.second+1));
+
+                    }
+                    type = state.checkSpot(lastFired.first-1,lastFired.second,0);
+                    if (type !=-1 && type!=1 && type !=3 ) {
+                        toFire.add(new Pair<Integer, Integer>(lastFired.first-1,lastFired.second));
+
+                    }
+                    type = state.checkSpot(lastFired.first,lastFired.second-1,0);
+                    if (type !=-1 && type!=1 && type !=3 ) {
+                        toFire.add(new Pair<Integer, Integer>(lastFired.first,lastFired.second-1));
+
+                    }
+
+                }
             }
-            */
 
-            BSFire action = new BSFire(this,yVal,xVal);
-            game.sendAction(action);
+            if(toFire.isEmpty()){
+
+                BSFire action = new BSFire(this,yVal,xVal);
+                game.sendAction(action);
+                lastFired = new Pair<>(yVal,xVal);
+
+            }else{
+               Pair<Integer,Integer> loc = toFire.get(0);
+               toFire.remove(0);
+               BSFire action = new BSFire(this,loc.first,loc.second);
+               game.sendAction(action);
+            }
+
+
+
 
 
 

@@ -187,6 +187,10 @@ public class BSState extends GameState implements Serializable{
 
     //checks value of a location object at a coordinate in a player's board
     public int checkSpot(int x, int y, int playerNum) {
+        if(x>=10||y>=10||x<0||y<0){
+            return -1;
+        }
+
         if (playerNum == 0) {
             if (this.p1Board[y][x].isWater == true) {
                 return 1;
