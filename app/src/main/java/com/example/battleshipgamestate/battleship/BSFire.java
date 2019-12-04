@@ -3,7 +3,9 @@ package com.example.battleshipgamestate.battleship;
 import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
 import com.example.battleshipgamestate.game.GameFramework.actionMessage.GameAction;
 
-public class BSFire extends GameAction {
+import java.io.Serializable;
+
+public class BSFire extends GameAction implements Serializable {
 
     //Tag for logging
     // Not sure if needed

@@ -3,9 +3,10 @@ package com.example.battleshipgamestate.battleship;
 import com.example.battleshipgamestate.game.GameFramework.infoMessage.GameState;
 import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class BSState extends GameState {
+public class BSState extends GameState implements Serializable{
 
     public int p1TotalHits;
     public int p2TotalHits;

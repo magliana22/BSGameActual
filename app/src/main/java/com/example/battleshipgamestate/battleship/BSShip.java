@@ -1,6 +1,8 @@
 package com.example.battleshipgamestate.battleship;
 
-public class BSShip {
+import java.io.Serializable;
+
+public class BSShip implements Serializable{
     private int xCoord1; //starting x coordinate for ship
     private int yCoord1; //starting y coordinate for ship
     private int xCoord2; //ending x coordinate for ship
