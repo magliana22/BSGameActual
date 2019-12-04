@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 public class BSState extends GameState implements Serializable{
+    private static final long serialVersionUID = -5109179064333136954L;
 
     public int p1TotalHits;
     public int p2TotalHits;
@@ -347,9 +348,11 @@ public class BSState extends GameState implements Serializable{
             switch(p1ShipsAlive){
                 case 0:
                     if(p1Ships[0].getOrientation()==1){//if horizontal
-                        p1Ships[0].setyCoord2(p1Ships[0].gety1()+(p1Ships[0].getx2()-p1Ships[0].getx1()));
-                        p1Ships[0].setxCoord2(p1Ships[0].getx1());
-                        p1Ships[0].setOrientation(2);//set to vertical
+                        if(validLocation(p1Ships[0], p1Ships[0].getx1(),p1Ships[0].gety1()+(p1Ships[0].getx2()-p1Ships[0].getx1()),0)) {
+                            p1Ships[0].setyCoord2(p1Ships[0].gety1() + (p1Ships[0].getx2() - p1Ships[0].getx1()));
+                            p1Ships[0].setxCoord2(p1Ships[0].getx1());
+                            p1Ships[0].setOrientation(2);//set to vertical
+                        }
                     }
                     else if(p1Ships[0].getOrientation()==2){//if vertical
                         p1Ships[0].setxCoord2(p1Ships[0].getx1()+(p1Ships[0].gety2()-p1Ships[0].gety1()));

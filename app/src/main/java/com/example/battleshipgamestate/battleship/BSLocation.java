@@ -1,6 +1,9 @@
 package com.example.battleshipgamestate.battleship;
 
-public class BSLocation {
+import java.io.Serializable;
+
+public class BSLocation implements Serializable {
+    private static final long serialVersionUID = -5109179064333136954L;
     public boolean isWater;
     public boolean isShip;
     public boolean isHit;
