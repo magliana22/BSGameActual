@@ -39,13 +39,18 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
     @Override
     protected void receiveInfo(GameInfo info) {
         if (!(info instanceof BSState)) return;
+        BSState state;
+        state = (BSState) info; //get game info
+
+        //  if not my turn do nothing
+        if(state.playerID != this.playerNum) return;
+
         Logger.log(TAG,"CP turn now!");
 
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());
 
-        BSState state;
-        state = (BSState) info; //get game info
+
         if (state.getPhaseOfGame() != "inPlay"){
             Logger.log("shipAction", "ai adding ship");
             int shipSize = 0; //variable for size of ship
@@ -88,62 +93,50 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
             //Logger.log("Spot Type Is",""+state.checkSpot(xVal,yVal,0));
 
 
-            
+            /**
+             External Citation
+             Date: 3 December 2019
+             Problem:
+             Resource: Dr. Triblehorn
+             Solution:
+             */
+
             if(lastFired != null){
                 if(state.checkSpot(lastFired.first,lastFired.second,0)==3){
                     //add all neighbors that aren't hits or misses to the toFire list
                     int type = state.checkSpot(lastFired.first+1,lastFired.second,0);
-                    if (type !=-1 && type!=1 && type !=3 ) {
+                    if (type !=-1  && type !=3 && type !=4) {
                         toFire.add(new Pair<Integer, Integer>(lastFired.first+1,lastFired.second));
-
                     }
                     type = state.checkSpot(lastFired.first,lastFired.second+1,0);
-                    if (type !=-1 && type!=1 && type !=3 ) {
+                    if (type !=-1  && type !=3 && type !=4) {
                         toFire.add(new Pair<Integer, Integer>(lastFired.first,lastFired.second+1));
-
                     }
                     type = state.checkSpot(lastFired.first-1,lastFired.second,0);
-                    if (type !=-1 && type!=1 && type !=3 ) {
+                    if (type !=-1  && type !=3 && type !=4) {
                         toFire.add(new Pair<Integer, Integer>(lastFired.first-1,lastFired.second));
-
                     }
                     type = state.checkSpot(lastFired.first,lastFired.second-1,0);
-                    if (type !=-1 && type!=1 && type !=3 ) {
+                    if (type !=-1 && type !=3 && type !=4 ) {
                         toFire.add(new Pair<Integer, Integer>(lastFired.first,lastFired.second-1));
-
                     }
-
+                    lastFired = null;
                 }
             }
 
             if(toFire.isEmpty()){
-
                 BSFire action = new BSFire(this,yVal,xVal);
-                game.sendAction(action);
                 lastFired = new Pair<>(yVal,xVal);
+                game.sendAction(action);
 
             }else{
                Pair<Integer,Integer> loc = toFire.get(0);
                toFire.remove(0);
                BSFire action = new BSFire(this,loc.first,loc.second);
                game.sendAction(action);
-            }
-
-
-
-
-
-
-            /**
-            if(state.checkSpot(xVal,yVal,0)==2||state.checkSpot(xVal,yVal,0)==3){
-                BSFire action = new BSFire(this,yVal,xVal);
-                game.sendAction(action);
-            }else if(state.checkSpot(xVal,yVal,0)==1||state.checkSpot(xVal,yVal,0)==4){
-                BSFire action = new BSFire(this,yVal,xVal);
-                game.sendAction(action);
 
             }
-             */
+
 
 
         }

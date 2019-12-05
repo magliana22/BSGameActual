@@ -28,11 +28,17 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         if (!(info instanceof BSState)) return;
         Logger.log("BSComputer","CP turn now!");
 
+        BSState state;
+        state = (BSState) info; //get game info
+
+        //  if not my turn do nothing
+        if(state.playerID != this.playerNum) return;
+
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());
 
-        BSState state;
-        state = (BSState) info; //get game info
+
+
         if (state.getPhaseOfGame() != "inPlay"){
             Logger.log("shipAction", "ai adding ship");
             int shipSize = 0; //variable for size of ship
