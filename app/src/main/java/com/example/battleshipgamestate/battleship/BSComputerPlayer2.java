@@ -12,7 +12,7 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
 
     // Tag for logging
     private static  final String TAG = "BSComputerPlayer2";
-    // array list for locations to fire
+    // array list of pairs for locations to fire
     protected ArrayList<Pair<Integer,Integer>> toFire = new ArrayList<>();
     // pair for last location fired on
     protected Pair<Integer,Integer> lastFired = null;
@@ -86,24 +86,23 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
             }
 
             BSAddShip action = new BSAddShip(this, ship);
-
             game.sendAction(action);
         } else{
             Logger.log("fire","ai sending fire");
-            //Logger.log("Spot Type Is",""+state.checkSpot(xVal,yVal,0));
-
 
             /**
              External Citation
              Date: 3 December 2019
-             Problem:
+             Problem: Needed help with fixing BSComputerPlayer2's bounds checking (didn't change turn or crashed)
              Resource: Dr. Triblehorn
-             Solution:
+             Solution: Rewritten methods in the state to check locations where ships are, and
+             fixed BSComputerPlayer2's logic for which places to fire
              */
 
+            // when array list is empty add all neighbors that aren't hits or misses to the toFire array list
             if(lastFired != null){
                 if(state.checkSpot(lastFired.first,lastFired.second,0)==3){
-                    //add all neighbors that aren't hits or misses to the toFire list
+                    // add locations 1 to the left, 1 to the right, 1 above, and 1 below, to the toFire arraylist
                     int type = state.checkSpot(lastFired.first+1,lastFired.second,0);
                     if (type !=-1  && type !=3 && type !=4) {
                         toFire.add(new Pair<Integer, Integer>(lastFired.first+1,lastFired.second));
@@ -123,21 +122,23 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                     lastFired = null;
                 }
             }
-
+            // if the array list is empty send a fire action with two random numbers
             if(toFire.isEmpty()){
                 BSFire action = new BSFire(this,yVal,xVal);
+                // create new pair of this random location that was fired on
                 lastFired = new Pair<>(yVal,xVal);
                 game.sendAction(action);
 
             }else{
+               // get the first item in the array list (pair)
                Pair<Integer,Integer> loc = toFire.get(0);
+               // remove this pair from the array list
                toFire.remove(0);
+               // once removed send a fire action with the first location then second location of the pair
                BSFire action = new BSFire(this,loc.first,loc.second);
                game.sendAction(action);
 
             }
-
-
 
         }
     }
