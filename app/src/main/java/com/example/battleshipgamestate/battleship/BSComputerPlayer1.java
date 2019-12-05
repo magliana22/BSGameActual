@@ -6,6 +6,8 @@ import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSComputerPlayer1 extends GameComputerPlayer{
 
+    // Tag for logging
+    private static  final String TAG = "BSComputerPlayer1";
     /*
      * Constructor for the BSComputerPlayer1 class
      */
@@ -26,7 +28,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
     @Override
     protected void receiveInfo(GameInfo info) {
         if (!(info instanceof BSState)) return;
-        Logger.log("BSComputer","CP turn now!");
+        Logger.log(TAG,"CP turn now!");
 
         BSState state;
         state = (BSState) info; //get game info
@@ -74,7 +76,6 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
             }
 
                 BSAddShip action = new BSAddShip(this, ship);
-
                 game.sendAction(action);
         } else{
             Logger.log("fire","ai sending fire");
