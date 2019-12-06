@@ -9,6 +9,8 @@ import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 import com.example.battleshipgamestate.R;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.view.MotionEvent;
@@ -27,7 +29,7 @@ import android.widget.Button;
  * @version July 2013
  *
  */
-public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener {
+public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener, DialogInterface{
     //Tag for logging
     private static final String TAG = "BSHumanPlayer1";
     // the current activity
@@ -40,7 +42,11 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     private int layoutId;
 
     //buttons
-    private Button myButton;
+    private Button menuButton;
+
+    private Button rotateButton;
+
+    private Button restartButton;
 
     /**
      * constructor
@@ -100,8 +106,14 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         Logger.log("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
 
-        myButton = (Button)myActivity.findViewById(R.id.play_button);
-        myButton.setOnClickListener(this);
+        menuButton = (Button)myActivity.findViewById(R.id.menu_button);
+        menuButton.setOnClickListener(this);
+
+        restartButton = (Button)myActivity.findViewById(R.id.restart_button);
+        restartButton.setOnClickListener(this);
+
+        rotateButton = (Button)myActivity.findViewById(R.id.rotate_button);
+        rotateButton.setOnClickListener(this);
 
     }
 
@@ -203,7 +215,50 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
     @Override
     public void onClick(View v) {
-        Logger.log("play", "setting phase to play");
-        surfaceView.state.setPhaseOfGame(2); //set to play phase when button is pressed.
+        /**
+         External Citation
+         Date: 5 December 2019
+         Problem: Creating a help dialog when the menu button is clicked
+         Resource:
+         https://stackoverflow.com/questions/2115758
+         /how-do-i-display-an-alert-dialog-on-android
+         Solution: I used example code from this post to display a help dialog.
+         */
+        switch (v.getId()) {
+
+            case R.id.menu_button:
+                // do your code
+                openDialog(); //opens the help dialog
+                break;
+
+            case R.id.rotate_button:
+                // do your code
+
+                break;
+
+            case R.id.restart_button:
+                // do your code
+                
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void cancel() {
+
+    }
+
+    @Override
+    public void dismiss() {
+
+    }
+
+    public void openDialog() {
+        final Dialog dialog = new Dialog(myActivity); // Context, this, etc.
+        dialog.setContentView(R.layout.activity_display_help);
+        dialog.show();
     }
 }

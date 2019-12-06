@@ -27,10 +27,10 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/play_button"
+                android:id="@+id/menu_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Play" />
+                android:text="MENU" />
 
         </LinearLayout>
 
