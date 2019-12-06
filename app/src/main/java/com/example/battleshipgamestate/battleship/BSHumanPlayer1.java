@@ -11,9 +11,15 @@ import com.example.battleshipgamestate.R;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+
+
 
 /**
  * class GameHumanPlayer
@@ -41,6 +47,9 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
     //buttons
     private Button myButton;
+
+    public SoundPool soundPool;
+    public int soundBoom;
 
     /**
      * constructor
@@ -102,8 +111,24 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
         myButton = (Button)myActivity.findViewById(R.id.play_button);
         myButton.setOnClickListener(this);
-
+        /**
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setMaxStreams(1)
+                    .setAudioAttributes(audioAttributes)
+                    .build();
+        }else {
+            soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+        }
+        soundBoom = soundPool.load(this.myActivity,R.raw.boom,1);
+         */
     }
+
+
 
     /**
      * returns the GUI's top view
@@ -154,6 +179,12 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                     BSFire action = new BSFire(this, p.x, p.y);
                     Logger.log("onTouch", "Human player sending fireAction ...");
                     game.sendAction(action);
+                    /**
+                    int check = surfaceView.state.checkSpot(p.x,p.y,0);
+                    if(check == 3 && check!=1 && check!=4 && check ==2){
+                        soundPool.play(soundBoom,1,1,0,0,1);
+                    }
+                     */
                     return true;
                 } else {
                     //we are in setup phase

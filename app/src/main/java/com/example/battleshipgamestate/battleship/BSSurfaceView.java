@@ -8,7 +8,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -52,6 +55,9 @@ public class BSSurfaceView extends FlashSurfaceView {
     public float[] yBoard2end = new float[10];
 
     private boolean cheatmode = false;
+
+    public SoundPool soundPool;
+    public int soundBoom;
 
     //background image variables
     private SurfaceHolder holder;
@@ -227,6 +233,7 @@ public class BSSurfaceView extends FlashSurfaceView {
                     // player1's board
                     if (result == 3) { //if square is a hit
                         drawHit(canvas, row, col);
+                        //soundPool.play(soundBoom,1,1,0,0,1);
                     }
                     if (result == 4) { //if square is a miss
                         drawMiss(canvas, row, col);
@@ -234,12 +241,27 @@ public class BSSurfaceView extends FlashSurfaceView {
                     // player2's board
                     if (result2 == 3) { //if square is a hit
                         drawHit(canvas, row, (num_col + 1) + col);
+                        soundPool.play(soundBoom,1,1,0,0,1);
+                        break;
                     }
                     if (result2 == 4) { //if square is a miss
                         drawMiss(canvas, row, (num_col + 1) + col);
                     }
                 }
             }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build();
+                soundPool = new SoundPool.Builder()
+                        .setMaxStreams(1)
+                        .setAudioAttributes(audioAttributes)
+                        .build();
+            }else {
+                soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+            }
+            soundBoom = soundPool.load(getContext(),R.raw.boom,1);
         }
     }
 
