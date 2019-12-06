@@ -40,7 +40,8 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     private int layoutId;
 
     //buttons
-    private Button myButton;
+    private Button helpButton;
+    private Button rotateButton=surfaceView.findViewById(R.id.rotate_button);
 
     /**
      * constructor
@@ -100,9 +101,9 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         Logger.log("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
 
-        myButton = (Button)myActivity.findViewById(R.id.play_button);
-        myButton.setOnClickListener(this);
-
+        helpButton = (Button)myActivity.findViewById(R.id.play_button);
+        helpButton.setOnClickListener(this);
+        rotateButton.setOnClickListener(this);
     }
 
     /**
@@ -203,12 +204,20 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
     @Override
     public void onClick(View v) {
-        if(surfaceView.findViewById(R.id.play_button).equals(v.getId())){
-            Logger.log("play", "setting phase to play");
-            surfaceView.state.setPhaseOfGame(2); //set to play phase when button is pressed.
-        }
-        else if(surfaceView.findViewById(R.id.rotate_button).equals(v.getId())){
-            surfaceView.state.rotateShip(this.playerNum);
+
+        switch (v.getId()) {
+            case R.id.play_button:
+            if (surfaceView.state.phaseOfGame.equals("setUp") && surfaceView.state.p1ShipsAlive == 5 && surfaceView.state.p2ShipsAlive == 5) {
+                Logger.log("play", "setting phase to play");
+                surfaceView.state.setPhaseOfGame(2); //set to play phase when button is pressed.
+                break;
+            }
+            case R.id.rotate_button:
+                if(surfaceView.state.phaseOfGame.equals("setUp")) {
+                    Logger.log("rotate", "trying to rotate");
+                    surfaceView.state.rotateShip(this.playerNum);
+                    break;
+                }
         }
     }
 }
