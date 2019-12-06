@@ -46,8 +46,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
     private Button rotateButton;
 
-    private Button restartButton;
-
+    private Boolean horizontal = true;
     /**
      * constructor
      *
@@ -108,9 +107,6 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
         menuButton = (Button)myActivity.findViewById(R.id.menu_button);
         menuButton.setOnClickListener(this);
-
-        restartButton = (Button)myActivity.findViewById(R.id.restart_button);
-        restartButton.setOnClickListener(this);
 
         rotateButton = (Button)myActivity.findViewById(R.id.rotate_button);
         rotateButton.setOnClickListener(this);
@@ -180,13 +176,26 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                     } else if (surfaceView.state.p1ShipsAlive == 4) {
                         shipSize = 4;
                     }
-                    int xEnd = p.x + shipSize;
-                    int yEnd = p.y;
+                    int xEnd;
+                    int yEnd;
+                    if (horizontal) {
+                        xEnd = p.x + shipSize;
+                        yEnd = p.y;
+                    } else{
+                        xEnd = p.x;
+                        yEnd = p.y + shipSize;
+                    }
                     BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, 0); //p1's
 
                     if (p.x + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
                         p.x = 9 - shipSize;
                         xEnd = p.x + shipSize;
+                        ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
+                    }
+
+                    if (p.y + shipSize > 9) { //bounds check bottom side of board, shift out-of-bounds ships up
+                        p.y = 9 - shipSize;
+                        yEnd = p.y + shipSize;
                         ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
                     }
 
@@ -224,23 +233,13 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
          /how-do-i-display-an-alert-dialog-on-android
          Solution: I used example code from this post to display a help dialog.
          */
-        switch (v.getId()) {
-
+        switch(v.getId()) {
             case R.id.menu_button:
-                // do your code
                 openDialog(); //opens the help dialog
                 break;
-
             case R.id.rotate_button:
-                // do your code
-
+                rotate(); //change ship  orientation
                 break;
-
-            case R.id.restart_button:
-                // do your code
-                
-                break;
-
             default:
                 break;
         }
@@ -260,5 +259,13 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
         final Dialog dialog = new Dialog(myActivity); // Context, this, etc.
         dialog.setContentView(R.layout.activity_display_help);
         dialog.show();
+    }
+
+    private void rotate(){
+        if (horizontal){ //if horizontal orientation, set to vertical
+            horizontal = false;
+        } else{ //if vertical orientation, set to horizontal
+            horizontal = true;
+        }
     }
 }
