@@ -170,12 +170,12 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                     }
                     int xEnd = p.x + shipSize;
                     int yEnd = p.y;
-                    BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, 0); //p1's
+                    BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, this.playerNum); //p1's
 
                     if (p.x + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
                         p.x = 9 - shipSize;
                         xEnd = p.x + shipSize;
-                        ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
+                        ship = new BSShip(p.x, xEnd, p.y, yEnd, this.playerNum);
                     }
 
                     //check if all locations of ship are empty (no ship is there already)
@@ -203,7 +203,12 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
     @Override
     public void onClick(View v) {
-        Logger.log("play", "setting phase to play");
-        surfaceView.state.setPhaseOfGame(2); //set to play phase when button is pressed.
+        if(surfaceView.findViewById(R.id.play_button).equals(v.getId())){
+            Logger.log("play", "setting phase to play");
+            surfaceView.state.setPhaseOfGame(2); //set to play phase when button is pressed.
+        }
+        else if(surfaceView.findViewById(R.id.rotate_button).equals(v.getId())){
+            surfaceView.state.rotateShip(this.playerNum);
+        }
     }
 }
