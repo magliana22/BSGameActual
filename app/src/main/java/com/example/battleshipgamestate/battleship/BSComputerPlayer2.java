@@ -105,19 +105,19 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                     // add locations 1 to the left, 1 to the right, 1 above, and 1 below, to the toFire arraylist
                     int type = state.checkSpot(lastFired.first+1,lastFired.second,0);
                     if (type !=-1  && type !=3 && type !=4) {
-                        toFire.add(new Pair<Integer, Integer>(lastFired.first+1,lastFired.second));
+                        toFire.add(new Pair<>(lastFired.first+1,lastFired.second));
                     }
                     type = state.checkSpot(lastFired.first,lastFired.second+1,0);
                     if (type !=-1  && type !=3 && type !=4) {
-                        toFire.add(new Pair<Integer, Integer>(lastFired.first,lastFired.second+1));
+                        toFire.add(new Pair<>(lastFired.first,lastFired.second+1));
                     }
                     type = state.checkSpot(lastFired.first-1,lastFired.second,0);
                     if (type !=-1  && type !=3 && type !=4) {
-                        toFire.add(new Pair<Integer, Integer>(lastFired.first-1,lastFired.second));
+                        toFire.add(new Pair<>(lastFired.first-1,lastFired.second));
                     }
                     type = state.checkSpot(lastFired.first,lastFired.second-1,0);
                     if (type !=-1 && type !=3 && type !=4 ) {
-                        toFire.add(new Pair<Integer, Integer>(lastFired.first,lastFired.second-1));
+                        toFire.add(new Pair<>(lastFired.first,lastFired.second-1));
                     }
                     lastFired = null;
                 }

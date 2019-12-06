@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -18,12 +19,15 @@ import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSSurfaceView extends FlashSurfaceView {
 
-    Paint boardPaint = new Paint();
-    Paint dividerPaint = new Paint();
-    Paint waterPaint = new Paint();
-    Paint shipPaint = new Paint();
-    Paint hitPaint = new Paint();
-    Paint missPaint = new Paint();
+    final Paint boardPaint = new Paint();
+    final Paint dividerPaint = new Paint();
+    final Paint waterPaint = new Paint();
+    final Paint shipPaint = new Paint();
+    final Paint hitPaint = new Paint();
+    final Paint missPaint = new Paint();
+
+
+
 
     /**
      * Declare/initialize variables for grid here
