@@ -164,57 +164,112 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                     game.sendAction(action);
                     return true;
                 } else {
-                    //we are in setup phase
-                    int shipSize = 0; //variable for size of ship
-                    // set size of ship depending on order placed (go from smallest to largest)
-                    if (surfaceView.state.p1ShipsAlive == 0 || surfaceView.state.p1ShipsAlive == 1) {
-                        shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
-                    } else if (surfaceView.state.p1ShipsAlive == 2) {
-                        shipSize = 2;
-                    } else if (surfaceView.state.p1ShipsAlive == 3) {
-                        shipSize = 3;
-                    } else if (surfaceView.state.p1ShipsAlive == 4) {
-                        shipSize = 4;
-                    }
-                    int xEnd;
-                    int yEnd;
-                    if (horizontal) {
-                        xEnd = p.x + shipSize;
-                        yEnd = p.y;
-                    } else{
-                        xEnd = p.x;
-                        yEnd = p.y + shipSize;
-                    }
-                    BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, 0); //p1's
+                    if (this.playerNum == 0) {
+                        //we are in setup phase
+                        int shipSize = 0; //variable for size of ship
+                        // set size of ship depending on order placed (go from smallest to largest)
+                        if (surfaceView.state.p1ShipsAlive == 0 || surfaceView.state.p1ShipsAlive == 1) {
+                            shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
+                        } else if (surfaceView.state.p1ShipsAlive == 2) {
+                            shipSize = 2;
+                        } else if (surfaceView.state.p1ShipsAlive == 3) {
+                            shipSize = 3;
+                        } else if (surfaceView.state.p1ShipsAlive == 4) {
+                            shipSize = 4;
+                        }
+                        int xEnd;
+                        int yEnd;
+                        if (horizontal) {
+                            xEnd = p.x + shipSize;
+                            yEnd = p.y;
+                        } else {
+                            xEnd = p.x;
+                            yEnd = p.y + shipSize;
+                        }
+                        BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, 0); //p1's
 
-                    if (p.x + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
-                        p.x = 9 - shipSize;
-                        xEnd = p.x + shipSize;
-                        ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
-                    }
+                        if (p.x + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
+                            p.x = 9 - shipSize;
+                            xEnd = p.x + shipSize;
+                            ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
+                        }
 
-                    if (p.y + shipSize > 9) { //bounds check bottom side of board, shift out-of-bounds ships up
-                        p.y = 9 - shipSize;
-                        yEnd = p.y + shipSize;
-                        ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
-                    }
+                        if (p.y + shipSize > 9) { //bounds check bottom side of board, shift out-of-bounds ships up
+                            p.y = 9 - shipSize;
+                            yEnd = p.y + shipSize;
+                            ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
+                        }
 
-                    //check if all locations of ship are empty (no ship is there already)
-                    for (int i = p.x; i <= xEnd; i++){
-                        for (int j = p.y; j <= yEnd; j++){
-                            if (!surfaceView.state.validLocation(ship,i, j, 0)){
-                                Logger.log("invalidPlacement","ship is already there");
-                                return false; //if not empty, return false
+                        //check if all locations of ship are empty (no ship is there already)
+                        for (int i = p.x; i <= xEnd; i++) {
+                            for (int j = p.y; j <= yEnd; j++) {
+                                if (!surfaceView.state.validLocation(ship, i, j, 0)) {
+                                    Logger.log("invalidPlacement", "ship is already there");
+                                    return false; //if not empty, return false
+                                }
                             }
                         }
+
+                        BSAddShip action = new BSAddShip(this, ship);
+
+                        Logger.log("onTouch", "Human player sending addShipAction ...");
+                        game.sendAction(action);
+                        return true;
+
                     }
+                    else if (this.playerNum == 1) {
+                        //we are in setup phase
+                        int shipSize = 0; //variable for size of ship
+                        // set size of ship depending on order placed (go from smallest to largest)
+                        if (surfaceView.state.p2ShipsAlive == 0 || surfaceView.state.p2ShipsAlive == 1) {
+                            shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
+                        } else if (surfaceView.state.p2ShipsAlive == 2) {
+                            shipSize = 2;
+                        } else if (surfaceView.state.p2ShipsAlive == 3) {
+                            shipSize = 3;
+                        } else if (surfaceView.state.p2ShipsAlive == 4) {
+                            shipSize = 4;
+                        }
+                        int xEnd;
+                        int yEnd;
+                        if (horizontal) {
+                            xEnd = p.x + shipSize;
+                            yEnd = p.y;
+                        } else {
+                            xEnd = p.x;
+                            yEnd = p.y + shipSize;
+                        }
+                        BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, 1); //p1's
 
-                    BSAddShip action = new BSAddShip(this, ship);
+                        if (p.x + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
+                            p.x = 9 - shipSize;
+                            xEnd = p.x + shipSize;
+                            ship = new BSShip(p.x, xEnd, p.y, yEnd, 1);
+                        }
 
-                    Logger.log("onTouch", "Human player sending addShipAction ...");
-                    game.sendAction(action);
-                    return true;
+                        if (p.y + shipSize > 9) { //bounds check bottom side of board, shift out-of-bounds ships up
+                            p.y = 9 - shipSize;
+                            yEnd = p.y + shipSize;
+                            ship = new BSShip(p.x, xEnd, p.y, yEnd, 1);
+                        }
 
+                        //check if all locations of ship are empty (no ship is there already)
+                        for (int i = p.x; i <= xEnd; i++) {
+                            for (int j = p.y; j <= yEnd; j++) {
+                                if (!surfaceView.state.validLocation(ship, i, j, 1)) {
+                                    Logger.log("invalidPlacement", "ship is already there");
+                                    return false; //if not empty, return false
+                                }
+                            }
+                        }
+
+                        BSAddShip action = new BSAddShip(this, ship);
+
+                        Logger.log("onTouch", "Human player sending addShipAction ...");
+                        game.sendAction(action);
+                        return true;
+
+                    }
                 }
             }
         // register that we have handled the event
