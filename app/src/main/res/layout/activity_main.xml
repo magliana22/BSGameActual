@@ -30,7 +30,9 @@
                 android:id="@+id/menu_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MENU" />
+                android:background="@drawable/menubutton"
+                android:text="Menu"
+                />
 
         </LinearLayout>
 
@@ -46,25 +48,34 @@
 
             <TextView
                 android:id="@+id/player1_header"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:gravity="center_horizontal|left"
+                android:layout_weight="10"
+                android:background="@drawable/menubutton"
+                android:gravity="center"
                 android:text="Player 1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="#FFFFFF"
-                android:textSize="30sp" />
+                android:textColor="#000000"
+                android:textSize="22sp" />
+
+            <LinearLayout
+                android:id="@+id/separator_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:orientation="horizontal"></LinearLayout>
 
             <TextView
                 android:id="@+id/player2_header"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:gravity="right"
+                android:layout_weight="10"
+                android:background="@drawable/menubutton"
+                android:gravity="center"
                 android:text="Player 2"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="#FFFFFF"
-                android:textSize="30sp" />
+                android:textColor="#000000"
+                android:textSize="22sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -83,6 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
+                android:background="@drawable/menubutton"
                 android:text="Rotate" />
 
         </LinearLayout>

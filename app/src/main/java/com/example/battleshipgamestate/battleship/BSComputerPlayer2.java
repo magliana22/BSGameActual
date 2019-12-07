@@ -17,7 +17,7 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
     // pair for last location fired on
     protected Pair<Integer,Integer> lastFired = null;
 
-
+    private Boolean horizontal = true; //boolean for ship placement orientation
 
     /**
      * constructor for a computer player
@@ -50,10 +50,19 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());
 
+        int randomOrientation = (int) Math.round(Math.random());
+
         if (this.playerNum == 1) {
         if (state.getPhaseOfGame() != "inPlay") {
             Logger.log("shipAction", "ai adding ship");
             int shipSize = 0; //variable for size of ship
+
+            if (randomOrientation == 0){
+                horizontal = true;
+            } else{
+                horizontal = false;
+            }
+
                 if (state.p2ShipsAlive == 0) {
                     shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
                 } else if (state.p2ShipsAlive == 1 || state.p2ShipsAlive == 2) {
@@ -63,14 +72,28 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                 } else if (state.p2ShipsAlive == 4) {
                     shipSize = 4;
                 }
-                int xEnd = xVal + shipSize;
-                int yEnd = yVal;
+
+            int xEnd;
+            int yEnd;
+            if (horizontal) {
+                xEnd = xVal + shipSize;
+                yEnd = yVal;
+            } else{
+                xEnd = xVal;
+                yEnd = yVal + shipSize;
+            }
 
                 BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 1); //p2's (AI's ship)
 
-                if (xVal + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
+                if (xVal + shipSize > 9 && horizontal) { //bounds check right side of board, shift out-of-bounds ships to left
                     xVal = 9 - shipSize;
                     xEnd = xVal + shipSize;
+                    ship = new BSShip(xVal, xEnd, yVal, yEnd, 1);
+                }
+
+                if (yVal + shipSize > 9 && !horizontal) { //bounds check bottom side of board, shift out-of-bounds ships up
+                    yVal = 9 - shipSize;
+                    yEnd = yVal + shipSize;
                     ship = new BSShip(xVal, xEnd, yVal, yEnd, 1);
                 }
 
@@ -96,7 +119,7 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                  External Citation
                  Date: 3 December 2019
                  Problem:
-                 Resource: Dr. Triblehorn
+                 Resource: Dr. Tribelhorn
                  Solution:
                  */
 

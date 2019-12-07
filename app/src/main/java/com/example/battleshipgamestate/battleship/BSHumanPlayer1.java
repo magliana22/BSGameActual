@@ -168,9 +168,9 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                         //we are in setup phase
                         int shipSize = 0; //variable for size of ship
                         // set size of ship depending on order placed (go from smallest to largest)
-                        if (surfaceView.state.p1ShipsAlive == 0 || surfaceView.state.p1ShipsAlive == 1) {
+                        if (surfaceView.state.p1ShipsAlive == 0) {
                             shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
-                        } else if (surfaceView.state.p1ShipsAlive == 2) {
+                        } else if (surfaceView.state.p1ShipsAlive == 1 || surfaceView.state.p1ShipsAlive == 2) {
                             shipSize = 2;
                         } else if (surfaceView.state.p1ShipsAlive == 3) {
                             shipSize = 3;
@@ -188,13 +188,13 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                         }
                         BSShip ship = new BSShip(p.x, xEnd, p.y, yEnd, 0); //p1's
 
-                        if (p.x + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
+                        if (p.x + shipSize > 9 && horizontal) { //bounds check right side of board, shift out-of-bounds ships to left
                             p.x = 9 - shipSize;
                             xEnd = p.x + shipSize;
                             ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
                         }
 
-                        if (p.y + shipSize > 9) { //bounds check bottom side of board, shift out-of-bounds ships up
+                        if (p.y + shipSize > 9 && !horizontal) { //bounds check bottom side of board, shift out-of-bounds ships up
                             p.y = 9 - shipSize;
                             yEnd = p.y + shipSize;
                             ship = new BSShip(p.x, xEnd, p.y, yEnd, 0);
@@ -211,7 +211,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                         }
 
                         BSAddShip action = new BSAddShip(this, ship);
-
+                        Logger.log("humanShip","x1: " + ship.getx1() + " " + "y1: " + ship.gety1() + " " + "x2: " + ship.getx2() + " " + "y2: " + ship.gety2());
                         Logger.log("onTouch", "Human player sending addShipAction ...");
                         game.sendAction(action);
                         return true;
