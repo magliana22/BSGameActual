@@ -61,8 +61,19 @@ public class BSMainActivity extends GameMainActivity {
         return defaultConfig;
     }
 
+
     @Override
     public LocalGame createLocalGame() {
+
+        /**
+         External Citation
+         Date: 5 December 2019
+         Problem: Needed to loop battleship themesong
+         Resource: https://stackoverflow.com/questions/9461270/media-player-looping-android
+         Solution: added the mediaPlayer.setLooping(true); line
+         */
+
+        
         mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.battleship);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
