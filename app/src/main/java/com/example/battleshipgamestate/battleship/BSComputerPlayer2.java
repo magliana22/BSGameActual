@@ -49,7 +49,6 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
 
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());
-
         int randomOrientation = (int) Math.round(Math.random());
 
         if (this.playerNum == 1) {
@@ -174,8 +173,22 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                 } else if (state.p1ShipsAlive == 4) {
                     shipSize = 4;
                 }
-                int xEnd = xVal + shipSize;
-                int yEnd = yVal;
+
+                if (randomOrientation == 0){
+                    horizontal = true;
+                } else{
+                    horizontal = false;
+                }
+
+                int xEnd;
+                int yEnd;
+                if (horizontal) {
+                    xEnd = xVal + shipSize;
+                    yEnd = yVal;
+                } else{
+                    xEnd = xVal;
+                    yEnd = yVal + shipSize;
+                }
 
                 BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 0); //p1's (AI's ship)
 
