@@ -130,16 +130,22 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
                 }
                 BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 0); //p1's (AI's ship)
 
-                if (xVal + shipSize > 9) { //bounds check right side of board, shift out-of-bounds ships to left
+                if (xVal + shipSize > 9 && horizontal) { //bounds check right side of board, shift out-of-bounds ships to left
                     xVal = 9 - shipSize;
                     xEnd = xVal + shipSize;
+                    ship = new BSShip(xVal, xEnd, yVal, yEnd, 0);
+                }
+
+                if (yVal + shipSize > 9 && !horizontal) { //bounds check bottom side of board, shift out-of-bounds ships up
+                    yVal = 9 - shipSize;
+                    yEnd = yVal + shipSize;
                     ship = new BSShip(xVal, xEnd, yVal, yEnd, 0);
                 }
 
                 //check if all locations of ship are empty (no ship is there already)
                 for (int i = xVal; i <= xEnd; i++) {
                     for (int j = yVal; j <= yEnd; j++) {
-                        if (!state.validLocation(ship, i, j, 1)) {
+                        if (!state.validLocation(ship, i, j, 0)) {
                             Logger.log("invalidPlacementAI", "ship exists already at: " + xVal + " " + yVal);
                             this.receiveInfo(state); //recursively call receiveInfo on this state so AI places ship in a different spot
                         }

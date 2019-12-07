@@ -182,21 +182,23 @@ public class BSSurfaceView extends FlashSurfaceView {
             }
 
             // draw ships
-            if (shipRectP1[0] != null) {
-                canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
-            }
-            if (shipRectP1[1] != null) {
-                canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
-            }
-            if (shipRectP1[2] != null) {
-                canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
-            }
-            if (shipRectP1[3] != null) {
-                canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
-            }
-            if (shipRectP1[4] != null) {
-                canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
-            }
+
+                if (shipRectP1[0] != null) {
+                    canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
+                }
+                if (shipRectP1[1] != null) {
+                    canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
+                }
+                if (shipRectP1[2] != null) {
+                    canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
+                }
+                if (shipRectP1[3] != null) {
+                    canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
+                }
+                if (shipRectP1[4] != null) {
+                    canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
+                }
+
             if (cheatmode) {
 
                 if (shipRectP2[0] != null) {
@@ -327,16 +329,14 @@ public class BSSurfaceView extends FlashSurfaceView {
                 if ((x > left) && (x < right) && (y > top) && (y < bottom)) {
                     if (state.getPlayerID() == 0) {
                         if (state.getPhaseOfGame() == "inPlay" && col < 10) { //return null for left board during inPlay phase
-                            Logger.log("inPlay", "tap returned null during inPlay");
                             return null;
                         } else if (state.getPhaseOfGame() != "inPlay" && col > 10) { //return null for right board during setUp phase
                             return null;
                         }
                     } else if (state.getPlayerID() == 1) {
-                        if (state.getPhaseOfGame() == "inPlay" && col > 10) { //return null for left board during inPlay phase
-                            Logger.log("inPlay", "tap returned null during inPlay");
+                        if (state.getPhaseOfGame() == "inPlay" && col > 10) { //return null for right board during inPlay phase
                             return null;
-                        } else if (state.getPhaseOfGame() != "inPlay" && col < 10) { //return null for right board during setUp phase
+                        } else if (state.getPhaseOfGame() != "inPlay" && col < 10) { //return null for left board during setUp phase
                             return null;
                         }
                     }
@@ -344,8 +344,8 @@ public class BSSurfaceView extends FlashSurfaceView {
                         return null;
                     }
                     Logger.log("tapPointBeforeCol-11", " " + col + " " + row);
-                    if(col > 10){
-                        col -=11;
+                        if (col > 10) {
+                            col -= 11;
                     }
                     Logger.log("tapPoint"," " + col + " " + row);
                     return new Point(col,row); //if point is in square, return point
