@@ -38,7 +38,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
 
         int xVal = (int)(10*Math.random());
         int yVal = (int)(10*Math.random());
-        int randomOrientation = (int)(Math.random());
+        int randomOrientation = (int) Math.round(Math.random());
 
 
         if (state.getPhaseOfGame() != "inPlay"){
