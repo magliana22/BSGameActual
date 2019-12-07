@@ -5,13 +5,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 
 import com.example.battleshipgamestate.R;
 import com.example.battleshipgamestate.game.GameFramework.utilities.FlashSurfaceView;
@@ -19,12 +24,12 @@ import com.example.battleshipgamestate.game.GameFramework.utilities.Logger;
 
 public class BSSurfaceView extends FlashSurfaceView {
 
-    Paint boardPaint = new Paint();
-    Paint dividerPaint = new Paint();
-    Paint waterPaint = new Paint();
-    Paint shipPaint = new Paint();
-    Paint hitPaint = new Paint();
-    Paint missPaint = new Paint();
+    final Paint boardPaint = new Paint();
+    final Paint dividerPaint = new Paint();
+    final Paint waterPaint = new Paint();
+    final Paint shipPaint = new Paint();
+    final Paint hitPaint = new Paint();
+    final Paint missPaint = new Paint();
 
     /**
      * Declare/initialize variables for grid here
@@ -48,7 +53,12 @@ public class BSSurfaceView extends FlashSurfaceView {
     public float[] yBoard2start = new float[10];
     public float[] yBoard2end = new float[10];
 
-    private boolean cheatmode = true;
+    private boolean cheatmode = false;
+
+    public SoundPool soundPool;
+    public int soundBoom;
+    public int soundTheme;
+    public MediaPlayer mediaPlayer;
 
     //background image variables
     private SurfaceHolder holder;
@@ -167,6 +177,7 @@ public class BSSurfaceView extends FlashSurfaceView {
             //draw grid boards
             drawBoard(canvas);
 
+
             RectF[] shipRectP1 = new RectF[5]; //create array of ships for p1
             for (int i = 0; i < state.p1ShipsAlive; i++) { //create ships for the array
                 BSShip theShip = state.p1Ships[i];
@@ -182,23 +193,21 @@ public class BSSurfaceView extends FlashSurfaceView {
             }
 
             // draw ships
-
-                if (shipRectP1[0] != null) {
-                    canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
-                }
-                if (shipRectP1[1] != null) {
-                    canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
-                }
-                if (shipRectP1[2] != null) {
-                    canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
-                }
-                if (shipRectP1[3] != null) {
-                    canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
-                }
-                if (shipRectP1[4] != null) {
-                    canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
-                }
-
+            if (shipRectP1[0] != null) {
+                canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
+            }
+            if (shipRectP1[1] != null) {
+                canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
+            }
+            if (shipRectP1[2] != null) {
+                canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
+            }
+            if (shipRectP1[3] != null) {
+                canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
+            }
+            if (shipRectP1[4] != null) {
+                canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
+            }
             if (cheatmode) {
 
                 if (shipRectP2[0] != null) {
@@ -217,6 +226,8 @@ public class BSSurfaceView extends FlashSurfaceView {
                     canvas.drawBitmap(this.ship5, null, shipRectP2[4], null); //draw ship
                 }
             }
+
+
 
             // for each square that has a hit or miss, draw it on the appropriate place on the canvas
             for (int row = 0; row < num_row; row++) {
@@ -239,8 +250,12 @@ public class BSSurfaceView extends FlashSurfaceView {
                     }
                 }
             }
+
         }
     }
+
+
+
 
     /**
      * drawBoard method: draws the playing boards on the specified canvas
@@ -292,6 +307,8 @@ public class BSSurfaceView extends FlashSurfaceView {
         //draw the X
         canvas.drawLine(cell_left, cell_top, cell_right, cell_bottom, hitPaint); //line from top left to bottom right of cell
         canvas.drawLine(cell_left, cell_bottom, cell_right, cell_top, hitPaint); //line from bottom left to top right of cell
+
+
     }
 
     /**
@@ -327,25 +344,18 @@ public class BSSurfaceView extends FlashSurfaceView {
                 float bottom = top + cell_height; //bottom of cell is 1 cell_height away from top of cell
 
                 if ((x > left) && (x < right) && (y > top) && (y < bottom)) {
-                    if (state.getPlayerID() == 0) {
-                        if (state.getPhaseOfGame() == "inPlay" && col < 10) { //return null for left board during inPlay phase
-                            return null;
-                        } else if (state.getPhaseOfGame() != "inPlay" && col > 10) { //return null for right board during setUp phase
-                            return null;
-                        }
-                    } else if (state.getPlayerID() == 1) {
-                        if (state.getPhaseOfGame() == "inPlay" && col > 10) { //return null for right board during inPlay phase
-                            return null;
-                        } else if (state.getPhaseOfGame() != "inPlay" && col < 10) { //return null for left board during setUp phase
-                            return null;
-                        }
+                    if (state.getPhaseOfGame() == "inPlay" && col < 10){ //return null for left board during inPlay phase
+                        Logger.log("inPlay", "tap returned null during inPlay");
+                        return null;
+                    } else if (state.getPhaseOfGame() != "inPlay" && col > 10){ //return null for right board during setUp phase
+                        return null;
                     }
                     if (col == 10){ //for empty column between boards, return null
                         return null;
                     }
                     Logger.log("tapPointBeforeCol-11", " " + col + " " + row);
-                        if (col > 10) {
-                            col -= 11;
+                    if(col > 10){
+                        col -=11;
                     }
                     Logger.log("tapPoint"," " + col + " " + row);
                     return new Point(col,row); //if point is in square, return point
@@ -353,12 +363,5 @@ public class BSSurfaceView extends FlashSurfaceView {
             }
         }
         return null; //if not on board, return null
-    }
-
-    public static Bitmap RotateBitmap(Bitmap source, float angle)
-    {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 }

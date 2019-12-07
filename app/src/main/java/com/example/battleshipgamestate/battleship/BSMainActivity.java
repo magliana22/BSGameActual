@@ -17,6 +17,7 @@ public class BSMainActivity extends GameMainActivity {
     public static final int PORT_NUMBER = 5213;
     public MediaPlayer mediaPlayer;
 
+
     @Override
     public GameConfig createDefaultConfig() {
 
@@ -67,9 +68,9 @@ public class BSMainActivity extends GameMainActivity {
          Solution: added the mediaPlayer.setLooping(true); line
          */
 
-
         mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.battleship);
         mediaPlayer.setLooping(true);
+        mediaPlayer.setVolume(1,1);
         mediaPlayer.start();
         return new BSLocalGame();
     }
