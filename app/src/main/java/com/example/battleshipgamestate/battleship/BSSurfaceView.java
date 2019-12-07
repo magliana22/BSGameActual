@@ -333,10 +333,10 @@ public class BSSurfaceView extends FlashSurfaceView {
                             return null;
                         }
                     } else if (state.getPlayerID() == 1) {
-                        if (state.getPhaseOfGame() == "inPlay" && col < 10) { //return null for left board during inPlay phase
+                        if (state.getPhaseOfGame() == "inPlay" && col > 10) { //return null for left board during inPlay phase
                             Logger.log("inPlay", "tap returned null during inPlay");
                             return null;
-                        } else if (state.getPhaseOfGame() != "inPlay" && col > 10) { //return null for right board during setUp phase
+                        } else if (state.getPhaseOfGame() != "inPlay" && col < 10) { //return null for right board during setUp phase
                             return null;
                         }
                     }
