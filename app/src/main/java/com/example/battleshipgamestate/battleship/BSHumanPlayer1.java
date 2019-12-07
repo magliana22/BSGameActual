@@ -11,6 +11,10 @@ import com.example.battleshipgamestate.R;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +45,10 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
     //buttons
     private Button myButton;
+
+
+    public SoundPool soundPool;
+    public int soundBoom;
 
     /**
      * constructor
@@ -133,6 +141,22 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
      * 		the motion event that was detected
      */
     public boolean onTouch(View v, MotionEvent event) {
+        /**
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setMaxStreams(1)
+                    .setAudioAttributes(audioAttributes)
+                    .build();
+        }else {
+            soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+        }
+        soundBoom = soundPool.load(myActivity,R.raw.boom,1);
+        */
+
         // ignore if not an "up" event
         if (event.getAction() != MotionEvent.ACTION_UP) return true;
             // get the x and y coordinates of the touch-location;
@@ -151,9 +175,21 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
                 surfaceView.flash(Color.RED, 500);
             } else {
                 if (surfaceView.state.getPhaseOfGame().equals("inPlay")) {
+                    /**
+                    int check1 = surfaceView.state.checkSpot(p.x,p.y,0);
+                    int check2 = surfaceView.state.checkSpot(p.x,p.y,1);
+                    if(check1==3&&check1!=-1&&check1!=1&&check1!=2&&check1!=4){
+                        soundPool.play(soundBoom,1,1,0,0,1);
+                    }
+                    if(check2==3){
+                        soundPool.play(soundBoom,1,1,0,0,1);
+                    }
+                    */
                     BSFire action = new BSFire(this, p.x, p.y);
                     Logger.log("onTouch", "Human player sending fireAction ...");
+
                     game.sendAction(action);
+
                     return true;
                 } else {
                     //we are in setup phase
@@ -207,7 +243,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             Logger.log("play", "setting phase to play");
             surfaceView.state.setPhaseOfGame(2); //set to play phase when button is pressed.
         }
-        else if(surfaceView.findViewById(R.id.rotate_button).equals(v.getId())){
+        else if(surfaceView.findViewById(R.id.rotate_button).equals(v.getId())) {
             surfaceView.state.rotateShip(this.playerNum);
         }
     }

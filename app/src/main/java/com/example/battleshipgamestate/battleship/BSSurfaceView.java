@@ -14,7 +14,7 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+
 
 import com.example.battleshipgamestate.R;
 import com.example.battleshipgamestate.game.GameFramework.utilities.FlashSurfaceView;
@@ -28,9 +28,6 @@ public class BSSurfaceView extends FlashSurfaceView {
     final Paint shipPaint = new Paint();
     final Paint hitPaint = new Paint();
     final Paint missPaint = new Paint();
-
-
-
 
     /**
      * Declare/initialize variables for grid here
@@ -58,6 +55,7 @@ public class BSSurfaceView extends FlashSurfaceView {
 
     public SoundPool soundPool;
     public int soundBoom;
+    public int soundTheme;
 
     //background image variables
     private SurfaceHolder holder;
@@ -176,6 +174,7 @@ public class BSSurfaceView extends FlashSurfaceView {
             //draw grid boards
             drawBoard(canvas);
 
+
             RectF[] shipRectP1 = new RectF[5]; //create array of ships for p1
             for (int i = 0; i < state.p1ShipsAlive; i++) { //create ships for the array
                 BSShip theShip = state.p1Ships[i];
@@ -239,16 +238,20 @@ public class BSSurfaceView extends FlashSurfaceView {
                         drawMiss(canvas, row, col);
                     }
                     // player2's board
+
                     if (result2 == 3) { //if square is a hit
                         drawHit(canvas, row, (num_col + 1) + col);
-                        soundPool.play(soundBoom,1,1,0,0,1);
-                        break;
+                        //soundPool.play(soundBoom,1,1,0,0,1);
+
                     }
                     if (result2 == 4) { //if square is a miss
                         drawMiss(canvas, row, (num_col + 1) + col);
                     }
                 }
             }
+
+
+            /**
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                 AudioAttributes audioAttributes = new AudioAttributes.Builder()
                         .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
@@ -262,8 +265,14 @@ public class BSSurfaceView extends FlashSurfaceView {
                 soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
             }
             soundBoom = soundPool.load(getContext(),R.raw.boom,1);
+            */
+
+
         }
     }
+
+
+
 
     /**
      * drawBoard method: draws the playing boards on the specified canvas

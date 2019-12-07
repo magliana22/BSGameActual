@@ -1,6 +1,9 @@
 package com.example.battleshipgamestate.battleship;
 
-import android.media.SoundPool;
+
+
+
+import android.media.MediaPlayer;
 
 import com.example.battleshipgamestate.R;
 import com.example.battleshipgamestate.game.GameFramework.GameMainActivity;
@@ -13,6 +16,9 @@ import java.util.ArrayList;
 
 
 public class BSMainActivity extends GameMainActivity {
+
+   public MediaPlayer mediaPlayer;
+
 
     public static final int PORT_NUMBER = 5213;
 
@@ -57,6 +63,10 @@ public class BSMainActivity extends GameMainActivity {
 
     @Override
     public LocalGame createLocalGame() {
+        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.battleship);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
         return new BSLocalGame();
+
     }
 }
