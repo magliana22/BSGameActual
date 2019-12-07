@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
@@ -177,12 +178,19 @@ public class BSSurfaceView extends FlashSurfaceView {
             //draw grid boards
             drawBoard(canvas);
 
+            boolean[] p1horizontal = new boolean[5];
+            boolean[] p2horizontal = new boolean[5];
 
             RectF[] shipRectP1 = new RectF[5]; //create array of ships for p1
             for (int i = 0; i < state.p1ShipsAlive; i++) { //create ships for the array
                 BSShip theShip = state.p1Ships[i];
                 shipRectP1[i] = new RectF(left_margin + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
                         left_margin + (cell_width * (theShip.getx2() + 1)), top_margin + (cell_height * (1 + theShip.gety2())));
+                if (theShip.gety1() < theShip.gety2()){
+                    p1horizontal[i] = false;
+                } else{
+                    p1horizontal[i] = true;
+                }
             }
 
             RectF shipRectP2[] = new RectF[5];
@@ -190,40 +198,71 @@ public class BSSurfaceView extends FlashSurfaceView {
                 BSShip theShip = state.p2Ships[i];
                 shipRectP2[i] = new RectF(left_margin + (11 * cell_width) + (cell_width * theShip.getx1()), top_margin + (cell_height * theShip.gety1()),
                         left_margin + (11 * cell_width) + (cell_width * (theShip.getx2() + 1)), top_margin + (cell_height * (1 + theShip.gety2())));
+                if (theShip.gety1() < theShip.gety2()){
+                    p2horizontal[i] = false;
+                } else{
+                    p2horizontal[i] = true;
+                }
             }
 
+            Bitmap verticalship1 = rotateBitmap(this.ship1,90);
+            Bitmap verticalship2 = rotateBitmap(this.ship2,90);
+            Bitmap verticalship3 = rotateBitmap(this.ship3,90);
+            Bitmap verticalship4 = rotateBitmap(this.ship4,90);
+            Bitmap verticalship5 = rotateBitmap(this.ship5,90);
+
             // draw ships
-            if (shipRectP1[0] != null) {
+            if (shipRectP1[0] != null && p1horizontal[0]) {
                 canvas.drawBitmap(this.ship1, null, shipRectP1[0], null); //draw ship
+            } else if (shipRectP1[0] != null && !p1horizontal[0]){
+                canvas.drawBitmap(verticalship1, null, shipRectP1[0], null); //draw ship
             }
-            if (shipRectP1[1] != null) {
+            if (shipRectP1[1] != null && p1horizontal[1]) {
                 canvas.drawBitmap(this.ship2, null, shipRectP1[1], null); //draw ship
+            } else if (shipRectP1[1] != null && !p1horizontal[1]){
+                canvas.drawBitmap(verticalship2, null, shipRectP1[1], null); //draw ship
             }
-            if (shipRectP1[2] != null) {
+            if (shipRectP1[2] != null && p1horizontal[2]) {
                 canvas.drawBitmap(this.ship3, null, shipRectP1[2], null); //draw ship
+            } else if (shipRectP1[2] != null && !p1horizontal[2]){
+                canvas.drawBitmap(verticalship3, null, shipRectP1[2], null); //draw ship
             }
-            if (shipRectP1[3] != null) {
+            if (shipRectP1[3] != null && p1horizontal[3]) {
                 canvas.drawBitmap(this.ship4, null, shipRectP1[3], null); //draw ship
+            } else if (shipRectP1[3] != null && !p1horizontal[3]){
+                canvas.drawBitmap(verticalship4, null, shipRectP1[3], null); //draw ship
             }
-            if (shipRectP1[4] != null) {
+            if (shipRectP1[4] != null && p1horizontal[4]) {
                 canvas.drawBitmap(this.ship5, null, shipRectP1[4], null); //draw ship
+            } else if (shipRectP1[4] != null && !p1horizontal[4]){
+                canvas.drawBitmap(verticalship5, null, shipRectP1[4], null); //draw ship
             }
             if (cheatmode) {
 
-                if (shipRectP2[0] != null) {
+                if (shipRectP2[0] != null && p2horizontal[0]) {
                     canvas.drawBitmap(this.ship1, null, shipRectP2[0], null); //draw ship
+                } else if (shipRectP2[0] != null && !p1horizontal[0]){
+                    canvas.drawBitmap(verticalship1, null, shipRectP2[0], null); //draw ship
                 }
-                if (shipRectP2[1] != null) {
+                if (shipRectP2[1] != null && p2horizontal[1]) {
                     canvas.drawBitmap(this.ship2, null, shipRectP2[1], null); //draw ship
+                } else if (shipRectP2[1] != null && !p1horizontal[1]){
+                    canvas.drawBitmap(verticalship2, null, shipRectP2[1], null); //draw ship
                 }
-                if (shipRectP2[2] != null) {
+                if (shipRectP2[2] != null && p2horizontal[2]) {
                     canvas.drawBitmap(this.ship3, null, shipRectP2[2], null); //draw ship
+                } else if (shipRectP2[2] != null && !p1horizontal[2]){
+                    canvas.drawBitmap(verticalship3, null, shipRectP2[2], null); //draw ship
                 }
-                if (shipRectP2[3] != null) {
+                if (shipRectP2[3] != null && p2horizontal[3]) {
                     canvas.drawBitmap(this.ship4, null, shipRectP2[3], null); //draw ship
+                } else if (shipRectP2[3] != null && !p1horizontal[3]){
+                    canvas.drawBitmap(verticalship4, null, shipRectP2[3], null); //draw ship
                 }
-                if (shipRectP2[4] != null) {
+                if (shipRectP2[4] != null && p2horizontal[4]) {
                     canvas.drawBitmap(this.ship5, null, shipRectP2[4], null); //draw ship
+                } else if (shipRectP2[4] != null && !p1horizontal[4]){
+                    canvas.drawBitmap(verticalship5, null, shipRectP2[4], null); //draw ship
                 }
             }
 
@@ -370,5 +409,18 @@ public class BSSurfaceView extends FlashSurfaceView {
             }
         }
         return null; //if not on board, return null
+    }
+
+    /**
+     * rotateBitmap method: rotates a bitmap image (used for ships)
+     *
+     * @param source image to rotate
+     * @param angle degrees to rotate image by
+     */
+    public static Bitmap rotateBitmap(Bitmap source, float angle)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 }
