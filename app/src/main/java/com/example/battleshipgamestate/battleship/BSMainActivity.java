@@ -1,5 +1,7 @@
 package com.example.battleshipgamestate.battleship;
 
+import android.media.MediaPlayer;
+
 import com.example.battleshipgamestate.R;
 import com.example.battleshipgamestate.game.GameFramework.GameMainActivity;
 import com.example.battleshipgamestate.game.GameFramework.GamePlayer;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 public class BSMainActivity extends GameMainActivity {
 
     public static final int PORT_NUMBER = 5213;
+    public MediaPlayer mediaPlayer;
 
     @Override
     public GameConfig createDefaultConfig() {
@@ -55,6 +58,19 @@ public class BSMainActivity extends GameMainActivity {
 
     @Override
     public LocalGame createLocalGame() {
+
+        /**
+         External Citation
+         Date: 5 December 2019
+         Problem: Needed to loop battleship themesong
+         Resource: https://stackoverflow.com/questions/9461270/media-player-looping-android
+         Solution: added the mediaPlayer.setLooping(true); line
+         */
+
+
+        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.battleship);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
         return new BSLocalGame();
     }
 }
