@@ -36,6 +36,7 @@ public class BSComputerPlayer1 extends GameComputerPlayer{
         //  if not my turn do nothing
         if (state.playerID != this.playerNum) return;
 
+
         int xVal = (int) (10 * Math.random());
         int yVal = (int) (10 * Math.random());
         int randomOrientation = (int) Math.round(Math.random());

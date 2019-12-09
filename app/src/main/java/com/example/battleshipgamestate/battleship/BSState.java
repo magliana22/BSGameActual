@@ -106,6 +106,17 @@ public class BSState extends GameState implements Serializable{
 
     }
 
+    /**
+     External Citation
+     Date: 27 November 2019
+     Problem: Issues with drawing ships, hits, and
+     misses in the correct location when tapped.
+     Resource:
+     Dr. Tribelhorn
+     Solution: Professor Tribelhorn helped with debugging
+     methods in the state & the mapPixelToSquare method in
+     the surfaceView to get the correct locations.
+     */
     public void updateShipLocations(){
         for (int i = 0; i < p1ShipsAlive; i++){
             for (int x = p1Ships[i].getx1(); x <= p1Ships[i].getx2(); x++){
@@ -336,135 +347,4 @@ public class BSState extends GameState implements Serializable{
         return true; //default return
     }
 
-    //DO THIS!!!!!!!!!!!
-    //make this return a boolean: true for a valid move and false for an invalid move
-    //before setting orientation check that the end coordinates are less than 10 and greater than -1
-    //also iterate through coordinates and make sure that no ships occupy the spaces that would be rotated into
-    public void rotateShip(int playerId){
-        if(playerId==0){
-            //in setup, the number of ships alive corresponds to what ship is currently being placed due to a fixed order of ship placement
-            //if 0 that means no ships are placed so the player is trying to rotate the first ship which is the patrol boat
-            //orientation is either 1 for horizontal or 2 for vertical
-            switch(p1ShipsAlive){
-                case 0:
-                    if(p1Ships[0].getOrientation()==1){//if horizontal
-                        if(validLocation(p1Ships[0], p1Ships[0].getx1(),p1Ships[0].gety1()+(p1Ships[0].getx2()-p1Ships[0].getx1()),0)) {
-                            p1Ships[0].setyCoord2(p1Ships[0].gety1() + (p1Ships[0].getx2() - p1Ships[0].getx1()));
-                            p1Ships[0].setxCoord2(p1Ships[0].getx1());
-                            p1Ships[0].setOrientation(2);//set to vertical
-                        }
-                    }
-                    else if(p1Ships[0].getOrientation()==2){//if vertical
-                        p1Ships[0].setxCoord2(p1Ships[0].getx1()+(p1Ships[0].gety2()-p1Ships[0].gety1()));
-                        p1Ships[0].setyCoord2(p1Ships[0].gety1());
-                        p1Ships[0].setOrientation(2);//set to horizontal
-                    }
-                case 1:
-                    if(p1Ships[1].getOrientation()==1){
-                        p1Ships[1].setyCoord2(p1Ships[1].gety1()+(p1Ships[1].getx2()-p1Ships[1].getx1()));
-                        p1Ships[1].setxCoord2(p1Ships[1].getx1());
-                        p1Ships[1].setOrientation(2);
-                    }
-                    else if(p1Ships[1].getOrientation()==2){
-                        p1Ships[1].setxCoord2(p1Ships[1].getx1()+(p1Ships[1].gety2()-p1Ships[1].gety1()));
-                        p1Ships[1].setyCoord2(p1Ships[1].gety1());
-                        p1Ships[1].setOrientation(1);
-                    }
-                case 2:
-                    if(p1Ships[2].getOrientation()==1){
-                        p1Ships[2].setyCoord2(p1Ships[2].gety1()+(p1Ships[2].getx2()-p1Ships[2].getx1()));
-                        p1Ships[2].setxCoord2(p1Ships[2].getx1());
-                        p1Ships[2].setOrientation(2);
-                    }
-                    else if(p1Ships[2].getOrientation()==2){
-                        p1Ships[2].setxCoord2(p1Ships[2].getx1()+(p1Ships[2].gety2()-p1Ships[2].gety1()));
-                        p1Ships[2].setyCoord2(p1Ships[2].gety1());
-                        p1Ships[2].setOrientation(1);
-                    }
-                case 3:
-                    if(p1Ships[3].getOrientation()==1){
-                        p1Ships[3].setyCoord2(p1Ships[3].gety1()+(p1Ships[3].getx2()-p1Ships[3].getx1()));
-                        p1Ships[3].setxCoord2(p1Ships[3].getx1());
-                        p1Ships[3].setOrientation(2);
-                    }
-                    else if(p1Ships[3].getOrientation()==2){
-                        p1Ships[3].setxCoord2(p1Ships[3].getx1()+(p1Ships[3].gety2()-p1Ships[3].gety1()));
-                        p1Ships[3].setyCoord2(p1Ships[3].gety1());
-                        p1Ships[3].setOrientation(1);
-
-                    }
-                case 4:
-                    if(p1Ships[4].getOrientation()==1){
-                        p1Ships[4].setyCoord2(p1Ships[4].gety1()+(p1Ships[4].getx2()-p1Ships[4].getx1()));
-                        p1Ships[4].setxCoord2(p1Ships[4].getx1());
-                        p1Ships[4].setOrientation(2);
-                    }
-                    else if(p1Ships[4].getOrientation()==2){
-                        p1Ships[4].setxCoord2(p1Ships[4].getx1()+(p1Ships[4].gety2()-p1Ships[4].gety1()));
-                        p1Ships[4].setyCoord2(p1Ships[4].gety1());
-                        p1Ships[4].setOrientation(1);
-                    }
-            }
-        }
-        else if(playerId==1){
-            switch(p2ShipsAlive){
-                case 0:
-                    if(p2Ships[0].getOrientation()==1){//if horizontal
-                        p2Ships[0].setyCoord2(p2Ships[0].gety1()+(p2Ships[0].getx2()-p2Ships[0].getx1()));
-                        p2Ships[0].setxCoord2(p2Ships[0].getx1());
-                        p2Ships[0].setOrientation(2);//set to vertical
-                    }
-                    else if(p2Ships[0].getOrientation()==2){//if vertical
-                        p2Ships[0].setxCoord2(p2Ships[0].getx1()+(p2Ships[0].gety2()-p2Ships[0].gety1()));
-                        p2Ships[0].setyCoord2(p2Ships[0].gety1());
-                        p2Ships[0].setOrientation(2);//set to horizontal
-                    }
-                case 1:
-                    if(p2Ships[1].getOrientation()==1){
-                        p2Ships[1].setyCoord2(p2Ships[1].gety1()+(p2Ships[1].getx2()-p2Ships[1].getx1()));
-                        p2Ships[1].setxCoord2(p2Ships[1].getx1());
-                        p2Ships[1].setOrientation(2);
-                    }
-                    else if(p2Ships[1].getOrientation()==2){
-                        p2Ships[1].setxCoord2(p2Ships[1].getx1()+(p2Ships[1].gety2()-p2Ships[1].gety1()));
-                        p2Ships[1].setyCoord2(p2Ships[1].gety1());
-                        p2Ships[1].setOrientation(1);
-                    }
-                case 2:
-                    if(p2Ships[2].getOrientation()==1){
-                        p2Ships[2].setyCoord2(p2Ships[2].gety1()+(p2Ships[2].getx2()-p2Ships[2].getx1()));
-                        p2Ships[2].setxCoord2(p2Ships[2].getx1());
-                        p2Ships[2].setOrientation(2);
-                    }
-                    else if(p2Ships[2].getOrientation()==2){
-                        p2Ships[2].setxCoord2(p2Ships[2].getx1()+(p2Ships[2].gety2()-p2Ships[2].gety1()));
-                        p2Ships[2].setyCoord2(p2Ships[2].gety1());
-                        p2Ships[2].setOrientation(1);
-                    }
-                case 3:
-                    if(p2Ships[3].getOrientation()==1){
-                        p2Ships[3].setyCoord2(p2Ships[3].gety1()+(p2Ships[3].getx2()-p2Ships[3].getx1()));
-                        p2Ships[3].setxCoord2(p2Ships[3].getx1());
-                        p2Ships[3].setOrientation(2);
-                    }
-                    else if(p2Ships[3].getOrientation()==2){
-                        p2Ships[3].setxCoord2(p2Ships[3].getx1()+(p2Ships[3].gety2()-p2Ships[3].gety1()));
-                        p2Ships[3].setyCoord2(p2Ships[3].gety1());
-                        p2Ships[3].setOrientation(1);
-
-                    }
-                case 4:
-                    if(p2Ships[4].getOrientation()==1){
-                        p2Ships[4].setyCoord2(p2Ships[4].gety1()+(p2Ships[4].getx2()-p2Ships[4].getx1()));
-                        p2Ships[4].setxCoord2(p2Ships[4].getx1());
-                        p2Ships[4].setOrientation(2);
-                    }
-                    else if(p2Ships[4].getOrientation()==2){
-                        p2Ships[4].setxCoord2(p2Ships[4].getx1()+(p2Ships[4].gety2()-p2Ships[4].gety1()));
-                        p2Ships[4].setyCoord2(p2Ships[4].gety1());
-                        p2Ships[4].setOrientation(1);
-                    }
-            }
-        }
-    }
 }

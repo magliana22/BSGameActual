@@ -15,7 +15,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="1. Place five ships by tapping on your board.
-        \nThe left of the ship will be placed where you tap.
+        \nUse the rotate button for placing to change the current orientation.
+        \nThe left/top of the ship will be placed where you tap.
         \n2. Players will take turns trying to sink all of their opponent's ships.
         \nTap on the opponent's board to fire at the selected location.
         \nA red X will be displayed if it hits. A white O will be displayed if it misses.

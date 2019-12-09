@@ -16,6 +16,7 @@ import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * class GameHumanPlayer
@@ -47,6 +48,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
     private Button rotateButton;
 
     private Boolean horizontal = true;
+
     /**
      * constructor
      *
@@ -86,6 +88,14 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             surfaceView.setState(currentState);
             surfaceView.invalidate();
             Logger.debugLog(TAG, "surfaceView is redrawn");
+
+            TextView p1 = (TextView) myActivity.findViewById(R.id.player1_header);
+            TextView p2 = (TextView) myActivity.findViewById(R.id.player2_header);
+
+            //set player names
+            p1.setText(allPlayerNames[0]);
+            p2.setText(allPlayerNames[1]);
+
         }
     }
 
@@ -149,9 +159,7 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
             int x = (int) event.getX();
             int y = (int) event.getY();
             Point p = surfaceView.mapPixelToSquare(x, y);
-            //Logger.log("pointX", ""+x);
-            //Logger.log("pointY", ""+y);
-            //Logger.log("pointP",p.toString());
+
             // if the location did not map to a legal square, flash
             // the screen; otherwise, create and send an action to
             // the game
@@ -310,12 +318,25 @@ public class BSHumanPlayer1 extends GameHumanPlayer implements View.OnTouchListe
 
     }
 
+    /**
+     External Citation
+     Date: 5 December 2019
+     Problem: Creating a dialog popup (for the help menu).
+     Resource:
+     https://developer.android.com/guide/topics/ui/dialogs
+     Solution: I looked at the documentation to help figure
+     out how to add a dialog popup.
+     */
     public void openDialog() {
         final Dialog dialog = new Dialog(myActivity); // Context, this, etc.
         dialog.setContentView(R.layout.activity_display_help);
         dialog.show();
     }
 
+    /**
+     * Rotates the ship placement orientation.
+     * This is called when the rotate button is clicked.
+     */
     private void rotate(){
         if (horizontal){ //if horizontal orientation, set to vertical
             horizontal = false;

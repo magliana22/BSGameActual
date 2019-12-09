@@ -11,21 +11,20 @@ import java.util.ArrayList;
 public class BSComputerPlayer2 extends GameComputerPlayer {
 
     // Tag for logging
-    private static  final String TAG = "BSComputerPlayer2";
+    private static final String TAG = "BSComputerPlayer2";
     // array list for locations to fire
-    protected ArrayList<Pair<Integer,Integer>> toFire = new ArrayList<>();
+    protected ArrayList<Pair<Integer, Integer>> toFire = new ArrayList<>();
     // pair for last location fired on
-    protected Pair<Integer,Integer> lastFired = null;
+    protected Pair<Integer, Integer> lastFired = null;
 
     private Boolean horizontal = true; //boolean for ship placement orientation
 
     /**
      * constructor for a computer player
      *
-     * @param name
-     * 		the player's name
+     * @param name the player's name
      */
-    public BSComputerPlayer2(String name){
+    public BSComputerPlayer2(String name) {
         super(name);
     }
 
@@ -33,8 +32,7 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
      * Called when the player receives a game-state (or other info) from the
      * game.
      *
-     * @param info
-     * 		the message from the game
+     * @param info the message from the game
      */
     @Override
     protected void receiveInfo(GameInfo info) {
@@ -43,24 +41,24 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
         state = (BSState) info; //get game info
 
         //  if not my turn do nothing
-        if(state.playerID != this.playerNum) return;
+        if (state.playerID != this.playerNum) return;
 
-        Logger.log(TAG,"CP turn now!");
+        Logger.log(TAG, "CP turn now!");
 
-        int xVal = (int)(10*Math.random());
-        int yVal = (int)(10*Math.random());
+        int xVal = (int) (10 * Math.random());
+        int yVal = (int) (10 * Math.random());
         int randomOrientation = (int) Math.round(Math.random());
 
         if (this.playerNum == 1) {
-        if (state.getPhaseOfGame() != "inPlay") {
-            Logger.log("shipAction", "ai adding ship");
-            int shipSize = 0; //variable for size of ship
+            if (state.getPhaseOfGame() != "inPlay") {
+                Logger.log("shipAction", "ai adding ship");
+                int shipSize = 0; //variable for size of ship
 
-            if (randomOrientation == 0){
-                horizontal = true;
-            } else{
-                horizontal = false;
-            }
+                if (randomOrientation == 0) {
+                    horizontal = true;
+                } else {
+                    horizontal = false;
+                }
 
                 if (state.p2ShipsAlive == 0) {
                     shipSize = 1; //for first 2 ships, set size to 1 (ship's drawing size will be p.x + 1 = 2)
@@ -72,15 +70,15 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                     shipSize = 4;
                 }
 
-            int xEnd;
-            int yEnd;
-            if (horizontal) {
-                xEnd = xVal + shipSize;
-                yEnd = yVal;
-            } else{
-                xEnd = xVal;
-                yEnd = yVal + shipSize;
-            }
+                int xEnd;
+                int yEnd;
+                if (horizontal) {
+                    xEnd = xVal + shipSize;
+                    yEnd = yVal;
+                } else {
+                    xEnd = xVal;
+                    yEnd = yVal + shipSize;
+                }
 
                 BSShip ship = new BSShip(xVal, xEnd, yVal, yEnd, 1); //p2's (AI's ship)
 
@@ -159,8 +157,7 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                 }
 
             }
-        }
-        else if(this.playerNum==0){
+        } else if (this.playerNum == 0) {
             if (state.getPhaseOfGame() != "inPlay") {
                 Logger.log("shipAction", "ai adding ship");
                 int shipSize = 0; //variable for size of ship
@@ -174,9 +171,9 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                     shipSize = 4;
                 }
 
-                if (randomOrientation == 0){
+                if (randomOrientation == 0) {
                     horizontal = true;
-                } else{
+                } else {
                     horizontal = false;
                 }
 
@@ -185,7 +182,7 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                 if (horizontal) {
                     xEnd = xVal + shipSize;
                     yEnd = yVal;
-                } else{
+                } else {
                     xEnd = xVal;
                     yEnd = yVal + shipSize;
                 }
@@ -219,7 +216,6 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                 game.sendAction(action);
             } else {
                 Logger.log("fire", "ai sending fire");
-
 
 
                 /**
@@ -267,7 +263,8 @@ public class BSComputerPlayer2 extends GameComputerPlayer {
                 }
 
             }
-            }
+
         }
     }
+}
 

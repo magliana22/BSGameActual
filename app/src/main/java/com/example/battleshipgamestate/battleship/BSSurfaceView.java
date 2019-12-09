@@ -17,6 +17,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.TextView;
 
 
 import com.example.battleshipgamestate.R;
@@ -181,6 +182,16 @@ public class BSSurfaceView extends FlashSurfaceView {
             boolean[] p1horizontal = new boolean[5];
             boolean[] p2horizontal = new boolean[5];
 
+            /**
+             External Citation
+             Date: 14 November 2019
+             Problem: Creating the ships correctly in the state and drawing them
+             in the surfaceView.
+             Resource:
+             Dr. Tribelhorn
+             Solution: Professor Tribelhorn helped with adding and drawing the ships.
+             */
+
             RectF[] shipRectP1 = new RectF[5]; //create array of ships for p1
             for (int i = 0; i < state.p1ShipsAlive; i++) { //create ships for the array
                 BSShip theShip = state.p1Ships[i];
@@ -291,6 +302,7 @@ public class BSSurfaceView extends FlashSurfaceView {
             }
 
         }
+
     }
 
 
@@ -419,6 +431,14 @@ public class BSSurfaceView extends FlashSurfaceView {
      */
     public static Bitmap rotateBitmap(Bitmap source, float angle)
     {
+        /**
+         External Citation
+         Date: 13 December 2019
+         Problem: Getting the bitmap images to rotate when the ships are vertical.
+         Resource:
+         https://stackoverflow.com/questions/9015372/how-to-rotate-a-bitmap-90-degrees
+         Solution: I used an example from this post to help me rotate the bitmap images.
+         */
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
